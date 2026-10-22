@@ -21,3 +21,6 @@ h1{font-size:clamp(32px,7vw,56px);line-height:1.1;color:#fff;margin:8px 0 16px}h
 .tag{font-size:11px;color:#ffcf5c;border:1px solid #5a4a1a;border-radius:6px;padding:0 6px}code{color:#3ee6c1}
 .placeholder{border:2px dashed #ffcf5c;border-radius:12px;padding:16px;color:#c9b77a;margin-top:16px}.placeholder strong{color:#ffcf5c}
 footer{padding:30px 20px;color:#6b7190;font-size:14px}
+.avatar{width:112px;height:112px;border-radius:50%;object-fit:cover;border:3px solid #7c8cff;display:block;margin-bottom:16px}.avatar[hidden]{display:none}
+.title{font-size:clamp(18px,4vw,24px);font-weight:700;margin:0 0 10px}.title span{background:linear-gradient(90deg,#7c8cff,#3ee6c1);-webkit-background-clip:text;color:transparent}
+.tagline{font-size:17px;color:#b9bfdc;margin:0 0 8px;font-weight:600}
