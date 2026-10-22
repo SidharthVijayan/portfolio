@@ -1,0 +1,33 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sidharth Vijayan — AI & Systems Engineer</title><meta name="description" content="Sidharth Vijayan builds automated pipelines and AI/LLM tooling.">
+<link rel="stylesheet" href="assets/style.css"></head><body>
+<header class="nav"><a class="logo" href="#">SV</a><nav><a href="#work">Work</a><a href="#pipeline">Pipeline</a><a href="#about">About</a></nav></header>
+<main>
+<section class="hero"><p class="eyebrow">AI engineering · Systems architecture</p>
+<h1>I build systems that ship software <span>every day.</span></h1>
+<p class="lead">An automated Chrome-extension pipeline — shared template, test-gated checks, daily builds toward 365 extensions — plus AI and LLM tooling for how machines read the web.</p>
+<div class="cta"><a class="btn" href="#work">See the work</a><a class="btn ghost" href="https://github.com/SidharthVijayan">GitHub</a></div>
+<ul class="stats" id="stats"></ul></section>
+<section id="work"><h2>Extensions</h2><p class="sub">Generated from a manifest. Only entries I've approved appear here.</p><div class="grid" id="grid"></div></section>
+<section id="pipeline"><h2>The pipeline</h2><p class="sub">How an idea becomes a store-ready extension, without manual steps between gates.</p>
+<div class="diagram"><svg viewBox="0 0 760 200" role="img" aria-label="Pipeline: idea backlog, shared template, build, tests and checks, privacy page, package, human approval, publish">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#7c8cff"/></marker></defs>
+<g font-size="13" text-anchor="middle" fill="#e8ebff">
+<g class="n"><rect x="10" y="20" width="160" height="56" rx="10"/><text x="90" y="44">Idea backlog</text><text x="90" y="62" class="s">30+ ranked ideas</text></g>
+<g class="n"><rect x="200" y="20" width="160" height="56" rx="10"/><text x="280" y="44">Shared template</text><text x="280" y="62" class="s">MV3 · minimal perms</text></g>
+<g class="n"><rect x="390" y="20" width="160" height="56" rx="10"/><text x="470" y="44">Tests + checks</text><text x="470" y="62" class="s">claims ↔ tests gate</text></g>
+<g class="n"><rect x="580" y="20" width="170" height="56" rx="10"/><text x="665" y="44">Package</text><text x="665" y="62" class="s">zip · assets · privacy</text></g>
+<g class="n hl"><rect x="390" y="124" width="160" height="56" rx="10"/><text x="470" y="148">Human approval</text><text x="470" y="166" class="s">nothing ships without it</text></g>
+<g class="n"><rect x="580" y="124" width="170" height="56" rx="10"/><text x="665" y="148">Store + portfolio</text><text x="665" y="166" class="s">approved:true only</text></g>
+<g class="n"><rect x="10" y="124" width="350" height="56" rx="10"/><text x="185" y="148">Daily scheduler</text><text x="185" y="166" class="s">one new build every morning</text></g>
+</g><g stroke="#7c8cff" stroke-width="2" fill="none" marker-end="url(#a)">
+<path d="M170 48H198"/><path d="M360 48H388"/><path d="M550 48H578"/><path d="M665 76V100H470V122"/><path d="M550 152H578"/><path d="M185 124V100H90V78"/></g></svg></div>
+<div class="pillars"><div><h3>Template-first</h3><p>Every extension starts from one audited template: plain JS, <code>activeTab</code> + <code>scripting</code> only, no remote code.</p></div>
+<div><h3>Claims are tested</h3><p>Every listing claim maps to a named passing test; a check script fails the build otherwise.</p></div>
+<div><h3>Human in the loop</h3><p>Automation builds and packages. Publishing and this portfolio are gated on explicit approval.</p></div></div></section>
+<section id="ai"><h2>AI & LLM tooling</h2><div class="pillars"><div><h3>LLM Readiness Inspector</h3><p>Scores how well a page can be parsed and cited by LLMs and AI search.</p></div>
+<div><h3>Brand-assessment audit <small class="tag">in design</small></h3><p>An audit concept for how AI assistants perceive and describe a brand.</p></div>
+<div><h3>Agentic build pipeline</h3><p>Agents scaffold, test and package extensions, with a hard approval boundary before anything public.</p></div></div></section>
+<section id="about"><h2>About</h2><p class="lead">Sidharth Vijayan is an engineer building automated software pipelines and AI/LLM tooling under InnerShift Lab.</p></section>
+</main><footer><p>© <span id="y"></span> Sidharth Vijayan · InnerShift Lab</p></footer>
+<script src="assets/app.js"></script></body></html>

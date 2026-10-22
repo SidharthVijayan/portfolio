@@ -1,0 +1,74 @@
+[
+  {
+    "slug": "seo-content-structure-inspector",
+    "name": "SEO & Content Structure Inspector",
+    "summary": "One-click on-page SEO and content-structure audit: headings, meta tags, links and AI-readiness hints.",
+    "stack": [
+      "Manifest V3",
+      "JavaScript",
+      "HTML/CSS"
+    ],
+    "permissions": [
+      "activeTab",
+      "scripting"
+    ],
+    "tests": null,
+    "privacy": "https://sidharthvijayan.github.io/Instant-SEO-Checker-AI-Audit-Tool/privacy-policy.html",
+    "store": null,
+    "repo": "https://github.com/SidharthVijayan/Instant-SEO-Checker-AI-Audit-Tool",
+    "screenshot": null,
+    "status": "live",
+    "tags": [
+      "seo"
+    ],
+    "approved": true
+  },
+  {
+    "slug": "llm-readiness-inspector",
+    "name": "LLM Readiness Inspector",
+    "summary": "Checks how readable and well-structured a page is for LLMs and AI search engines.",
+    "stack": [
+      "Manifest V3",
+      "JavaScript",
+      "HTML/CSS"
+    ],
+    "permissions": [
+      "activeTab",
+      "scripting"
+    ],
+    "tests": null,
+    "privacy": "https://sidharthvijayan.github.io/llm-readiness-privacy/",
+    "store": null,
+    "repo": "https://github.com/SidharthVijayan/LLM-Bulk-Analyzer-Dev",
+    "screenshot": null,
+    "status": "live",
+    "tags": [
+      "ai"
+    ],
+    "approved": true
+  },
+  {
+    "slug": "jsonld-inspector",
+    "name": "JSON-LD Structured Data Inspector",
+    "summary": "Inspect a page's JSON-LD structured data: syntax errors, missing required properties, bad dates and URLs.",
+    "stack": [
+      "Manifest V3",
+      "JavaScript",
+      "HTML/CSS"
+    ],
+    "permissions": [
+      "activeTab",
+      "scripting"
+    ],
+    "tests": 17,
+    "privacy": "https://sidharthvijayan.github.io/codeforge-privacy/jsonld-inspector/",
+    "store": null,
+    "repo": null,
+    "screenshot": "assets/shots/jsonld-inspector.png",
+    "status": "ready",
+    "tags": [
+      "pipeline"
+    ],
+    "approved": true
+  }
+]
