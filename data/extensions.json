@@ -70,5 +70,53 @@
       "pipeline"
     ],
     "approved": true
+  },
+  {
+    "slug": "hreflang-canonical-checker",
+    "name": "Hreflang & Canonical Checker",
+    "summary": "Check a page's canonical and hreflang tags: invalid codes, missing self-reference or x-default, relative URLs, conflicts.",
+    "stack": [
+      "Manifest V3",
+      "JavaScript",
+      "HTML/CSS"
+    ],
+    "permissions": [
+      "activeTab",
+      "scripting"
+    ],
+    "tests": 17,
+    "privacy": "https://sidharthvijayan.github.io/codeforge-privacy/hreflang-canonical-checker/",
+    "store": null,
+    "repo": null,
+    "screenshot": "assets/shots/hreflang-canonical-checker.png",
+    "status": "ready",
+    "tags": [
+      "pipeline"
+    ],
+    "approved": true
+  },
+  {
+    "slug": "social-card-previewer",
+    "name": "Social Card Previewer",
+    "summary": "Preview how a page looks when shared, and check its Open Graph and X card tags for missing images, titles and size problems.",
+    "stack": [
+      "Manifest V3",
+      "JavaScript",
+      "HTML/CSS"
+    ],
+    "permissions": [
+      "activeTab",
+      "scripting"
+    ],
+    "tests": 13,
+    "privacy": "https://sidharthvijayan.github.io/codeforge-privacy/social-card-previewer/",
+    "store": null,
+    "repo": null,
+    "screenshot": "assets/shots/social-card-previewer.png",
+    "status": "ready",
+    "tags": [
+      "pipeline"
+    ],
+    "approved": true
   }
 ]
