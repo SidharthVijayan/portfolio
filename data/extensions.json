@@ -118,5 +118,53 @@
       "pipeline"
     ],
     "approved": true
+  },
+  {
+    "slug": "image-alt-text-auditor",
+    "name": "Image Alt Text Auditor",
+    "summary": "List images on the page with missing, empty, filename-like or duplicate alt text, and jump to each one on the page.",
+    "stack": [
+      "Manifest V3",
+      "JavaScript",
+      "HTML/CSS"
+    ],
+    "permissions": [
+      "activeTab",
+      "scripting"
+    ],
+    "tests": 14,
+    "privacy": "https://sidharthvijayan.github.io/codeforge-privacy/image-alt-text-auditor/",
+    "store": null,
+    "repo": null,
+    "screenshot": "assets/shots/image-alt-text-auditor.png",
+    "status": "ready",
+    "tags": [
+      "pipeline"
+    ],
+    "approved": true
+  },
+  {
+    "slug": "contrast-checker",
+    "name": "Contrast Checker",
+    "summary": "Find text on the page that fails WCAG AA or AAA colour contrast, see each ratio, get a passing colour and jump to the text.",
+    "stack": [
+      "Manifest V3",
+      "JavaScript",
+      "HTML/CSS"
+    ],
+    "permissions": [
+      "activeTab",
+      "scripting"
+    ],
+    "tests": 12,
+    "privacy": "https://sidharthvijayan.github.io/codeforge-privacy/contrast-checker/",
+    "store": null,
+    "repo": null,
+    "screenshot": "assets/shots/contrast-checker.png",
+    "status": "ready",
+    "tags": [
+      "pipeline"
+    ],
+    "approved": true
   }
 ]
