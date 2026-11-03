@@ -166,5 +166,148 @@
       "pipeline"
     ],
     "approved": true
+  },
+  {
+    "slug": "form-label-aria-auditor",
+    "name": "Form Label & ARIA Auditor",
+    "summary": "Find form fields without labels, broken aria-labelledby and ARIA ID references, and buttons with no accessible name.",
+    "stack": [
+      "Manifest V3",
+      "JavaScript",
+      "HTML/CSS"
+    ],
+    "permissions": [
+      "activeTab",
+      "scripting"
+    ],
+    "tests": 12,
+    "privacy": "https://sidharthvijayan.github.io/codeforge-privacy/form-label-aria-auditor/",
+    "store": null,
+    "repo": null,
+    "screenshot": "assets/shots/form-label-aria-auditor.png",
+    "status": "ready",
+    "tags": [
+      "pipeline"
+    ],
+    "approved": true
+  },
+  {
+    "slug": "reading-level-meter",
+    "name": "Reading Level Meter",
+    "summary": "Score a page or your selected text with Flesch-Kincaid and other grade-level formulas, and find sentences that run too long.",
+    "stack": [
+      "Manifest V3",
+      "JavaScript",
+      "HTML/CSS"
+    ],
+    "permissions": [
+      "activeTab",
+      "scripting"
+    ],
+    "tests": 12,
+    "privacy": "https://sidharthvijayan.github.io/codeforge-privacy/reading-level-meter/",
+    "store": null,
+    "repo": null,
+    "screenshot": "assets/shots/reading-level-meter.png",
+    "status": "ready",
+    "tags": [
+      "pipeline"
+    ],
+    "approved": true
+  },
+  {
+    "slug": "dyslexia-friendly-reader",
+    "name": "Dyslexia-Friendly Reader",
+    "summary": "One click re-flows the article you're reading with a clear font, wider spacing, a comfortable line length and soft colours.",
+    "stack": [
+      "Manifest V3",
+      "JavaScript",
+      "HTML/CSS"
+    ],
+    "permissions": [
+      "activeTab",
+      "scripting"
+    ],
+    "tests": 12,
+    "privacy": "https://sidharthvijayan.github.io/codeforge-privacy/dyslexia-friendly-reader/",
+    "store": null,
+    "repo": null,
+    "screenshot": "assets/shots/dyslexia-friendly-reader.png",
+    "status": "ready",
+    "tags": [
+      "pipeline"
+    ],
+    "approved": true
+  },
+  {
+    "slug": "tab-list-exporter",
+    "name": "Tab List Exporter",
+    "summary": "Copy or download the titles and addresses of your open tabs as Markdown, CSV, plain text or a plain list of URLs.",
+    "stack": [
+      "Manifest V3",
+      "JavaScript",
+      "HTML/CSS"
+    ],
+    "permissions": [
+      "tabs"
+    ],
+    "tests": 11,
+    "privacy": "https://sidharthvijayan.github.io/codeforge-privacy/tab-list-exporter/",
+    "store": null,
+    "repo": null,
+    "screenshot": "assets/shots/tab-list-exporter.png",
+    "status": "ready",
+    "tags": [
+      "pipeline"
+    ],
+    "approved": true
+  },
+  {
+    "slug": "citation-copier",
+    "name": "Citation Copier",
+    "summary": "Builds an APA, MLA or Chicago citation from the page's own details (author, title, date, site) and copies it in one click.",
+    "stack": [
+      "Manifest V3",
+      "JavaScript",
+      "HTML/CSS"
+    ],
+    "permissions": [
+      "activeTab",
+      "scripting"
+    ],
+    "tests": 16,
+    "privacy": "https://sidharthvijayan.github.io/codeforge-privacy/citation-copier/",
+    "store": null,
+    "repo": null,
+    "screenshot": "assets/shots/citation-copier.png",
+    "status": "ready",
+    "tags": [
+      "pipeline"
+    ],
+    "approved": true
+  },
+  {
+    "slug": "link-exporter",
+    "name": "Link Exporter",
+    "summary": "Exports every link on the page with its anchor text, rel attributes and internal/external type, as CSV or a list.",
+    "stack": [
+      "Manifest V3",
+      "JavaScript",
+      "HTML/CSS"
+    ],
+    "permissions": [
+      "activeTab",
+      "scripting"
+    ],
+    "tests": 17,
+    "privacy": "https://sidharthvijayan.github.io/codeforge-privacy/link-exporter/",
+    "store": null,
+    "repo": null,
+    "screenshot": "assets/shots/link-exporter.png",
+    "status": "ready",
+    "tags": [
+      "pipeline"
+    ],
+    "approved": true
   }
 ]
