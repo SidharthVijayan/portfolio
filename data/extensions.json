@@ -309,5 +309,53 @@
       "pipeline"
     ],
     "approved": true
+  },
+  {
+    "slug": "third-party-script-spotter",
+    "name": "Third-Party Script Spotter",
+    "summary": "Lists every outside domain a page loads scripts and iframes from, flags well-known trackers, and lets you copy or download a report.",
+    "stack": [
+      "Manifest V3",
+      "JavaScript",
+      "HTML/CSS"
+    ],
+    "permissions": [
+      "activeTab",
+      "scripting"
+    ],
+    "tests": 18,
+    "privacy": "https://sidharthvijayan.github.io/codeforge-privacy/third-party-script-spotter/",
+    "store": null,
+    "repo": null,
+    "screenshot": "assets/shots/third-party-script-spotter.png",
+    "status": "ready",
+    "tags": [
+      "pipeline"
+    ],
+    "approved": true
+  },
+  {
+    "slug": "mixed-content-insecure-form-finder",
+    "name": "Mixed Content & Insecure Form Finder",
+    "summary": "On https pages, finds leftover http scripts, styles, images, iframes and forms, says whether Chrome blocks or upgrades each, and suggests the https fix.",
+    "stack": [
+      "Manifest V3",
+      "JavaScript",
+      "HTML/CSS"
+    ],
+    "permissions": [
+      "activeTab",
+      "scripting"
+    ],
+    "tests": 18,
+    "privacy": "https://sidharthvijayan.github.io/codeforge-privacy/mixed-content-insecure-form-finder/",
+    "store": null,
+    "repo": null,
+    "screenshot": "assets/shots/mixed-content-insecure-form-finder.png",
+    "status": "ready",
+    "tags": [
+      "pipeline"
+    ],
+    "approved": true
   }
 ]
