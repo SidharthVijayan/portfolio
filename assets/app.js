@@ -19,6 +19,17 @@ function card(e){
  <ul class="chips">${chips}</ul>
  <div class="links">${links.join('')}</div></div></article>`;
 }
+function gameCard(g){
+  const play=g.play||g.path;
+  const shot=g.screenshot||g.thumbnail;
+  const story=g.summary||g.story||'';
+  const initials=esc((g.name||'').split(' ').map(w=>w[0]).join('').slice(0,3));
+  return `<article class="card">
+ ${shot?`<img src="${esc(shot)}" alt="${esc(g.name)} start screen" loading="lazy">`:`<div class="ph">${initials}</div>`}
+ <div class="body">${g.day?`<span class="status">Day ${esc(g.day)}</span>`:''}<h3>${esc(g.name)}</h3><p>${esc(story)}</p>
+ <ul class="chips">${g.genre?`<li>${esc(g.genre)}</li>`:''}</ul>
+ <div class="links">${play?`<a class="try play-btn" href="${esc(play)}">Play</a>`:''}</div></div></article>`;
+}
 Promise.all([
   fetch('data/extensions.json').then(r=>r.json()),
   fetch('data/games.json').then(r=>r.ok?r.json():[]).catch(()=>[])
@@ -34,6 +45,6 @@ Promise.all([
   if(approvedGames.length && gsec && ggrid){
     gsec.hidden=false;
     if(gnav) gnav.hidden=false;
-    ggrid.innerHTML=approvedGames.map(card).join('');
+    ggrid.innerHTML=approvedGames.map(gameCard).join('');
   }
 });

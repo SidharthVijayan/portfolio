@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0b0d17">
+<link rel="icon" href="data:,">
+<title>EMI Crusher — InnerShift Lab</title>
+<style>
+:root{--bg:#0b0d17;--bg2:#121528;--line:#1f2440;--text:#d9ddf0;--muted:#8a90ad;--accent:#7c8cff;--teal:#3ee6c1;--gold:#ffcf5c;--danger:#e07a6a;--chai:#e8a04e}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none}
+#app{height:100%;display:flex;flex-direction:column;max-width:520px;margin:0 auto;position:relative}
+header{flex:0 0 auto;display:flex;justify-content:space-between;align-items:center;padding:8px 14px 6px;z-index:3;gap:8px}
+.brand{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.hud{display:flex;gap:10px;font-size:12px;color:var(--muted);align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.hud b{color:#fff;font-variant-numeric:tabular-nums;margin-left:3px}
+.tools{display:flex;gap:6px}
+.iconbtn,.curbtn{appearance:none;border:1px solid var(--line);background:#1a1e36;color:var(--text);border-radius:8px;padding:4px 8px;font-size:11px;font-weight:700;cursor:pointer;touch-action:manipulation;line-height:1.2}
+.curbtn.on,.iconbtn.on{border-color:var(--gold);color:var(--gold)}
+.hint{flex:0 0 auto;text-align:center;font-size:12px;color:var(--muted);padding:6px 12px 12px}
+.overlay{position:fixed;inset:0;background:rgba(11,13,23,.86);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:20px;z-index:6}
+.overlay.hidden{display:none}
+.card{width:min(440px,100%);background:var(--bg2);border:1px solid var(--line);border-radius:18px;padding:24px 20px 20px;text-align:center;max-height:100%;overflow:auto}
+.eyebrow{color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:.1em;font-size:11px;margin-bottom:8px}
+h1{font-size:clamp(26px,7vw,38px);line-height:1.1;color:#fff;margin-bottom:10px}
+h1 span{background:linear-gradient(90deg,#7c8cff,#3ee6c1);-webkit-background-clip:text;background-clip:text;color:transparent}
+.story{color:var(--text);margin-bottom:8px;font-size:15px}
+.how{color:var(--muted);font-size:13px;margin-bottom:12px}
+.bestline{color:var(--gold);font-size:14px;margin-bottom:10px}
+label.int{display:block;text-align:left;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:8px 0 4px}
+#intention,input.int{width:100%;background:#0f1222;border:1px solid var(--line);border-radius:10px;color:#fff;padding:10px 12px;font-size:15px;margin-bottom:14px;touch-action:manipulation}
+.row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:12px}
+button.play{appearance:none;border:0;background:var(--accent);color:#0b0d17;font-weight:800;font-size:16px;padding:12px 28px;border-radius:12px;cursor:pointer;min-width:140px;touch-action:manipulation}
+button.play:hover{filter:brightness(1.08)}
+button.play:active{transform:scale(.98)}
+.manifest{margin-top:8px;color:var(--teal);font-weight:700;font-size:15px}
+.toast{position:absolute;left:50%;top:58px;transform:translateX(-50%);background:#1a1e36;border:1px solid var(--teal);color:var(--teal);padding:8px 14px;border-radius:999px;font-size:13px;font-weight:700;opacity:0;pointer-events:none;z-index:4;white-space:nowrap;max-width:92%;overflow:hidden;text-overflow:ellipsis;transition:opacity .25s}
+.toast.show{opacity:1}
+.win h1 span{background:linear-gradient(90deg,#ffcf5c,#3ee6c1);-webkit-background-clip:text;background-clip:text}
+.win .card{border-color:var(--gold);box-shadow:0 0 40px rgba(255,207,92,.18)}
+.shake{animation:shake .28s linear}
+@keyframes shake{0%,100%{transform:translate(0,0)}20%{transform:translate(-6px,3px)}40%{transform:translate(7px,-2px)}60%{transform:translate(-4px,2px)}80%{transform:translate(5px,0)}}
+
+
+canvas{flex:1 1 auto;display:block;width:100%;height:100%;min-height:0}
+.lives{display:flex;gap:6px;align-items:center}
+.pip{width:8px;height:8px;border-radius:50%;background:#3ee6c1}
+.pip.off{background:#2b3150}
+#debtbar{position:absolute;left:14px;right:14px;top:48px;height:10px;background:#1a1e36;border-radius:99px;overflow:hidden;z-index:3}
+#debtbar>i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#e07a6a,#ffcf5c,#3ee6c1);transform-origin:left center;transition:transform .2s}
+
+.back{color:var(--accent);font-weight:700;font-size:12px;letter-spacing:.04em;text-transform:uppercase;text-decoration:none;margin-right:10px;white-space:nowrap}
+</style>
+</head>
+<body>
+  <div id="app">
+    <header>
+      <div class="brand"><a class="back" href="../index.html">All games</a> InnerShift Lab</div>
+      <div class="hud">
+        <span>Left <b id="leftv">₹0</b></span>
+        <span>Paid <b id="score">₹0</b></span>
+        <span>Best <b id="best">₹0</b></span>
+        <span>Combo <b id="combo">0</b></span>
+        <span class="lives" id="lives"></span>
+        <div class="tools">
+          <button class="curbtn" data-cur="INR" type="button">₹</button>
+          <button class="curbtn" data-cur="USD" type="button">$</button>
+          <button class="curbtn" data-cur="GBP" type="button">£</button>
+          <button class="iconbtn" id="mute" type="button">Sound</button>
+        </div>
+      </div>
+    </header>
+    <div id="debtbar"><i id="debtfil"></i></div>
+    <div id="toast" class="toast"></div>
+    <canvas id="c" width="800" height="800"></canvas>
+    <div class="hint">Tap or press Space when a pulse kisses the gold ring — each hit knocks the EMI down</div>
+    <div id="overlay" class="overlay">
+      <div class="card">
+        <p class="eyebrow">Day 3 · Reflex</p>
+        <h1><span>EMI Crusher</span></h1>
+        <p class="story">The standing instruction leaves every month. Today you hit back. Every perfect tap knocks a chunk off the loan until the number finally reads zero — and the house in Palava is just a house, not a weight.</p>
+        <p class="how">Rings bloom from the centre. Tap, click or press Space as a ring meets the gold circle. Combos prepay extra. Three missed payments and the month slips. Clear the remaining balance to win.</p>
+        <p class="bestline">Best prepaid <b id="bestStart">₹0</b></p>
+        <label class="int" for="intention">Set your intention (optional)</label>
+        <input id="intention" class="int" maxlength="80" placeholder="e.g. Close this loan this year">
+        <button class="play" id="play" type="button">Play</button>
+      </div>
+    </div>
+  </div>
+<script>
+
+const CUR_KEY="isl-mch-currency", MUTE_KEY="isl-mch-mute", PROG_KEY="isl-mch-progress", INTENT_KEY="isl-mch-intention";
+function todayIST(){return new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Calcutta",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());}
+function getCur(){try{return localStorage.getItem(CUR_KEY)||"INR";}catch(e){return "INR";}}
+function setCur(c){try{localStorage.setItem(CUR_KEY,c);}catch(e){}}
+function money(inr){const n=Math.max(0,Math.round(inr||0)),c=getCur();if(c==="USD")return "$"+Math.round(n/80).toLocaleString("en-US");if(c==="GBP")return "£"+Math.round(n/100).toLocaleString("en-GB");return "₹"+n.toLocaleString("en-IN");}
+function isMuted(){try{return localStorage.getItem(MUTE_KEY)==="1";}catch(e){return false;}}
+function setMuted(m){try{localStorage.setItem(MUTE_KEY,m?"1":"0");}catch(e){} syncMute();}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));}
+function getSavedIntention(){try{return localStorage.getItem(INTENT_KEY)||"";}catch(e){return "";}}
+function saveIntention(v){try{if(v)localStorage.setItem(INTENT_KEY,v.slice(0,80));}catch(e){}}
+function readIntention(){const el=document.getElementById("intention");const v=(el?el.value:"").trim().slice(0,80);if(v)saveIntention(v);return v||getSavedIntention();}
+let sessionIntention="";
+let _ac=null;
+function ac(){if(!_ac)_ac=new(window.AudioContext||window.webkitAudioContext)();return _ac;}
+function beep(freq,dur,type,gain){if(isMuted())return;try{const ctx=ac();const o=ctx.createOscillator(),g=ctx.createGain();o.type=type||"square";o.frequency.setValueAtTime(freq,ctx.currentTime);g.gain.setValueAtTime(gain||0.07,ctx.currentTime);g.gain.exponentialRampToValueAtTime(0.0001,ctx.currentTime+dur);o.connect(g);g.connect(ctx.destination);o.start();o.stop(ctx.currentTime+dur+0.03);}catch(e){}}
+function fanfare(){[523,659,784,1046].forEach((f,i)=>setTimeout(()=>beep(f,0.18,"square",0.08),i*110));}
+function readProg(){try{return JSON.parse(localStorage.getItem(PROG_KEY)||"{}");}catch(e){return {};}}
+function writeProg(p){try{localStorage.setItem(PROG_KEY,JSON.stringify(p));}catch(e){}}
+function touchStreak(p){const t=todayIST();if(p.lastDay===t){p.streak=p.streak||1;return;}if(p.lastDay){const cur=new Date(t+"T12:00:00+05:30"),prev=new Date(p.lastDay+"T12:00:00+05:30");const diff=Math.round((cur-prev)/86400000);p.streak=(diff===1)?(p.streak||1)+1:1;}else p.streak=1;p.lastDay=t;}
+function bumpPlay(gameId){const p=readProg();touchStreak(p);p.played=p.played||{};p.played[todayIST()]=true;p.confidence=Math.min(100,(p.confidence||0)+4);p.lastGame=gameId;writeProg(p);}
+function bumpWin(gameId){const p=readProg();touchStreak(p);p.wins=p.wins||{};p.wins[gameId]=(p.wins[gameId]||0)+1;p.wonDay=p.wonDay||{};p.wonDay[todayIST()]=true;p.confidence=Math.min(100,(p.confidence||0)+12);writeProg(p);}
+function syncMute(){const b=document.getElementById("mute");if(!b)return;b.textContent=isMuted()?"Muted":"Sound";b.classList.toggle("on",!isMuted());}
+function syncCur(){document.querySelectorAll(".curbtn").forEach(b=>b.classList.toggle("on",b.dataset.cur===getCur()));if(window.refreshMoney)window.refreshMoney();}
+function wireChrome(){const m=document.getElementById("mute");if(m)m.addEventListener("click",()=>setMuted(!isMuted()));document.querySelectorAll(".curbtn").forEach(b=>b.addEventListener("click",()=>{setCur(b.dataset.cur);syncCur();}));const intent=document.getElementById("intention");if(intent)intent.value=getSavedIntention();syncMute();syncCur();}
+let toastT;function toast(msg){const el=document.getElementById("toast");if(!el)return;el.textContent=msg;el.classList.add("show");clearTimeout(toastT);toastT=setTimeout(()=>el.classList.remove("show"),2200);}
+function shake(){const a=document.getElementById("app");if(!a)return;a.classList.remove("shake");void a.offsetWidth;a.classList.add("shake");setTimeout(()=>a.classList.remove("shake"),300);}
+function manifested(){return sessionIntention?`<p class="manifest">Manifested: ${escapeHtml(sessionIntention)}</p>`:"";}
+
+(function(){
+  const KEY="isl-emi-crusher-high";
+  const START=480000;
+  const SAY=["Salary will come. The EMI will shrink.","Debt is a chapter, not the book.","You are building a quieter month.","One prepayment at a time.","Freedom is a smaller number."];
+  const canvas=document.getElementById("c");
+  const ctx=canvas.getContext("2d");
+  const overlay=document.getElementById("overlay");
+  const scoreEl=document.getElementById("score");
+  const bestEl=document.getElementById("best");
+  const bestStart=document.getElementById("bestStart");
+  const comboEl=document.getElementById("combo");
+  const livesEl=document.getElementById("lives");
+  const leftEl=document.getElementById("leftv");
+  const debtfil=document.getElementById("debtfil");
+  let best=0;
+  try{best=Number(localStorage.getItem(KEY)||0)||0;}catch(e){best=0;}
+
+  let mode="start", remaining=START, paid=0, combo=0, lives=3;
+  let pulses=[], flashes=[], tempo=0.74, spawnAcc=0, last=0, hitMsg="", hitMsgT=0, lastAff=0;
+
+  function showMoney(){
+    scoreEl.textContent=money(paid);
+    leftEl.textContent=money(remaining);
+    bestEl.textContent=money(best);
+    bestStart.textContent=money(best);
+    debtfil.style.transform="scaleX("+Math.max(0,remaining/START)+")";
+  }
+  window.refreshMoney=showMoney;
+  showMoney();
+
+  function resize(){
+    const dpr=Math.min(window.devicePixelRatio||1,2);
+    const w=Math.max(1,canvas.clientWidth), h=Math.max(1,canvas.clientHeight);
+    canvas.width=Math.floor(w*dpr); canvas.height=Math.floor(h*dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  resize(); window.addEventListener("resize",resize);
+  function W(){return canvas.clientWidth;} function H(){return canvas.clientHeight;}
+  function targetR(){return Math.min(W(),H())*0.28;}
+  function renderLives(){
+    livesEl.innerHTML="";
+    for(let i=0;i<3;i++){const s=document.createElement("span");s.className="pip"+(i<lives?"":" off");livesEl.appendChild(s);}
+  }
+  function saveBest(){
+    if(paid>best){best=paid;try{localStorage.setItem(KEY,String(best));}catch(e){} }
+    showMoney();
+  }
+  function reset(){
+    sessionIntention=readIntention();
+    bumpPlay("emi-crusher");
+    remaining=START; paid=0; combo=0; lives=3; pulses=[]; flashes=[]; tempo=0.74; spawnAcc=0.55; hitMsg=""; hitMsgT=0; lastAff=0;
+    comboEl.textContent="0"; renderLives(); showMoney();
+    mode="play"; overlay.classList.add("hidden"); overlay.className="overlay hidden";
+    toast("Standing instruction: let’s beat it.");
+  }
+  function winRun(){
+    if(mode!=="play") return;
+    mode="win"; remaining=0; saveBest(); bumpWin("emi-crusher"); fanfare(); shake();
+    overlay.className="overlay win";
+    overlay.innerHTML='<div class="card"><p class="eyebrow">Loan closed</p><h1><span>The EMI is done</span></h1>'+
+      '<p class="story">You prepaid <b style="color:#fff">'+money(paid)+'</b>. Best <b style="color:#ffcf5c">'+money(best)+'</b>. The number is zero.</p>'+
+      '<p class="how">The Palava keys are just keys now. Tomorrow’s salary can be chai, a Kerala ticket, a little freedom.</p>'+
+      manifested()+
+      '<button class="play" id="play" type="button">Crush another</button></div>';
+    overlay.classList.remove("hidden");
+    document.getElementById("play").addEventListener("click",reset);
+  }
+  function missMonth(){
+    if(mode!=="play") return;
+    mode="dead"; saveBest(); beep(150,0.28,"sawtooth",0.04);
+    overlay.className="overlay";
+    overlay.innerHTML='<div class="card"><p class="eyebrow">Month slipped</p><h1><span>The standing instruction is still on</span></h1>'+
+      '<p class="story">You prepaid <b style="color:#fff">'+money(paid)+'</b> · Best <b style="color:#ffcf5c">'+money(best)+'</b>. Remaining '+money(remaining)+'.</p>'+
+      '<p class="how">Three missed payments. Come back on salary day and take another swing. The loan is shrinking.</p>'+
+      manifested()+
+      '<button class="play" id="play" type="button">Try again</button></div>';
+    overlay.classList.remove("hidden");
+    document.getElementById("play").addEventListener("click",reset);
+  }
+  function missHit(why){
+    combo=0; comboEl.textContent="0";
+    lives-=1; renderLives();
+    hitMsg=why; hitMsgT=0.6;
+    flashes.push({r:targetR(),life:0.7,color:"#e07a6a"});
+    shake(); beep(180,0.12,"triangle",0.04);
+    if(lives<=0) missMonth();
+  }
+  function tap(){
+    if(mode!=="play") return;
+    const tr=targetR();
+    let bestP=-1,bestD=1e9;
+    for(let i=0;i<pulses.length;i++){
+      const d=Math.abs(pulses[i].r-tr);
+      if(d<bestD){bestD=d;bestP=i;}
+    }
+    if(bestP>=0 && bestD<=16){
+      const perfect=bestD<=5.5;
+      combo+=1;
+      const base=perfect?24000:8000;
+      const gained=base+combo*2000;
+      const chunk=Math.min(remaining,gained);
+      remaining-=chunk; paid+=chunk;
+      if(combo%8===0) tempo=Math.max(0.36,tempo-0.04);
+      comboEl.textContent=String(combo);
+      showMoney();
+      hitMsg=(perfect?"Perfect ":"Good ")+money(chunk);
+      hitMsgT=0.7;
+      flashes.push({r:tr,life:1,color:perfect?"#ffcf5c":"#3ee6c1"});
+      pulses.splice(bestP,1);
+      beep(perfect?740:520,0.08,"square",0.06);
+      if(combo>1&&combo%4===0) shake();
+      const paidPct=paid/START;
+      if(paidPct>=0.25 && lastAff<1){lastAff=1;toast(SAY[0]);}
+      else if(paidPct>=0.5 && lastAff<2){lastAff=2;toast(SAY[1]);}
+      else if(paidPct>=0.75 && lastAff<3){lastAff=3;toast(SAY[2]);}
+      if(remaining<=0) winRun();
+    } else missHit("Miss");
+  }
+  function update(dt){
+    if(mode!=="play") return;
+    spawnAcc+=dt;
+    if(spawnAcc>=tempo){spawnAcc-=tempo; pulses.push({r:8,speed:(targetR()-8)/(0.85+tempo*0.55)});}
+    const tr=targetR();
+    for(let i=pulses.length-1;i>=0;i--){
+      pulses[i].r+=pulses[i].speed*dt;
+      if(pulses[i].r>tr+22){ pulses.splice(i,1); missHit("Late"); if(mode!=="play") return; }
+    }
+    for(let i=flashes.length-1;i>=0;i--){ flashes[i].life-=dt*2.4; if(flashes[i].life<=0) flashes.splice(i,1); }
+    if(hitMsgT>0) hitMsgT-=dt;
+  }
+  function draw(){
+    const w=W(),h=H(),cx=w/2,cy=h/2+10,tr=targetR();
+    ctx.clearRect(0,0,w,h);
+    const g=ctx.createRadialGradient(cx,cy,10,cx,cy,Math.max(w,h)*0.7);
+    g.addColorStop(0,"#151a30"); g.addColorStop(1,"#0b0d17");
+    ctx.fillStyle=g; ctx.fillRect(0,0,w,h);
+    for(let i=1;i<=4;i++){ctx.beginPath();ctx.arc(cx,cy,tr*(i/4),0,Math.PI*2);ctx.strokeStyle="rgba(124,140,255,0.08)";ctx.lineWidth=1;ctx.stroke();}
+    ctx.beginPath();ctx.arc(cx,cy,tr,0,Math.PI*2);ctx.strokeStyle="#ffcf5c";ctx.lineWidth=5;ctx.stroke();
+    ctx.beginPath();ctx.arc(cx,cy,tr-8,0,Math.PI*2);ctx.strokeStyle="rgba(255,207,92,0.25)";ctx.lineWidth=10;ctx.stroke();
+    ctx.beginPath();ctx.arc(cx,cy,18,0,Math.PI*2);ctx.fillStyle="#7c8cff";ctx.fill();
+    ctx.beginPath();ctx.arc(cx,cy,8,0,Math.PI*2);ctx.fillStyle="#e8ebff";ctx.fill();
+    for(const p of pulses){
+      const t=Math.max(0,1-Math.abs(p.r-tr)/40);
+      ctx.beginPath();ctx.arc(cx,cy,p.r,0,Math.PI*2);
+      ctx.strokeStyle=t>0.4?"#3ee6c1":"#7c8cff";
+      ctx.globalAlpha=0.45+t*0.55; ctx.lineWidth=3+t*3; ctx.stroke(); ctx.globalAlpha=1;
+    }
+    for(const f of flashes){
+      ctx.globalAlpha=Math.max(0,f.life);
+      ctx.beginPath();ctx.arc(cx,cy,f.r,0,Math.PI*2);
+      ctx.strokeStyle=f.color; ctx.lineWidth=10*f.life; ctx.stroke(); ctx.globalAlpha=1;
+    }
+    if(hitMsgT>0){
+      ctx.globalAlpha=Math.min(1,hitMsgT*2);
+      ctx.fillStyle=hitMsg[0]==="P"||hitMsg[0]==="G"?"#3ee6c1":"#e07a6a";
+      ctx.font="700 20px system-ui,sans-serif"; ctx.textAlign="center";
+      ctx.fillText(hitMsg,cx,cy+tr+42); ctx.globalAlpha=1;
+    }
+  }
+  function loop(ts){const dt=Math.min(0.05,(ts-last)/1000||0.016); last=ts; update(dt); draw(); requestAnimationFrame(loop);}
+  requestAnimationFrame(loop);
+  wireChrome();
+  document.getElementById("play").addEventListener("click",reset);
+  canvas.addEventListener("pointerdown",(e)=>{e.preventDefault();tap();});
+  window.addEventListener("keydown",(e)=>{
+    if(e.code==="Space"||e.code==="Enter"){e.preventDefault(); if(mode==="play") tap();}
+  });
+  renderLives();
+})();
+</script>
+</body>
+</html>

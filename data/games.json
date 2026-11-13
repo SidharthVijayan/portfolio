@@ -1,1 +1,67 @@
-[]
+[
+  {
+    "name": "Local Train Dash",
+    "day": 1,
+    "date": "2026-11-14",
+    "genre": "Arcade",
+    "story": "The fast is packing out of CSMT. Hop platform to platform through Thane and Dombivli, and get home to Palava while the light is still on.",
+    "path": "games/01-local-train-dash/index.html",
+    "thumbnail": "assets/games/local-train-dash.png",
+    "play": "games/01-local-train-dash/index.html",
+    "screenshot": "assets/games/local-train-dash.png",
+    "summary": "The fast is packing out of CSMT. Hop platform to platform through Thane and Dombivli, and get home to Palava while the light is still on.",
+    "approved": true
+  },
+  {
+    "name": "Salary Day Words",
+    "day": 2,
+    "date": "2026-11-15",
+    "genre": "Word",
+    "story": "It’s credit-day in the account. Spell the life you’re building — bonus, home, chai, freedom — and watch the salary stack before the month runs out.",
+    "path": "games/02-salary-day-words/index.html",
+    "thumbnail": "assets/games/salary-day-words.png",
+    "play": "games/02-salary-day-words/index.html",
+    "screenshot": "assets/games/salary-day-words.png",
+    "summary": "It’s credit-day in the account. Spell the life you’re building — bonus, home, chai, freedom — and watch the salary stack before the month runs out.",
+    "approved": true
+  },
+  {
+    "name": "EMI Crusher",
+    "day": 3,
+    "date": "2026-11-16",
+    "genre": "Reflex",
+    "story": "Every perfect tap knocks a chunk off the loan. Crush the EMI until the number is zero and the Palava keys are just keys.",
+    "path": "games/03-emi-crusher/index.html",
+    "thumbnail": "assets/games/emi-crusher.png",
+    "play": "games/03-emi-crusher/index.html",
+    "screenshot": "assets/games/emi-crusher.png",
+    "summary": "Every perfect tap knocks a chunk off the loan. Crush the EMI until the number is zero and the Palava keys are just keys.",
+    "approved": true
+  },
+  {
+    "name": "Remittance Stack",
+    "day": 4,
+    "date": "2026-11-17",
+    "genre": "Puzzle",
+    "story": "You’re a time zone away. Bundle rent, school fees and celebration money so the transfer lands, and Sunday’s video call starts with a smile.",
+    "path": "games/04-remittance-stack/index.html",
+    "thumbnail": "assets/games/remittance-stack.png",
+    "play": "games/04-remittance-stack/index.html",
+    "screenshot": "assets/games/remittance-stack.png",
+    "summary": "You’re a time zone away. Bundle rent, school fees and celebration money so the transfer lands, and Sunday’s video call starts with a smile.",
+    "approved": true
+  },
+  {
+    "name": "Homecoming Memory",
+    "day": 5,
+    "date": "2026-11-18",
+    "genre": "Memory",
+    "story": "After visa waits and video calls, remember the way home: the local, vada pav, chai, the Kerala courtyard, and her key in Palava.",
+    "path": "games/05-homecoming-memory/index.html",
+    "thumbnail": "assets/games/homecoming-memory.png",
+    "play": "games/05-homecoming-memory/index.html",
+    "screenshot": "assets/games/homecoming-memory.png",
+    "summary": "After visa waits and video calls, remember the way home: the local, vada pav, chai, the Kerala courtyard, and her key in Palava.",
+    "approved": true
+  }
+]

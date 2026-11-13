@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0b0d17">
+<link rel="icon" href="data:,">
+<title>Salary Day Words — InnerShift Lab</title>
+<style>
+:root{--bg:#0b0d17;--bg2:#121528;--line:#1f2440;--text:#d9ddf0;--muted:#8a90ad;--accent:#7c8cff;--teal:#3ee6c1;--gold:#ffcf5c;--danger:#e07a6a;--chai:#e8a04e}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none}
+#app{height:100%;display:flex;flex-direction:column;max-width:520px;margin:0 auto;position:relative}
+header{flex:0 0 auto;display:flex;justify-content:space-between;align-items:center;padding:8px 14px 6px;z-index:3;gap:8px}
+.brand{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.hud{display:flex;gap:10px;font-size:12px;color:var(--muted);align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.hud b{color:#fff;font-variant-numeric:tabular-nums;margin-left:3px}
+.tools{display:flex;gap:6px}
+.iconbtn,.curbtn{appearance:none;border:1px solid var(--line);background:#1a1e36;color:var(--text);border-radius:8px;padding:4px 8px;font-size:11px;font-weight:700;cursor:pointer;touch-action:manipulation;line-height:1.2}
+.curbtn.on,.iconbtn.on{border-color:var(--gold);color:var(--gold)}
+.hint{flex:0 0 auto;text-align:center;font-size:12px;color:var(--muted);padding:6px 12px 12px}
+.overlay{position:fixed;inset:0;background:rgba(11,13,23,.86);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:20px;z-index:6}
+.overlay.hidden{display:none}
+.card{width:min(440px,100%);background:var(--bg2);border:1px solid var(--line);border-radius:18px;padding:24px 20px 20px;text-align:center;max-height:100%;overflow:auto}
+.eyebrow{color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:.1em;font-size:11px;margin-bottom:8px}
+h1{font-size:clamp(26px,7vw,38px);line-height:1.1;color:#fff;margin-bottom:10px}
+h1 span{background:linear-gradient(90deg,#7c8cff,#3ee6c1);-webkit-background-clip:text;background-clip:text;color:transparent}
+.story{color:var(--text);margin-bottom:8px;font-size:15px}
+.how{color:var(--muted);font-size:13px;margin-bottom:12px}
+.bestline{color:var(--gold);font-size:14px;margin-bottom:10px}
+label.int{display:block;text-align:left;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:8px 0 4px}
+#intention,input.int{width:100%;background:#0f1222;border:1px solid var(--line);border-radius:10px;color:#fff;padding:10px 12px;font-size:15px;margin-bottom:14px;touch-action:manipulation}
+.row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:12px}
+button.play{appearance:none;border:0;background:var(--accent);color:#0b0d17;font-weight:800;font-size:16px;padding:12px 28px;border-radius:12px;cursor:pointer;min-width:140px;touch-action:manipulation}
+button.play:hover{filter:brightness(1.08)}
+button.play:active{transform:scale(.98)}
+.manifest{margin-top:8px;color:var(--teal);font-weight:700;font-size:15px}
+.toast{position:absolute;left:50%;top:58px;transform:translateX(-50%);background:#1a1e36;border:1px solid var(--teal);color:var(--teal);padding:8px 14px;border-radius:999px;font-size:13px;font-weight:700;opacity:0;pointer-events:none;z-index:4;white-space:nowrap;max-width:92%;overflow:hidden;text-overflow:ellipsis;transition:opacity .25s}
+.toast.show{opacity:1}
+.win h1 span{background:linear-gradient(90deg,#ffcf5c,#3ee6c1);-webkit-background-clip:text;background-clip:text}
+.win .card{border-color:var(--gold);box-shadow:0 0 40px rgba(255,207,92,.18)}
+.shake{animation:shake .28s linear}
+@keyframes shake{0%,100%{transform:translate(0,0)}20%{transform:translate(-6px,3px)}40%{transform:translate(7px,-2px)}60%{transform:translate(-4px,2px)}80%{transform:translate(5px,0)}}
+
+
+#app{touch-action:manipulation}
+#stage{flex:1;display:flex;flex-direction:column;padding:0 14px 6px;min-height:0}
+#current{min-height:32px;text-align:center;font-size:20px;font-weight:800;letter-spacing:.1em;color:#fff;text-transform:uppercase;padding:2px 0}
+#current.good{color:var(--teal)} #current.bad{color:var(--danger)}
+#board{flex:1;display:grid;grid-template-columns:repeat(5,1fr);gap:8px;max-width:100%;aspect-ratio:1;width:min(100%,520px);margin:0 auto;touch-action:none}
+.cell{border:0;border-radius:14px;background:#1a1e36;color:#fff;font-weight:800;font-size:clamp(20px,6vw,32px);display:grid;place-items:center;box-shadow:inset 0 -3px 0 #101428;transition:transform .08s,background .12s,color .12s}
+.cell.on{background:var(--chai);color:#0b0d17;transform:scale(.96);box-shadow:none}
+.cell.bloom{background:var(--teal);color:#0b0d17}
+#foundwrap{height:64px;overflow:auto;font-size:12px;color:var(--muted);padding:6px 2px;line-height:1.5}
+#foundwrap b{color:var(--text);font-weight:700}
+#goalbar{height:8px;background:#1a1e36;border-radius:99px;overflow:hidden;margin:0 0 8px}
+#goalbar>i{display:block;height:100%;width:0;background:linear-gradient(90deg,#7c8cff,#3ee6c1);border-radius:99px;transition:width .2s}
+
+.back{color:var(--accent);font-weight:700;font-size:12px;letter-spacing:.04em;text-transform:uppercase;text-decoration:none;margin-right:10px;white-space:nowrap}
+</style>
+</head>
+<body>
+  <div id="app">
+    <header>
+      <div class="brand"><a class="back" href="../index.html">All games</a> InnerShift Lab</div>
+      <div class="hud">
+        <span>Salary <b id="score">₹0</b></span>
+        <span>Best <b id="best">₹0</b></span>
+        <span>Time <b id="time">90</b></span>
+        <div class="tools">
+          <button class="curbtn" data-cur="INR" type="button">₹</button>
+          <button class="curbtn" data-cur="USD" type="button">$</button>
+          <button class="curbtn" data-cur="GBP" type="button">£</button>
+          <button class="iconbtn" id="mute" type="button">Sound</button>
+        </div>
+      </div>
+    </header>
+    <div id="toast" class="toast"></div>
+    <div id="stage">
+      <div id="goalbar" aria-label="Salary goal"><i id="goalfil"></i></div>
+      <div id="current">&nbsp;</div>
+      <div id="board" aria-label="Payslip letters"></div>
+      <div id="foundwrap">Words you cash today will show here.</div>
+    </div>
+    <div class="hint">Drag adjacent letters · hit the salary goal before the month-clock runs out</div>
+    <div id="overlay" class="overlay">
+      <div class="card">
+        <p class="eyebrow">Day 2 · Word</p>
+        <h1><span>Salary Day Words</span></h1>
+        <p class="story">It’s credit-day in the account. Spell the life you’re building — bonus, home, chai, freedom — and watch the salary stack before the month runs out.</p>
+        <p class="how">Drag through touching letters, including diagonals, for 90 seconds. Longer words pay more. Reach the salary goal for a proper credit. A letter can’t be reused in the same word.</p>
+        <p class="bestline">Best <b id="bestStart">₹0</b></p>
+        <label class="int" for="intention">Set your intention (optional)</label>
+        <input id="intention" class="int" maxlength="80" placeholder="e.g. This salary covers the EMI">
+        <button class="play" id="play" type="button">Play</button>
+      </div>
+    </div>
+  </div>
+<script>
+
+const CUR_KEY="isl-mch-currency", MUTE_KEY="isl-mch-mute", PROG_KEY="isl-mch-progress", INTENT_KEY="isl-mch-intention";
+function todayIST(){return new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Calcutta",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());}
+function getCur(){try{return localStorage.getItem(CUR_KEY)||"INR";}catch(e){return "INR";}}
+function setCur(c){try{localStorage.setItem(CUR_KEY,c);}catch(e){}}
+function money(inr){const n=Math.max(0,Math.round(inr||0)),c=getCur();if(c==="USD")return "$"+Math.round(n/80).toLocaleString("en-US");if(c==="GBP")return "£"+Math.round(n/100).toLocaleString("en-GB");return "₹"+n.toLocaleString("en-IN");}
+function isMuted(){try{return localStorage.getItem(MUTE_KEY)==="1";}catch(e){return false;}}
+function setMuted(m){try{localStorage.setItem(MUTE_KEY,m?"1":"0");}catch(e){} syncMute();}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));}
+function getSavedIntention(){try{return localStorage.getItem(INTENT_KEY)||"";}catch(e){return "";}}
+function saveIntention(v){try{if(v)localStorage.setItem(INTENT_KEY,v.slice(0,80));}catch(e){}}
+function readIntention(){const el=document.getElementById("intention");const v=(el?el.value:"").trim().slice(0,80);if(v)saveIntention(v);return v||getSavedIntention();}
+let sessionIntention="";
+let _ac=null;
+function ac(){if(!_ac)_ac=new(window.AudioContext||window.webkitAudioContext)();return _ac;}
+function beep(freq,dur,type,gain){if(isMuted())return;try{const ctx=ac();const o=ctx.createOscillator(),g=ctx.createGain();o.type=type||"square";o.frequency.setValueAtTime(freq,ctx.currentTime);g.gain.setValueAtTime(gain||0.07,ctx.currentTime);g.gain.exponentialRampToValueAtTime(0.0001,ctx.currentTime+dur);o.connect(g);g.connect(ctx.destination);o.start();o.stop(ctx.currentTime+dur+0.03);}catch(e){}}
+function fanfare(){[523,659,784,1046].forEach((f,i)=>setTimeout(()=>beep(f,0.18,"square",0.08),i*110));}
+function readProg(){try{return JSON.parse(localStorage.getItem(PROG_KEY)||"{}");}catch(e){return {};}}
+function writeProg(p){try{localStorage.setItem(PROG_KEY,JSON.stringify(p));}catch(e){}}
+function touchStreak(p){const t=todayIST();if(p.lastDay===t){p.streak=p.streak||1;return;}if(p.lastDay){const cur=new Date(t+"T12:00:00+05:30"),prev=new Date(p.lastDay+"T12:00:00+05:30");const diff=Math.round((cur-prev)/86400000);p.streak=(diff===1)?(p.streak||1)+1:1;}else p.streak=1;p.lastDay=t;}
+function bumpPlay(gameId){const p=readProg();touchStreak(p);p.played=p.played||{};p.played[todayIST()]=true;p.confidence=Math.min(100,(p.confidence||0)+4);p.lastGame=gameId;writeProg(p);}
+function bumpWin(gameId){const p=readProg();touchStreak(p);p.wins=p.wins||{};p.wins[gameId]=(p.wins[gameId]||0)+1;p.wonDay=p.wonDay||{};p.wonDay[todayIST()]=true;p.confidence=Math.min(100,(p.confidence||0)+12);writeProg(p);}
+function syncMute(){const b=document.getElementById("mute");if(!b)return;b.textContent=isMuted()?"Muted":"Sound";b.classList.toggle("on",!isMuted());}
+function syncCur(){document.querySelectorAll(".curbtn").forEach(b=>b.classList.toggle("on",b.dataset.cur===getCur()));if(window.refreshMoney)window.refreshMoney();}
+function wireChrome(){const m=document.getElementById("mute");if(m)m.addEventListener("click",()=>setMuted(!isMuted()));document.querySelectorAll(".curbtn").forEach(b=>b.addEventListener("click",()=>{setCur(b.dataset.cur);syncCur();}));const intent=document.getElementById("intention");if(intent)intent.value=getSavedIntention();syncMute();syncCur();}
+let toastT;function toast(msg){const el=document.getElementById("toast");if(!el)return;el.textContent=msg;el.classList.add("show");clearTimeout(toastT);toastT=setTimeout(()=>el.classList.remove("show"),2200);}
+function shake(){const a=document.getElementById("app");if(!a)return;a.classList.remove("shake");void a.offsetWidth;a.classList.add("shake");setTimeout(()=>a.classList.remove("shake"),300);}
+function manifested(){return sessionIntention?`<p class="manifest">Manifested: ${escapeHtml(sessionIntention)}</p>`:"";}
+
+const DICT = new Set("ability able about above absence abuse academy ace acid acre across act action active actor acts actual acute adapt add address admin admit adopt adore adult advance advice advise aerial affair affect afford afraid after again age aged agency agenda agent aging ago agony agree agreed agrees ahead aid aided aim aimed air aisle alarm album ale alert algae alien align alike alive all alley allow alloy almost alone along aloud already alter always amber among amount amuse amusing ancient and angel anger angle angrily angry animal animals ankle annoy annual answer answers ant anxiety any anyone anyway apart ape appear apple applied applies apply approve apt aquatic arc archive are areas arena argue arguing arise ark arm armed armor armored aroma aromas arose around arrange array arrive arrow art artist artwork ash aside ask asked aspect aspects assert asset assist assume assure ate atlas atom atomic atoms attend attic audio audit aunt aura author autumn avenue avoid await awaited awake award awards aware awful backup bacon bad badge badly bag bagel baked baker balance balcony balls ban banal banana bands banker banks banned banner bar barely barley barrel barrier basic basil basin basis basket bat batch baton battle battled battles bay beach beacons beads beaming beard bearer beast beaten beating beauty become becomes bed bee before beg began begging begin behind behold being beings belief believe belong beloved bench beneath berry beside besides bet better betting beyond bib bible bicycle bid big bigger billed billing bin binary binding birth bison bit bitter bizarre black blade bland blank blanket blast blaze blazing bleak bleed blend bless blind blink bliss block blocked blond blood bloom blowing blown blues bluff blunt blurred blush boa board boast bog boldest bones bonus booking books boost booster booth border bored boring borrow bother bottle bottled bottles bottom bounce bound bounded bounty bow bowling box boxer boxing boy bracing braided brain braking branch brand branded brass brave bravely braver bread breads break breaks breathe breed brick bricks bride bridge brief bright bring brisk broad broaden broadly broke broken broker brokers bronze brook broom brought brown browsed brush brushed brute bubble bubbles bud buddy budge budget budgets bug build builder built bulbs bulge bullets bully bun bunch bundle bunkers bunny burden burdens bureau buried burner burns burnt burrow burst burying bus but butlers button buttons buy buyer cab cabin cable cache cadet cage cake calf call calm camel cameo camera camp campus can canal candle candy canoe canon canyon cap capital captain capture car cards career cargo carol carpet carrot carry cart carve carved cases castle casual cat catch cater cattle caught cause cave cedar celery cement census center cereal chain chair chalk champ change chant chaos chapel charge charm chart chase chased cheap cheaper cheat check checked cheek cheer cheese cherry chess chest chick chief child chili chill chips choice choir choke choose chord chore chorus chose chosen chuck chunk church cider cigar cinch circa circle citrus civic civil claim claimed clamp clang clasp class classic claws clean clear clerk clever click client cliff climb cling clinic cloak clock clocks clone close closed closer closet cloth cloud clouds clover clown clubs clues clump coach coast coastal coats cob cobalt cobra cocoa cod codes coding coffee coffin cog coil coiled coin coins cold collar colony color colors colt column coma comb combat come comedy comic coming comma commit common compel concert cones cookie cooler cop copper coral cords corn corner costly costs cot cotton couch cough could count counts county coupe couple court cover covers cow cowboy coy crack cradle craft crafts cramp crane cranes crank crash crate crater crave crawl crayon craze crazy cream credit creed creek creep crept crest crew cried cries crime crimes crisis crisp critic croak crook crops cross crowd crown crude cruel cruise crumb crumbs crush crust cub cubic cue cup cured curled curly curry curse cursor curve curved custom cut cycles cyclic cynic dad daily dairy daisy dam dance dandy danger daring darker dashed dated dating dawned day dazzle deal dealer dealt death deaths debate debit debris debut decade decal decay decent decide deck decor decoy deeper defeat defend defer define degree deity delay delete delta deluxe demand demon den denim dense dental depend depot depth deputy derby desert design desire desks detail detect deter detour deuce device devil devote dew diary diced did die diesel differ dig digest digit digits dilate dim dimly diner dingy dinner dip direct dirty disco dishes ditch dived divide divine dizzy doc docks doctor dodge doe dog doing domain don donate donkey donor doors dot double doubt dough dowel downs dowry dozen draft drafts dragon drain drains drama drank drape drapes drawl drawn dread dream dreams dress dried drier drift drill drills drink drinks drive driven driver drives droll drone drones drool droop drops drove drown drowned drowsy drugs drums drunk dry dryer dryers ducts due dug dugout duly dumps dun dune duo durable during dusk dusty duties dwarf dwell dwelt dye dying eager eagle ear early earth eased easel easier easily easter eat eaten eater eating ebb ebony echoed edged edging edict edited editor eel eerie eerily effort egg ego eight eights either eject elate elbow elder elect elects elegy elf elite elixir elk elm elope elude email ember emerge empire employ empty emu enable enact enamel encore end ended ending endow enemy energy engage engine enjoy enough enroll ensign ensue enter enters entire entity entree entry envoy eon equal equals equate equip equity era erase erased eraser erect erode erodes error erupt escape essay estate ether ethic ethics evade evaded eve event events every evict evoke evolve exact exalt exams exceed excel except excess excite excuse exempt exert exhale exile exiled exist exists exotic expand expect expel expert expire export expose extend extra eye fable fabric faced facets factor facts fad faded failed fails faint faintly fairy faith faiths faked faker falls false famed family famous fan fancy fangs far farce farmer farms faster fat fatal father fatty fault faults fauna favor fax fears feast feat fed fee feeder feels feint fen fences feral ferns ferry fetal fetch fever few fewer fewest fib fiber fibers field fields fiend fiery fifth fifty fig fight fights figure filed files fills films filter filth fin final finals finder finds fined finely finer finest finger fir fires firing firms first fishy fists fit fitted five fix fixed fixer fixers fizzy flags flair flake flaked flame flames flank flanks flare flares flash flask flasks fleck fleet fleets flesh flick flier flies fling flings flint flirt float floats flock flocks flood floods floor floors flora floral floss flour flours flown flows flu fluid fluids fluke flung flush flute flutes fly flyer flyers foamed foamy focal focus foe fog foggy foils folder folds folks folly fonts foods fools foot for foray force forced forces forest forge forget forgo forgot formal formed former forms forth forty forum forums fossil foster fought found founds fount fourth fox foxes foyer frame framed frames frank fraud frays freak freed freely freer freeze fresh fridge fried friend fries frill fringe frisk frock from front frost frosty froth frown froze frozen fruit fruits fry fudge fuels fully fumed fun funded funds fungi funnel funny fur furor furry fused fusion fussy future fuzzy gable gag gained gains gales gamble gamed gamer games gap garage garden garlic gas gases gasped gasps gates gauge gavel gawky gazed gazing gears geese gel gem gender genes genius genre gentle gently get ghost giant gifts gig giggle gilds gills gin ginger given giver gives giving gizmo glad glade gland glare glass glaze glazed gleam glean glide glider global gloom gloomy glory gloss glossy glove gloves glows glued gnome god going golden golfer goods goofy goose gorge gospel gossip got gourd govern grace grade graded grades grain grains grand grant grants grape grapes graph graphs grasp grass grassy grate grave gravel gravy graze greasy great greed green greet grid grief grill grills grim grime grind gripe grips groan groans groom grope gross ground group groups grove groves grow growl grown grows growth gruel gruff grunt guard guards guess guest guide guides guild guilds guile guilt guilty guise gulps gum gummy gun gusto gusts gut gutsy guy gym gypsy habit habits had hairs hairy hall halt ham hammer handed handle hands handy hangar hangs happen happy harbor hardly hardy harm harsh has haste hasty hat hatch hated hater hatred haunt haunts haven having havoc hay hazard headed header heads heady health heap heard heart hearts heat heated heater heath heave heaven heavy hedge hedges heeds heels hefty heist helix hello helmet helps hem hen hence her herald herbs herds here hero hers hey hid hidden hides high highly hiking hills hilts him hinder hinge hinted hints hip hired hirer hiring his hiss hit hive hoard hobby hog hoist holder holds holes hollow holly homes honed honest honey honor hooked hop hoped hopes hoping hops horde horn horned horse horses hose host hostel hot hotel hotels hound hourly hours house houses hover how howl hub hue hug hum human humane humans humble humid humor humps hunch hunger hungry hunks hunter hunts hurdle hurls hurry hurt husky hustle hut hydra hymns ice icing icons icy idea ideal ideals ideas idiom idioms idiot idle idler idol idols ill image imaged images immune impact imply import impose inbox incur indeed index indoor inept inert infant infer inform ingot inhale inject injure ink inked inland inlet inmate inn inner input insect inset inside insist insult insure intend inter intro invent invest invite inward ion ions irate irony island issue issued issues items itself ivory ivy jab jaded jaguar jam jammed jar jargon jaw jay jeans jelly jet jets jewel jewels jib jiffy jig jigsaw jingle job jockey jocks jog joined joiner joins joint joints jokes joking jolly jolts jostle jot joust joy joyful judge judged judges jug juice juices juicy jumbo jumped jumper jumps jumpy jungle junior junk juries jury justly keels keeper keeps keg kegs kernel kettle kicked kicker kicks kid kids kills kilos kilts kin kindle kindly kinds kings kiosk kit kite kitten knack knacks knead knee kneel knelt knife knifed knight knit knives knob knock knocks knoll knot knots know known knows koala kudos lab label labels labor lacked lacks lad ladder laden ladies ladle lag lager lairs lakes lamb lambs lame lament lamp lance land landed lane lank lap lapel lapse large larger larks larva larvae laser lasers lash last lasted lastly latch lately later latest laugh launch lava law lawful lawns lawyer lax lay layer layout lays lazily lazy leader leads leaf leafy league leaks lean leaned leap leaper learn lease leases leash least leave leaves led ledge ledges leech left leg legacy legal legend legion lemon lemons lender lends length lens lenses lent lentil lesser lesson let letter level lever liar lid lie lifted light lights liked likely liken likes lilac lily limbs lime limit limits limp linear lined linen liner lines linger lingo lining linked links lint lion lip lipid liquid listed listen lists lit litter little lived lively liver lives livid living llama loaded loader loads loaf loaned loans loaves lobby local locals locate locked locker locks lodge lofty log logged logic login logs lonely long longed longer looked looks loops loose looted lords lose loser loses losing loss losses lost lot lotus loud lounge louse lousy love loved lovely lover loves loving low lower lowest loyal lucky lug lumen lumps lunch lungs lurch lures lurid lurks lutes luxury lying lyric macro mad madam magic magma magnet maiden mailed mainly maize major maker makes making males mallet man manage mango mania manic manner manor map maple marble march mares margin marine marker market marks marry marsh mashed masks mason mass mast master mat match mate mates math mating matter mature mauve maxim may maybe mayor mayors maze meadow meager meals meaner means meant meat medal medals media median medic medium meet melody melon melted melts member memo memoir memory men mends mental mentor menus mercy merely merge merger merit merits merry messed messy met metal meter meters method metric metro micro mid middle midst might mighty milder mildew miles milk milky mill milled mimic mince mind minded mined miner miners mines mingle mining minor minors mints minus minute mirage mirror mirth miser misery miss missed mist misty misuse mix mixed mixer moan moats mobile mocha mock model models modem modern modes modest modify module moist molar molds mole moment money monks month moo moods moody moons moose mop moral morse moss most mostly motel mother moths motion motor motto mound mount mourn mouse mouth mouths moved mover movers moves movie movies moving mow mowed mower much mucky mucus mud muddy mug mulch multi mum mummy munch mural murky murmur muscle mused museum mushy music musky musts mute mutes mutiny mutter mutual myself mystic myth nab nag nails naive naked named namely names nanny nap napkin narrow nasal nasty nation native nature naval navel near nearby nearly neat neatly necks need needed needle needs needy nerd nerve nerves nested nests net never new newer newly news next nicely nicer niche nick nickel niece night nil nimble nine ninth ninths nip nit noble nobles nod nodes noise noises noisy nomad nomads noodle nor normal norms north noses not noted notes notice notion noun nouns novel novels novice now nuclei nudge null number nun nurse nut nutmeg nylon oak oar oasis oat oath oats obey obeyed object oblong obtain occupy occur ocean oceans octal octane octet odd odder oddity oddly ode odors off offend offer offers office offset often oil oiled oiling old older oldest olive olives omega omelet omens one onions onset onward ooze opal opaque open opened opener openly opera operas opium optics option orb orbit orbits ordeal order orders ore organ organs origin orphan other others otter ought ounce ounces our out outage outer outfit outing outlaw outlet output outset outwit ovary oven ovens over overdo overt owe owing owl own owned owner owners oxide oxygen ozone paced paces pack packed packer packet pact pacts pad padded paddle pagan paged pagers pages paid pail pain pained paint pair pairs pal palace pale pallet palm pan panel panels panic panics pans pantry pants papa paper papers par parade parcel pardon parent parish parked parks parry parse parted partly parts party pass passed passer past pasta paste pastel pastes pastor pastry pat patch path paths patio patios patrol pats patter pause paused pauses paved paw pawns pay pea peace peach peak peaked pear pearl pearls peas pedal pedals peeled peels peers peg pelts pen penal pence penny peony people pepper per perch peril period perk permit person pesky pests pet petal petrol phase phone photo phrase piano pick picked picker pickle picnic pie piece pieces pig piled piles piling pills pilot pilots pin pinch pine pines pink pinks pint piper pipes piping pique pirate pistol piston pit pitch pith pity pivot pixel pixels pizza pizzas place placed places placid plaid plain plains plan plane planes plank planks plant plants plate plates played player plaza plead please pleat pledge plenty plied plots plowed plows ploys pluck plug plugs plum plumb plume plumes plump plural plus ply poach pod poem poems poet poetic poetry point points poise poised poison poke poker polar poles police policy polish polite polka pollen polls pond ponds ponies pony pool pools poor poorly pop pope poppy porch pores pork port ported porter pose posed poser poses posh posing posted poster posts pot potato pouch pounce pound pour poured powder power powers praise prance prank pranks prawn prawns pray prayed prayer preach prefer prefix press pretty price priced prices prick pride pried priest prim primal prime primed primer print prints prior prism prison privy prize prized prizes probe probes prod profit promo prompt prone prong proof proofs proper props prose proud prove proved proven prowl prowls proxy prude prune prunes pry psalm pub public puffed puffy pug pulse pulses pumps pun punch pup pupil pupils purely purge purple purse pursue push pushed pusher put putty puzzle pylon pyro quack quail quails quake quakes qualm quark quarry quart quarts quash quasi queen query quest quests queue queued queues quick quiet quill quilt quilts quirk quirky quiz quote quoted quotes raced racer racers races racial racing racked racks rad radar radial radio radios raft rag rage raged rages raided raids rails rain rained raise raised raisin rally ram ramble ramp ran ranch random range ranged ranger ranges ranked ranks rap rapid rarely rarer rascal rat rated rates rather ratio rattle ravel raven ravens ravine raw ray razor razors reach react reacts reader reads ready realm realms reams reaped reaper reaps rear reared reason rebel rebels recall recap recent recite reckon record recur red redeem reds reduce reeds reefs reel reeled refer refine reflex reform refuge refund refuse regal regard regime region regret rehab reign reigns reins reject relate relax relay relic relics relied relief relies relish rely remain remark remind remit remix remote remove renal rename render renew rental repair repay repeat repel reply report rerun rescue resent reset reside resign resin resist resort rest rested result resume retail retain retire retro retry return reuse reveal revel review revise revive revolt revue reward rhyme rhymes rhythm rib rich riches richly rid ridden riddle rider riders rides ridge rifle rifles rig right rights rigid rigor riled rim rims ringed rings rinse rinsed riots rip risen rises rising risk risked risky rites ritual rival rivals river rivers rivet rivets road roam roar roared roast rob robbed robber robe robot robots rocky rod rods roles roll rolled roller roman romans roof roofs rook room rooms roost root rooted rope rose roster rosy rot rota rotary rotate rote rotor rotten rouge rough round rounds rouse roused route router routes rover roving row rows royal royals rub rubbed rubber rubble ruby rudder rue rug rugby ruined ruins ruled ruler rulers rules ruling rum rumble rumor rumors run rungs runic runner runs runway rural rush rushed rust rusted rustic rusty rut rye saber sad sadder sadly safely safer safest safety sag sagas sage sagely said sail sailed sailor saint saints sake salad salads salary sales salon salons salsa salted salty salute same sample sandal sands sandy sap sat satin sauce saucy sauna saunas saute saved saver saves savor saw saws say saying scale scales scalp scaly scans scant scare scared scarf scary scene scenes scenic scent scents scheme scoff scold scone scoop scoops scope score scored scorer scores scorn scout scouts scowl scrap scraps screen screw screws scroll scrub scuba scuff sea seals seams sear search seas seated seats second secret sect sector secure seed seeded seeing seeker seeks seem seemed seen seep sees seize seldom select self sell seller selves senate sender sends senior sense senses sensor sent sequel serene serial series serum serve served server serves set settle setup seven sew sewer shack shade shades shaft shafts shake shaken shaker shakes shaky shall shame shamed shank shape shapes shard share shared shares shark sharks sharp shave shaved shaver shawl she sheaf shear shears shed sheen sheep sheer sheet sheets shelf shell shells shield shift shifts shine shined shiny ship ships shire shirt shirts shock shocks shoes shone shook shoot shop shore shores short shot should shout shouts shove shoved showed shower shown shows shred shreds shrew shrub shrubs shrug shrugs shuck shunt shut shy sided sides siege siesta sieve sight sigma signal signed signs silent silky silly silo silt silver simply since sinew single sings sinks sinus sip sir sister sit sited sites six sixth sixths sixty sized sizes skate skated skater ski skied skier skies skill skills skimp skinny skins skip skirt skirts skulk skull skulls skunk sky slack slacks slain slang slant slants slash slate slated slates slave slaves sled sleek sleep sleeps sleet sleeve slept slice sliced slices slick slide slider slides slight slim slime sling slings slip slit slope slopes slosh sloth slots slowly slump slumps slung slurp slush sly smack small smart smarts smash smear smears smell smells smelt smile smiles smirk smith smock smoke smoked smoker smokes smoky snack snacks snail snake snakes snap snaps snare snared snarl sneak sneer sniff snipe snore snored snort snout snow snowed snuck snuff snugly soaks soap soaped soapy soared soars sob sober soccer social socks sod sodium sofa soft softer soggy soil solar sold sole solely solid solids solve solved son sonar songs sonic sonnet soon soot sooth soothe sorrow sorry sorts sought souls sound sounds soup sour source soured south sow sown soy spa space spaces spade spades span spare spared spark sparse spasm spawn speak spear speck sped speed spell spells spend spends spent spice spices spicy spider spied spies spike spiked spikes spill spills spinal spine spines spiny spiral spire spirit spite split splits spoil spoils spoke spoken spoof spool spoon spoons sport sports spots spout spray sprays spread spree sprig sprint sprout sprung spun spunk spur spy squad square squat squid stable stack stacks staff staffs stag stage staged stages staid stain stains stair stairs stake stakes stale stalk stall stalls stamp stamps stance stand stands stank star stare stared stares stark stars start starts stash state stated states static statue status stave stay stays steak steal steals steam steams steel steels steep steer steers stems steps stern stick sticks sticky stiff still stills stilt sting stink stint stints stitch stock stoic stoke stole stolen stomp stone stones stood stool stools stoop stops store stored stores stork storm storms story stout stove stoves strap straps straw straws stray strays streak stream street stress strict stride strike string strip strips strive stroke stroll strong struck strung strut stubs stuck studio study stuff stuffy stump stumps stung stunt sturdy style styled styles sub submit subtle subway sudden sue sued suede suffer sugar suite suited suites suits sulfur sulky sully sum summed summer summit sums sun sundae sunlit sunny sunset super supply surely surfed surge sushi swab swamp swamps swan swarm swarms swash swat sway swear swears sweat sweats sweep sweeps sweet sweets swell swells swept swift swim swine swing swirl swish swoon swoop sword swords swore sworn swung syrup system tab table tables tacky tacos tactic tag tails taken taker takers takes taking talent tales talk talked talker tall talon talons tamer tames tan tango tanks tap tape taped taper tapers tapes tar tardy target tarps tarts tasks taste tastes tasty taught taunt tavern tawny tax taxed taxes tea teach teamed teams tears tease teddy tedium teeth tell temple tempos ten tenant tender tennis tenor tense tenth tents tenure term terms tested tester tests thank thanks thaws the theft their theirs theme themes theory there these thick thicks thief thigh thighs thing things think thinks third thirty thong those thread threat three threw thrift thrill thrive throat throb throne throw thrown throws thrust thud thugs thumb thumbs thump thus tic ticket tidal tides tidied tidy tie tied ties tiger tigers tight tile tiled tiles tiling till tilted tilts timber timed timer timers times timid tin tingle tinny tip tipped tips tipsy tired tires tissue title titles toast today toddy toe toffee token tokens tolls tomato tombs ton tonal tones tongs tonics too tools tooth top topaz topic topics topped topper torch torque torso tossed tot total totals toted totem touch tough tours tow toward towed towel towels tower towers towns toxic toy trace traced tracer traces track tracks trade traded trader trades tragic trail trails train trains trait traits tramp trance trash travel trawl trays tread treat treats treble tree trek treks trend trends trial trials tribal tribe tribes trick tricks tricky tried tries trill trio trip triple tripod trips troll troop troops trophy tropic truce truck trucks truly trump trunk trunks trust trusts truth try tub tuber tubers tubes tubs tufts tug tulip tulips tumor tumors tuner tuners tunes tunic turbo turbos turnip turns tutor tutors twang tweak tweed tweet tweets twenty twice twigs twine twins twirl twirls twist twists two tycoon tying types typist typo udder ultra umpire unable uncle uncles under undid unduly uneven unfair unfold union unions unit unite united unites units unity unjust unkind unless unlike unroll unsafe unsure until unused unzip uphill uphold upkeep uplift upped upper upset upward urban urged urgent urges urine usage usages use useful users usher ushers using usual usurp utmost utopia utter vacant vacuum vague valet valid valley valor value valued values valve van vapid vapor vat vault vaults vegan vegans veiled vein veins velvet vendor venom venue venues verb verbs verge verify verse verses verve very vessel vests veto vex vexed via viable vial vibes video videos vie viewed viewer views vigil vigor villa villas vines vinyl viola violet viper vipers viral virtue virus visit visor visors vista visual vital vitals vivid vixen vocal vocals vodka vogue voice voiced voices void volley volt volume voted voter voters votes voting vow vowel vowels voyage vying wacky wad waded wafer wag wagers wages wagon wagons waist waited waiter waits waive waiver waken wakes walk walks wall walls wan wand wander wanted wants war ward warden warm warmer warmth warn warned warp warped wars wart wary was wash wasp waste wasted wastes watch water waters watery waved waver waves wax waxed waxing waxy way ways weakly wealth weans weapon wear weary weave weaves web wed wedge wedges wee weeds weekly weeps weigh weight weird welder welds well went wept were west wet whale whales wharf what wheat wheel wheels when where whet which whiff while whim whip whirl white who whole wholly whoop whose why widen wider wides widest widow width wield wig wilder willow wills wilt wily win wince winch wind window winds wine wines winged wings wink winked wins wipe wipers wired wires wisdom wiser wish wished wishes wisp wit witch with within witty wizard wobbly woe woken wolf wolves woman women won wonder woo wooded wooden woods wooed wool word wore work worker works world worlds worm worn worry worse worst worth would wound woven wow wrap wraps wrath wreak wreck wrecks wren wring wrist wrists write writer writes wrong wrongs wrote wrung wry yacht yachts yak yam yap yards yarns yeah year yearly yeast yeasts yellow yells yelp yes yet yew yield yodel yoga yolks you young your yours youth yucca yummy zap zebra zebras zeros zesty zigzag zip zipper zodiac zoned zones zoning zoo zooms".split(" "));
+const KEY="isl-salary-day-words-high";
+const LETTERS="EEEEEEEEEEEEAAAAAAAAAIIIIIIIIIOOOOOOOONNNNNNRRRRRRTTTTTTLLLLSSSSSUUUUDDDDGGGBBCCMMPPFFHHVVWWYYKJXQZ";
+const PAY={0:0,1:0,2:0,3:400,4:900,5:2000,6:4500,7:8000,8:12000};
+const GOAL=20000;
+const SAY=["The side hustle is not a hobby. It’s a door.","This salary is a tool, not a ceiling.","Chai first. Then the next small win.","You are building a quieter month.","She believes in this late-night work."];
+const boardEl=document.getElementById("board");
+const currentEl=document.getElementById("current");
+const foundEl=document.getElementById("foundwrap");
+const scoreEl=document.getElementById("score");
+const bestEl=document.getElementById("best");
+const bestStart=document.getElementById("bestStart");
+const timeEl=document.getElementById("time");
+const overlay=document.getElementById("overlay");
+const goalfil=document.getElementById("goalfil");
+let best=0, score=0, left=90, ticking=false, timerId=0, pointerOn=false, mode="start", combo=0, wordCount=0;
+try{best=Number(localStorage.getItem(KEY)||0)||0;}catch(e){best=0;}
+function showMoney(){
+  scoreEl.textContent=money(score);
+  bestEl.textContent=money(best);
+  bestStart.textContent=money(best);
+  goalfil.style.width=Math.min(100,(score/GOAL)*100)+"%";
+}
+window.refreshMoney=showMoney;
+showMoney();
+
+let grid=[],cells=[],path=[],found=new Map(),hidden=new Set();
+
+function rndLetter(){return LETTERS[Math.floor(Math.random()*LETTERS.length)];}
+function neighbors(i){
+  const r=Math.floor(i/5),c=i%5,out=[];
+  for(let dr=-1;dr<=1;dr++)for(let dc=-1;dc<=1;dc++){
+    if(!dr&&!dc)continue;
+    const rr=r+dr,cc=c+dc;
+    if(rr>=0&&rr<5&&cc>=0&&cc<5)out.push(rr*5+cc);
+  }
+  return out;
+}
+function findAll(){
+  const words=new Set();
+  const seen=new Uint8Array(25);
+  function dfs(i,prefix){
+    if(prefix.length>=3&&DICT.has(prefix))words.add(prefix);
+    if(prefix.length>=8)return;
+    const nbs=neighbors(i);
+    for(let k=0;k<nbs.length;k++){
+      const j=nbs[k]; if(seen[j])continue;
+      seen[j]=1; dfs(j,prefix+grid[j].toLowerCase()); seen[j]=0;
+    }
+  }
+  for(let i=0;i<25;i++){seen[i]=1;dfs(i,grid[i].toLowerCase());seen[i]=0;}
+  return words;
+}
+function makeGrid(){
+  let bestG=null,bestN=0;
+  for(let t=0;t<24;t++){
+    const g=Array.from({length:25},rndLetter);
+    const vows="AEIOU";
+    let vc=g.filter(ch=>vows.includes(ch)).length;
+    while(vc<7){g[Math.floor(Math.random()*25)]=vows[Math.floor(Math.random()*5)];vc=g.filter(ch=>vows.includes(ch)).length;}
+    grid=g;
+    const words=findAll();
+    if(words.size>bestN){bestN=words.size;bestG=g.slice();hidden=words;}
+    if(bestN>=40)break;
+  }
+  grid=bestG||grid;
+  hidden=findAll();
+}
+function renderBoard(){
+  boardEl.innerHTML=""; cells=[];
+  for(let i=0;i<25;i++){
+    const b=document.createElement("button");
+    b.type="button"; b.className="cell"; b.textContent=grid[i]; b.dataset.i=String(i);
+    boardEl.appendChild(b); cells.push(b);
+  }
+}
+function paintPath(){
+  cells.forEach(c=>c.classList.remove("on","bloom"));
+  path.forEach(i=>cells[i].classList.add("on"));
+  currentEl.textContent=path.map(i=>grid[i]).join("")||"\u00a0";
+  currentEl.className="";
+}
+function wordOf(){return path.map(i=>grid[i]).join("").toLowerCase();}
+function payOf(w){return PAY[Math.min(8,w.length)]||0;}
+
+function commit(){
+  if(mode!=="play"||path.length===0){path=[];paintPath();return;}
+  const w=wordOf();
+  if(w.length<3){
+    currentEl.textContent="Too short"; currentEl.className="bad"; combo=0; beep(180,0.08,"sine",0.03);
+  } else if(found.has(w)){
+    currentEl.textContent="Already paid"; currentEl.className="bad"; combo=0; beep(200,0.08,"sine",0.03);
+  } else if(!DICT.has(w)){
+    currentEl.textContent="Not in the ledger"; currentEl.className="bad"; combo=0; beep(160,0.1,"triangle",0.03);
+  } else {
+    combo+=1;
+    const add=payOf(w)*(combo>1?combo:1);
+    score+=add; found.set(w,add); wordCount+=1;
+    showMoney();
+    currentEl.textContent=w.toUpperCase()+"  +"+money(add)+(combo>1?" x"+combo:"");
+    currentEl.className="good";
+    path.forEach(i=>cells[i].classList.add("bloom"));
+    const list=[...found.keys()].sort((a,b)=>b.length-a.length||a.localeCompare(b));
+    foundEl.innerHTML=list.map(x=>"<b>"+x.toUpperCase()+"</b> "+money(found.get(x))).join(" · ");
+    beep(440+w.length*50,0.11,"square",0.06);
+    if(combo>1){shake(); toast("Combo x"+combo+" · "+money(add));}
+    if(wordCount%5===0) toast(SAY[Math.floor(wordCount/5)%SAY.length]);
+    if(score>=GOAL) winRound();
+  }
+  path=[];
+  setTimeout(()=>cells.forEach(c=>c.classList.remove("on","bloom")),220);
+}
+function indexFromPoint(x,y){
+  const el=document.elementFromPoint(x,y);
+  if(!el||!el.classList.contains("cell")) return -1;
+  return Number(el.dataset.i);
+}
+function addIndex(i){
+  if(i<0||mode!=="play") return;
+  if(path.length===0){path=[i];paintPath();return;}
+  if(path[path.length-1]===i) return;
+  if(path[path.length-2]===i){path.pop();paintPath();return;}
+  if(path.includes(i)) return;
+  if(!neighbors(path[path.length-1]).includes(i)) return;
+  path.push(i); paintPath();
+}
+boardEl.addEventListener("pointerdown",(e)=>{
+  if(mode!=="play") return;
+  pointerOn=true; path=[]; addIndex(indexFromPoint(e.clientX,e.clientY));
+  try{boardEl.setPointerCapture(e.pointerId);}catch(err){}
+  e.preventDefault();
+});
+boardEl.addEventListener("pointermove",(e)=>{if(pointerOn) addIndex(indexFromPoint(e.clientX,e.clientY));});
+boardEl.addEventListener("pointerup",()=>{pointerOn=false;commit();});
+boardEl.addEventListener("pointercancel",()=>{pointerOn=false;path=[];paintPath();});
+
+function saveBest(){
+  if(score>best){best=score;try{localStorage.setItem(KEY,String(best));}catch(e){}}
+  showMoney();
+}
+function winRound(){
+  if(mode!=="play") return;
+  mode="win"; ticking=false; clearInterval(timerId);
+  saveBest(); bumpWin("salary-day-words"); fanfare(); shake();
+  overlay.className="overlay win";
+  overlay.innerHTML='<div class="card"><p class="eyebrow">Salary credited</p><h1><span>The amount landed</span></h1>'+
+    '<p class="story">You hit the goal. <b style="color:#fff">'+money(score)+'</b> is in. Best <b style="color:#ffcf5c">'+money(best)+'</b>.</p>'+
+    '<p class="how">EMI, chai, the Palava keys, a little side-hustle buffer — this is what a good credit-day feels like.</p>'+
+    manifested()+
+    '<button class="play" id="play" type="button">One more month</button></div>';
+  overlay.classList.remove("hidden");
+  document.getElementById("play").addEventListener("click",startGame);
+}
+function monthEnd(){
+  if(mode!=="play") return;
+  mode="dead"; ticking=false; clearInterval(timerId);
+  saveBest();
+  const close=score>=GOAL*0.5;
+  if(close){bumpWin("salary-day-words"); fanfare(); overlay.className="overlay win";}
+  else {beep(180,0.25,"sine",0.04); overlay.className="overlay";}
+  overlay.innerHTML='<div class="card"><p class="eyebrow">'+(close?"A solid month":"Month closed")+'</p><h1><span>'+(close?"Advance credited":"Next salary is coming")+'</span></h1>'+
+    '<p class="story">This month: <b style="color:#fff">'+money(score)+'</b> · Best <b style="color:#ffcf5c">'+money(best)+'</b>.</p>'+
+    '<p class="how">'+(close?"Not the full goal, but enough landed to keep the house steady. That counts.":"The standing instruction is still on. Come back on credit-day and go again.")+'</p>'+
+    manifested()+
+    '<button class="play" id="play" type="button">Play again</button></div>';
+  overlay.classList.remove("hidden");
+  document.getElementById("play").addEventListener("click",startGame);
+}
+function tick(){ if(!ticking) return; left-=1; timeEl.textContent=String(left); if(left<=0) monthEnd(); }
+function startGame(){
+  sessionIntention=readIntention();
+  bumpPlay("salary-day-words");
+  overlay.classList.add("hidden"); overlay.className="overlay hidden";
+  score=0; left=90; found=new Map(); path=[]; combo=0; wordCount=0;
+  timeEl.textContent="90"; currentEl.textContent="\u00a0"; currentEl.className="";
+  foundEl.textContent="Words you cash today will show here.";
+  showMoney(); makeGrid(); renderBoard();
+  mode="play"; ticking=true; clearInterval(timerId); timerId=setInterval(tick,1000);
+  toast("Salary is processing…");
+}
+wireChrome();
+document.getElementById("play").addEventListener("click",startGame);
+grid=Array.from({length:25},rndLetter); renderBoard(); showMoney();
+</script>
+</body>
+</html>

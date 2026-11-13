@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0b0d17">
+<link rel="icon" href="data:,">
+<title>Homecoming Memory — InnerShift Lab</title>
+<style>
+:root{--bg:#0b0d17;--bg2:#121528;--line:#1f2440;--text:#d9ddf0;--muted:#8a90ad;--accent:#7c8cff;--teal:#3ee6c1;--gold:#ffcf5c;--danger:#e07a6a;--chai:#e8a04e}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none}
+#app{height:100%;display:flex;flex-direction:column;max-width:520px;margin:0 auto;position:relative}
+header{flex:0 0 auto;display:flex;justify-content:space-between;align-items:center;padding:8px 14px 6px;z-index:3;gap:8px}
+.brand{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.hud{display:flex;gap:10px;font-size:12px;color:var(--muted);align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.hud b{color:#fff;font-variant-numeric:tabular-nums;margin-left:3px}
+.tools{display:flex;gap:6px}
+.iconbtn,.curbtn{appearance:none;border:1px solid var(--line);background:#1a1e36;color:var(--text);border-radius:8px;padding:4px 8px;font-size:11px;font-weight:700;cursor:pointer;touch-action:manipulation;line-height:1.2}
+.curbtn.on,.iconbtn.on{border-color:var(--gold);color:var(--gold)}
+.hint{flex:0 0 auto;text-align:center;font-size:12px;color:var(--muted);padding:6px 12px 12px}
+.overlay{position:fixed;inset:0;background:rgba(11,13,23,.86);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:20px;z-index:6}
+.overlay.hidden{display:none}
+.card{width:min(440px,100%);background:var(--bg2);border:1px solid var(--line);border-radius:18px;padding:24px 20px 20px;text-align:center;max-height:100%;overflow:auto}
+.eyebrow{color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:.1em;font-size:11px;margin-bottom:8px}
+h1{font-size:clamp(26px,7vw,38px);line-height:1.1;color:#fff;margin-bottom:10px}
+h1 span{background:linear-gradient(90deg,#7c8cff,#3ee6c1);-webkit-background-clip:text;background-clip:text;color:transparent}
+.story{color:var(--text);margin-bottom:8px;font-size:15px}
+.how{color:var(--muted);font-size:13px;margin-bottom:12px}
+.bestline{color:var(--gold);font-size:14px;margin-bottom:10px}
+label.int{display:block;text-align:left;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:8px 0 4px}
+#intention,input.int{width:100%;background:#0f1222;border:1px solid var(--line);border-radius:10px;color:#fff;padding:10px 12px;font-size:15px;margin-bottom:14px;touch-action:manipulation}
+.row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:12px}
+button.play{appearance:none;border:0;background:var(--accent);color:#0b0d17;font-weight:800;font-size:16px;padding:12px 28px;border-radius:12px;cursor:pointer;min-width:140px;touch-action:manipulation}
+button.play:hover{filter:brightness(1.08)}
+button.play:active{transform:scale(.98)}
+.manifest{margin-top:8px;color:var(--teal);font-weight:700;font-size:15px}
+.toast{position:absolute;left:50%;top:58px;transform:translateX(-50%);background:#1a1e36;border:1px solid var(--teal);color:var(--teal);padding:8px 14px;border-radius:999px;font-size:13px;font-weight:700;opacity:0;pointer-events:none;z-index:4;white-space:nowrap;max-width:92%;overflow:hidden;text-overflow:ellipsis;transition:opacity .25s}
+.toast.show{opacity:1}
+.win h1 span{background:linear-gradient(90deg,#ffcf5c,#3ee6c1);-webkit-background-clip:text;background-clip:text}
+.win .card{border-color:var(--gold);box-shadow:0 0 40px rgba(255,207,92,.18)}
+.shake{animation:shake .28s linear}
+@keyframes shake{0%,100%{transform:translate(0,0)}20%{transform:translate(-6px,3px)}40%{transform:translate(7px,-2px)}60%{transform:translate(-4px,2px)}80%{transform:translate(5px,0)}}
+
+
+#app{touch-action:manipulation;max-width:480px}
+#stage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 16px;min-height:0}
+#status{min-height:28px;color:var(--muted);font-size:14px;margin-bottom:12px;text-align:center}
+#pools{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:min(100%,360px)}
+.pool{position:relative;border:0;border-radius:18px;background:#152038;cursor:pointer;box-shadow:inset 0 -8px 16px rgba(0,0,0,.35),0 0 0 2px #1f2440;aspect-ratio:1;touch-action:manipulation;color:#d9ddf0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px}
+.pool .ico{font-size:28px;line-height:1}
+.pool .lab{font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.pool.lit{box-shadow:inset 0 -8px 16px rgba(0,0,0,.2),0 0 0 3px #3ee6c1,0 0 22px rgba(62,230,193,.45);background:#1c4a4a}
+.pool.lit .lab{color:#3ee6c1}
+.pool.wrong{box-shadow:inset 0 -8px 16px rgba(0,0,0,.2),0 0 0 3px #e07a6a,0 0 22px rgba(224,122,106,.4);background:#4a2424}
+.pool:active{transform:scale(.97)}
+
+.back{color:var(--accent);font-weight:700;font-size:12px;letter-spacing:.04em;text-transform:uppercase;text-decoration:none;margin-right:10px;white-space:nowrap}
+</style>
+</head>
+<body>
+  <div id="app">
+    <header>
+      <div class="brand"><a class="back" href="../index.html">All games</a> InnerShift Lab</div>
+      <div class="hud">
+        <span>Score <b id="score">0</b></span>
+        <span>Best <b id="best">0</b></span>
+        <span>Wave <b id="wave">0</b></span>
+        <div class="tools"><button class="iconbtn" id="mute" type="button">Sound</button></div>
+      </div>
+    </header>
+    <div id="toast" class="toast"></div>
+    <div id="stage">
+      <div id="status">Watch the way home, then walk it back.</div>
+      <div id="pools" aria-label="Memories"></div>
+    </div>
+    <div class="hint">Tap the memories in order · keys 1–9 also work · come home in 8 waves</div>
+    <div id="overlay" class="overlay">
+      <div class="card">
+        <p class="eyebrow">Day 5 · Memory · Away from home</p>
+        <h1><span>Homecoming Memory</span></h1>
+        <p class="story">After years of visa waits and video calls, you finally fly back. Remember the way home — the local, the vada pav stall, chai in a glass, the Kerala courtyard, and the key waiting in Palava.</p>
+        <p class="how">Nine memories. A sequence plays, then it is your turn. Hold the pattern for eight waves and you’re home. One wrong step and you replay the landing. Keys 1–9 work as well as taps.</p>
+        <p class="bestline">Best <b id="bestStart">0</b></p>
+        <label class="int" for="intention">Set your intention (optional)</label>
+        <input id="intention" class="int" maxlength="80" placeholder="e.g. Walk through that gate this year">
+        <button class="play" id="play" type="button">Play</button>
+      </div>
+    </div>
+  </div>
+<script>
+
+const CUR_KEY="isl-mch-currency", MUTE_KEY="isl-mch-mute", PROG_KEY="isl-mch-progress", INTENT_KEY="isl-mch-intention";
+function todayIST(){return new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Calcutta",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());}
+function getCur(){try{return localStorage.getItem(CUR_KEY)||"INR";}catch(e){return "INR";}}
+function setCur(c){try{localStorage.setItem(CUR_KEY,c);}catch(e){}}
+function money(inr){const n=Math.max(0,Math.round(inr||0)),c=getCur();if(c==="USD")return "$"+Math.round(n/80).toLocaleString("en-US");if(c==="GBP")return "£"+Math.round(n/100).toLocaleString("en-GB");return "₹"+n.toLocaleString("en-IN");}
+function isMuted(){try{return localStorage.getItem(MUTE_KEY)==="1";}catch(e){return false;}}
+function setMuted(m){try{localStorage.setItem(MUTE_KEY,m?"1":"0");}catch(e){} syncMute();}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));}
+function getSavedIntention(){try{return localStorage.getItem(INTENT_KEY)||"";}catch(e){return "";}}
+function saveIntention(v){try{if(v)localStorage.setItem(INTENT_KEY,v.slice(0,80));}catch(e){}}
+function readIntention(){const el=document.getElementById("intention");const v=(el?el.value:"").trim().slice(0,80);if(v)saveIntention(v);return v||getSavedIntention();}
+let sessionIntention="";
+let _ac=null;
+function ac(){if(!_ac)_ac=new(window.AudioContext||window.webkitAudioContext)();return _ac;}
+function beep(freq,dur,type,gain){if(isMuted())return;try{const ctx=ac();const o=ctx.createOscillator(),g=ctx.createGain();o.type=type||"square";o.frequency.setValueAtTime(freq,ctx.currentTime);g.gain.setValueAtTime(gain||0.07,ctx.currentTime);g.gain.exponentialRampToValueAtTime(0.0001,ctx.currentTime+dur);o.connect(g);g.connect(ctx.destination);o.start();o.stop(ctx.currentTime+dur+0.03);}catch(e){}}
+function fanfare(){[523,659,784,1046].forEach((f,i)=>setTimeout(()=>beep(f,0.18,"square",0.08),i*110));}
+function readProg(){try{return JSON.parse(localStorage.getItem(PROG_KEY)||"{}");}catch(e){return {};}}
+function writeProg(p){try{localStorage.setItem(PROG_KEY,JSON.stringify(p));}catch(e){}}
+function touchStreak(p){const t=todayIST();if(p.lastDay===t){p.streak=p.streak||1;return;}if(p.lastDay){const cur=new Date(t+"T12:00:00+05:30"),prev=new Date(p.lastDay+"T12:00:00+05:30");const diff=Math.round((cur-prev)/86400000);p.streak=(diff===1)?(p.streak||1)+1:1;}else p.streak=1;p.lastDay=t;}
+function bumpPlay(gameId){const p=readProg();touchStreak(p);p.played=p.played||{};p.played[todayIST()]=true;p.confidence=Math.min(100,(p.confidence||0)+4);p.lastGame=gameId;writeProg(p);}
+function bumpWin(gameId){const p=readProg();touchStreak(p);p.wins=p.wins||{};p.wins[gameId]=(p.wins[gameId]||0)+1;p.wonDay=p.wonDay||{};p.wonDay[todayIST()]=true;p.confidence=Math.min(100,(p.confidence||0)+12);writeProg(p);}
+function syncMute(){const b=document.getElementById("mute");if(!b)return;b.textContent=isMuted()?"Muted":"Sound";b.classList.toggle("on",!isMuted());}
+function syncCur(){document.querySelectorAll(".curbtn").forEach(b=>b.classList.toggle("on",b.dataset.cur===getCur()));if(window.refreshMoney)window.refreshMoney();}
+function wireChrome(){const m=document.getElementById("mute");if(m)m.addEventListener("click",()=>setMuted(!isMuted()));document.querySelectorAll(".curbtn").forEach(b=>b.addEventListener("click",()=>{setCur(b.dataset.cur);syncCur();}));const intent=document.getElementById("intention");if(intent)intent.value=getSavedIntention();syncMute();syncCur();}
+let toastT;function toast(msg){const el=document.getElementById("toast");if(!el)return;el.textContent=msg;el.classList.add("show");clearTimeout(toastT);toastT=setTimeout(()=>el.classList.remove("show"),2200);}
+function shake(){const a=document.getElementById("app");if(!a)return;a.classList.remove("shake");void a.offsetWidth;a.classList.add("shake");setTimeout(()=>a.classList.remove("shake"),300);}
+function manifested(){return sessionIntention?`<p class="manifest">Manifested: ${escapeHtml(sessionIntention)}</p>`:"";}
+
+(function(){
+  const KEY="isl-homecoming-memory-high";
+  const WIN_AT=8;
+  const MEM=[
+    {ico:"🚃",lab:"Local"},
+    {ico:"🥪",lab:"Vada pav"},
+    {ico:"☕",lab:"Chai"},
+    {ico:"💻",lab:"Night desk"},
+    {ico:"🏠",lab:"Palava"},
+    {ico:"🌴",lab:"Kerala"},
+    {ico:"💛",lab:"Her key"},
+    {ico:"📞",lab:"Video call"},
+    {ico:"📘",lab:"Passport"}
+  ];
+  const NOTES=[262,294,330,349,392,440,494,523,587];
+  const SAY=[
+    "Home is closer than it was yesterday.",
+    "Visa waits end. You will walk through that gate.",
+    "The courtyard still smells like rain.",
+    "She kept the light on in Palava.",
+    "Chai first. Then the next small win.",
+    "The side hustle bought this ticket.",
+    "Sunday calls become a kitchen table."
+  ];
+  const poolsEl=document.getElementById("pools");
+  const statusEl=document.getElementById("status");
+  const scoreEl=document.getElementById("score");
+  const bestEl=document.getElementById("best");
+  const bestStart=document.getElementById("bestStart");
+  const waveEl=document.getElementById("wave");
+  const overlay=document.getElementById("overlay");
+  let best=0;
+  try{best=Number(localStorage.getItem(KEY)||0)||0;}catch(e){best=0;}
+  bestEl.textContent=best; bestStart.textContent=best;
+
+  const pools=[];
+  for(let i=0;i<9;i++){
+    const b=document.createElement("button");
+    b.type="button"; b.className="pool"; b.setAttribute("aria-label",MEM[i].lab);
+    b.dataset.i=String(i);
+    b.innerHTML='<span class="ico">'+MEM[i].ico+'</span><span class="lab">'+MEM[i].lab+'</span>';
+    b.addEventListener("click",()=>input(i));
+    poolsEl.appendChild(b); pools.push(b);
+  }
+
+  let seq=[],step=0,score=0,wave=0,mode="start",locked=true;
+
+  function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+  async function flash(i,ok){
+    const el=pools[i];
+    el.classList.remove("lit","wrong");
+    el.classList.add(ok===false?"wrong":"lit");
+    if(ok!==false) beep(NOTES[i],0.18,"square",0.06);
+    else beep(110,0.28,"triangle",0.05);
+    await sleep(ok===false?420:280);
+    el.classList.remove("lit","wrong");
+  }
+  async function playback(){
+    locked=true;
+    statusEl.textContent="Watch the way home…";
+    await sleep(450);
+    const pace=Math.max(260, 600-wave*20);
+    for(let i=0;i<seq.length;i++){ await flash(seq[i],true); await sleep(pace); }
+    step=0; locked=false;
+    statusEl.textContent="Your turn · "+seq.length+" step"+(seq.length===1?"":"s");
+  }
+  function saveBest(){
+    if(score>best){best=score;try{localStorage.setItem(KEY,String(best));}catch(e){} bestEl.textContent=best;}
+    bestStart.textContent=best;
+  }
+  function winRun(){
+    mode="win"; locked=true; saveBest(); bumpWin("homecoming-memory"); fanfare(); shake();
+    overlay.className="overlay win";
+    overlay.innerHTML='<div class="card"><p class="eyebrow">Arrived</p><h1><span>You’re home</span></h1>'+
+      '<p class="story">Score <b style="color:#fff">'+score+'</b> · Best <b style="color:#ffcf5c">'+best+'</b>. Eight waves, and the gate opened.</p>'+
+      '<p class="how">Vada pav on the way from the airport, chai in a glass, the Kerala courtyard, and her key in Palava. The visa wait is a story you get to tell.</p>'+
+      manifested()+
+      '<button class="play" id="play" type="button">Fly again</button></div>';
+    overlay.classList.remove("hidden");
+    document.getElementById("play").addEventListener("click",start);
+    statusEl.textContent="You’re home.";
+  }
+  function missRun(){
+    mode="dead"; locked=true; saveBest();
+    overlay.className="overlay";
+    overlay.innerHTML='<div class="card"><p class="eyebrow">Layover</p><h1><span>Remember it once more</span></h1>'+
+      '<p class="story">Score <b style="color:#fff">'+score+'</b> · Best <b style="color:#ffcf5c">'+best+'</b>. You held '+(Math.max(0,wave-1))+' wave'+(wave-1===1?"":"s")+'.</p>'+
+      '<p class="how">Landing is tiring. The way home is still there — local, stall, courtyard, key. Try the path again.</p>'+
+      manifested()+
+      '<button class="play" id="play" type="button">Try the path again</button></div>';
+    overlay.classList.remove("hidden");
+    document.getElementById("play").addEventListener("click",start);
+    statusEl.textContent="A layover. The way home is still there.";
+  }
+  async function nextWave(){
+    if(wave>=WIN_AT){winRun(); return;}
+    seq.push(Math.floor(Math.random()*9));
+    wave=seq.length; waveEl.textContent=String(wave);
+    if(wave>1) toast(SAY[(wave-2)%SAY.length]);
+    await playback();
+  }
+  async function input(i){
+    if(mode!=="play"||locked) return;
+    if(i===seq[step]){
+      locked=true; await flash(i,true); locked=false;
+      step+=1; score+=wave*10; scoreEl.textContent=String(score);
+      if(step>=seq.length){
+        locked=true; statusEl.textContent=MEM[i].lab+" — held.";
+        if(wave>=WIN_AT){ await sleep(300); winRun(); return; }
+        await sleep(420); await nextWave();
+      }
+    } else {
+      locked=true; shake(); await flash(i,false); missRun();
+    }
+  }
+  async function start(){
+    sessionIntention=readIntention();
+    bumpPlay("homecoming-memory");
+    overlay.classList.add("hidden"); overlay.className="overlay hidden";
+    seq=[]; step=0; score=0; wave=0; mode="play";
+    scoreEl.textContent="0"; waveEl.textContent="0";
+    pools.forEach(p=>p.classList.remove("lit","wrong"));
+    toast("The flight door just opened.");
+    await nextWave();
+  }
+  wireChrome();
+  document.getElementById("play").addEventListener("click",start);
+  window.addEventListener("keydown",(e)=>{
+    const n=e.key?parseInt(e.key,10):NaN;
+    if(n>=1&&n<=9){e.preventDefault(); input(n-1);}
+  });
+})();
+</script>
+</body>
+</html>

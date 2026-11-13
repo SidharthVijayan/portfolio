@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0b0d17">
+<link rel="icon" href="data:,">
+<title>Remittance Stack — InnerShift Lab</title>
+<style>
+:root{--bg:#0b0d17;--bg2:#121528;--line:#1f2440;--text:#d9ddf0;--muted:#8a90ad;--accent:#7c8cff;--teal:#3ee6c1;--gold:#ffcf5c;--danger:#e07a6a;--chai:#e8a04e}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none}
+#app{height:100%;display:flex;flex-direction:column;max-width:520px;margin:0 auto;position:relative}
+header{flex:0 0 auto;display:flex;justify-content:space-between;align-items:center;padding:8px 14px 6px;z-index:3;gap:8px}
+.brand{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.hud{display:flex;gap:10px;font-size:12px;color:var(--muted);align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.hud b{color:#fff;font-variant-numeric:tabular-nums;margin-left:3px}
+.tools{display:flex;gap:6px}
+.iconbtn,.curbtn{appearance:none;border:1px solid var(--line);background:#1a1e36;color:var(--text);border-radius:8px;padding:4px 8px;font-size:11px;font-weight:700;cursor:pointer;touch-action:manipulation;line-height:1.2}
+.curbtn.on,.iconbtn.on{border-color:var(--gold);color:var(--gold)}
+.hint{flex:0 0 auto;text-align:center;font-size:12px;color:var(--muted);padding:6px 12px 12px}
+.overlay{position:fixed;inset:0;background:rgba(11,13,23,.86);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:20px;z-index:6}
+.overlay.hidden{display:none}
+.card{width:min(440px,100%);background:var(--bg2);border:1px solid var(--line);border-radius:18px;padding:24px 20px 20px;text-align:center;max-height:100%;overflow:auto}
+.eyebrow{color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:.1em;font-size:11px;margin-bottom:8px}
+h1{font-size:clamp(26px,7vw,38px);line-height:1.1;color:#fff;margin-bottom:10px}
+h1 span{background:linear-gradient(90deg,#7c8cff,#3ee6c1);-webkit-background-clip:text;background-clip:text;color:transparent}
+.story{color:var(--text);margin-bottom:8px;font-size:15px}
+.how{color:var(--muted);font-size:13px;margin-bottom:12px}
+.bestline{color:var(--gold);font-size:14px;margin-bottom:10px}
+label.int{display:block;text-align:left;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:8px 0 4px}
+#intention,input.int{width:100%;background:#0f1222;border:1px solid var(--line);border-radius:10px;color:#fff;padding:10px 12px;font-size:15px;margin-bottom:14px;touch-action:manipulation}
+.row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:12px}
+button.play{appearance:none;border:0;background:var(--accent);color:#0b0d17;font-weight:800;font-size:16px;padding:12px 28px;border-radius:12px;cursor:pointer;min-width:140px;touch-action:manipulation}
+button.play:hover{filter:brightness(1.08)}
+button.play:active{transform:scale(.98)}
+.manifest{margin-top:8px;color:var(--teal);font-weight:700;font-size:15px}
+.toast{position:absolute;left:50%;top:58px;transform:translateX(-50%);background:#1a1e36;border:1px solid var(--teal);color:var(--teal);padding:8px 14px;border-radius:999px;font-size:13px;font-weight:700;opacity:0;pointer-events:none;z-index:4;white-space:nowrap;max-width:92%;overflow:hidden;text-overflow:ellipsis;transition:opacity .25s}
+.toast.show{opacity:1}
+.win h1 span{background:linear-gradient(90deg,#ffcf5c,#3ee6c1);-webkit-background-clip:text;background-clip:text}
+.win .card{border-color:var(--gold);box-shadow:0 0 40px rgba(255,207,92,.18)}
+.shake{animation:shake .28s linear}
+@keyframes shake{0%,100%{transform:translate(0,0)}20%{transform:translate(-6px,3px)}40%{transform:translate(7px,-2px)}60%{transform:translate(-4px,2px)}80%{transform:translate(5px,0)}}
+
+
+#app{touch-action:manipulation;max-width:480px}
+#wrap{flex:1;display:flex;flex-direction:column;padding:0 14px;min-height:0}
+.toprow{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;color:var(--muted);font-size:12px}
+.next{display:flex;align-items:center;gap:8px}
+.swatch{width:22px;height:22px;border-radius:6px;box-shadow:inset 0 -2px 0 rgba(0,0,0,.25)}
+#goalbar{height:8px;background:#1a1e36;border-radius:99px;overflow:hidden;margin:0 0 8px}
+#goalbar>i{display:block;height:100%;width:0;background:linear-gradient(90deg,#7c8cff,#3ee6c1);border-radius:99px;transition:width .2s}
+#board{flex:1;display:grid;grid-template-columns:repeat(7,1fr);grid-template-rows:repeat(10,1fr);gap:4px;width:100%;max-height:100%;aspect-ratio:7/10;margin:0 auto;background:#0f1222;border:1px solid var(--line);border-radius:14px;padding:6px}
+.cell{border-radius:8px;background:#161a30}
+.cell.e{box-shadow:inset 0 -3px 0 rgba(0,0,0,.28)}
+.cell.ghost{opacity:.35}
+.cell.pop{transform:scale(.2);opacity:0;transition:transform .18s,opacity .18s}
+#cols{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;padding:8px 6px 0}
+#cols button{appearance:none;border:0;background:#1a1e36;color:var(--muted);border-radius:10px;padding:10px 0;font-weight:800;font-size:14px;cursor:pointer;touch-action:manipulation}
+#cols button:active{background:var(--accent);color:#0b0d17}
+
+.back{color:var(--accent);font-weight:700;font-size:12px;letter-spacing:.04em;text-transform:uppercase;text-decoration:none;margin-right:10px;white-space:nowrap}
+</style>
+</head>
+<body>
+  <div id="app">
+    <header>
+      <div class="brand"><a class="back" href="../index.html">All games</a> InnerShift Lab</div>
+      <div class="hud">
+        <span>Sent <b id="score">₹0</b></span>
+        <span>Best <b id="best">₹0</b></span>
+        <span>Combo <b id="combo">0</b></span>
+        <div class="tools">
+          <button class="curbtn" data-cur="INR" type="button">₹</button>
+          <button class="curbtn" data-cur="USD" type="button">$</button>
+          <button class="curbtn" data-cur="GBP" type="button">£</button>
+          <button class="iconbtn" id="mute" type="button">Sound</button>
+        </div>
+      </div>
+    </header>
+    <div id="toast" class="toast"></div>
+    <div id="wrap">
+      <div id="goalbar" aria-label="Transfer goal"><i id="goalfil"></i></div>
+      <div class="toprow">
+        <div class="next">Next transfer <span class="swatch" id="nextsw"></span> <span id="nextlab">Home rent</span></div>
+        <div id="status">Tap a column to send</div>
+      </div>
+      <div id="board" aria-label="Transfer window"></div>
+      <div id="cols"></div>
+    </div>
+    <div class="hint">Arrows move · Space or a column tap drops · 3+ same transfers clear and go home</div>
+    <div id="overlay" class="overlay">
+      <div class="card">
+        <p class="eyebrow">Day 4 · Puzzle · Away from home</p>
+        <h1><span>Remittance Stack</span></h1>
+        <p class="story">You’re on a work visa, a time zone away. Stack the transfers — rent for family, a celebration at home, school fees — and clear them in matching bundles before the window closes. When the money lands, the Sunday video call feels lighter.</p>
+        <p class="how">Tap a column, or use the arrow keys and Space, to drop the next transfer. Groups of three or more of the same colour send as one bundle. Hit the monthly goal to win. If the queue fills up, the window closes.</p>
+        <p class="bestline">Best sent <b id="bestStart">₹0</b></p>
+        <label class="int" for="intention">Set your intention (optional)</label>
+        <input id="intention" class="int" maxlength="80" placeholder="e.g. Money reaches home on time">
+        <button class="play" id="play" type="button">Play</button>
+      </div>
+    </div>
+  </div>
+<script>
+
+const CUR_KEY="isl-mch-currency", MUTE_KEY="isl-mch-mute", PROG_KEY="isl-mch-progress", INTENT_KEY="isl-mch-intention";
+function todayIST(){return new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Calcutta",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());}
+function getCur(){try{return localStorage.getItem(CUR_KEY)||"INR";}catch(e){return "INR";}}
+function setCur(c){try{localStorage.setItem(CUR_KEY,c);}catch(e){}}
+function money(inr){const n=Math.max(0,Math.round(inr||0)),c=getCur();if(c==="USD")return "$"+Math.round(n/80).toLocaleString("en-US");if(c==="GBP")return "£"+Math.round(n/100).toLocaleString("en-GB");return "₹"+n.toLocaleString("en-IN");}
+function isMuted(){try{return localStorage.getItem(MUTE_KEY)==="1";}catch(e){return false;}}
+function setMuted(m){try{localStorage.setItem(MUTE_KEY,m?"1":"0");}catch(e){} syncMute();}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));}
+function getSavedIntention(){try{return localStorage.getItem(INTENT_KEY)||"";}catch(e){return "";}}
+function saveIntention(v){try{if(v)localStorage.setItem(INTENT_KEY,v.slice(0,80));}catch(e){}}
+function readIntention(){const el=document.getElementById("intention");const v=(el?el.value:"").trim().slice(0,80);if(v)saveIntention(v);return v||getSavedIntention();}
+let sessionIntention="";
+let _ac=null;
+function ac(){if(!_ac)_ac=new(window.AudioContext||window.webkitAudioContext)();return _ac;}
+function beep(freq,dur,type,gain){if(isMuted())return;try{const ctx=ac();const o=ctx.createOscillator(),g=ctx.createGain();o.type=type||"square";o.frequency.setValueAtTime(freq,ctx.currentTime);g.gain.setValueAtTime(gain||0.07,ctx.currentTime);g.gain.exponentialRampToValueAtTime(0.0001,ctx.currentTime+dur);o.connect(g);g.connect(ctx.destination);o.start();o.stop(ctx.currentTime+dur+0.03);}catch(e){}}
+function fanfare(){[523,659,784,1046].forEach((f,i)=>setTimeout(()=>beep(f,0.18,"square",0.08),i*110));}
+function readProg(){try{return JSON.parse(localStorage.getItem(PROG_KEY)||"{}");}catch(e){return {};}}
+function writeProg(p){try{localStorage.setItem(PROG_KEY,JSON.stringify(p));}catch(e){}}
+function touchStreak(p){const t=todayIST();if(p.lastDay===t){p.streak=p.streak||1;return;}if(p.lastDay){const cur=new Date(t+"T12:00:00+05:30"),prev=new Date(p.lastDay+"T12:00:00+05:30");const diff=Math.round((cur-prev)/86400000);p.streak=(diff===1)?(p.streak||1)+1:1;}else p.streak=1;p.lastDay=t;}
+function bumpPlay(gameId){const p=readProg();touchStreak(p);p.played=p.played||{};p.played[todayIST()]=true;p.confidence=Math.min(100,(p.confidence||0)+4);p.lastGame=gameId;writeProg(p);}
+function bumpWin(gameId){const p=readProg();touchStreak(p);p.wins=p.wins||{};p.wins[gameId]=(p.wins[gameId]||0)+1;p.wonDay=p.wonDay||{};p.wonDay[todayIST()]=true;p.confidence=Math.min(100,(p.confidence||0)+12);writeProg(p);}
+function syncMute(){const b=document.getElementById("mute");if(!b)return;b.textContent=isMuted()?"Muted":"Sound";b.classList.toggle("on",!isMuted());}
+function syncCur(){document.querySelectorAll(".curbtn").forEach(b=>b.classList.toggle("on",b.dataset.cur===getCur()));if(window.refreshMoney)window.refreshMoney();}
+function wireChrome(){const m=document.getElementById("mute");if(m)m.addEventListener("click",()=>setMuted(!isMuted()));document.querySelectorAll(".curbtn").forEach(b=>b.addEventListener("click",()=>{setCur(b.dataset.cur);syncCur();}));const intent=document.getElementById("intention");if(intent)intent.value=getSavedIntention();syncMute();syncCur();}
+let toastT;function toast(msg){const el=document.getElementById("toast");if(!el)return;el.textContent=msg;el.classList.add("show");clearTimeout(toastT);toastT=setTimeout(()=>el.classList.remove("show"),2200);}
+function shake(){const a=document.getElementById("app");if(!a)return;a.classList.remove("shake");void a.offsetWidth;a.classList.add("shake");setTimeout(()=>a.classList.remove("shake"),300);}
+function manifested(){return sessionIntention?`<p class="manifest">Manifested: ${escapeHtml(sessionIntention)}</p>`:"";}
+
+(function(){
+  const KEY="isl-remittance-stack-high";
+  const COLS=7, ROWS=10, GOAL=50000, UNIT=2000;
+  const COLORS=["#e8a04e","#e07a6a","#7c8cff","#3ee6c1","#d46ec8"];
+  const LABELS=["Home rent","School fees","Celebration","Just-because","Health cover"];
+  const SAY=["Money you send still means love.","Visa waits end. You will walk through that gate.","Sunday’s video call will feel lighter.","Home is closer than it was yesterday.","The queue at the transfer desk is worth it."];
+  const boardEl=document.getElementById("board");
+  const colsEl=document.getElementById("cols");
+  const scoreEl=document.getElementById("score");
+  const bestEl=document.getElementById("best");
+  const bestStart=document.getElementById("bestStart");
+  const comboEl=document.getElementById("combo");
+  const nextsw=document.getElementById("nextsw");
+  const nextlab=document.getElementById("nextlab");
+  const statusEl=document.getElementById("status");
+  const overlay=document.getElementById("overlay");
+  const goalfil=document.getElementById("goalfil");
+  let best=0;
+  try{best=Number(localStorage.getItem(KEY)||0)||0;}catch(e){best=0;}
+
+  let grid,cells,score,combo,cursor,current,next,mode,busy,clears;
+
+  function showMoney(){
+    scoreEl.textContent=money(score);
+    bestEl.textContent=money(best);
+    bestStart.textContent=money(best);
+    goalfil.style.width=Math.min(100,(score/GOAL)*100)+"%";
+  }
+  window.refreshMoney=showMoney;
+  showMoney();
+
+  function randC(){return Math.floor(Math.random()*COLORS.length);}
+  function idx(r,c){return r*COLS+c;}
+  function buildUI(){
+    boardEl.innerHTML=""; cells=[];
+    for(let r=0;r<ROWS;r++) for(let c=0;c<COLS;c++){
+      const d=document.createElement("div"); d.className="cell"; boardEl.appendChild(d); cells.push(d);
+    }
+    colsEl.innerHTML="";
+    for(let c=0;c<COLS;c++){
+      const b=document.createElement("button"); b.type="button"; b.textContent=String(c+1);
+      b.addEventListener("click",()=>{cursor=c; drop(c);});
+      colsEl.appendChild(b);
+    }
+  }
+  function paint(){
+    for(let r=0;r<ROWS;r++) for(let c=0;c<COLS;c++){
+      const el=cells[idx(r,c)], v=grid[r][c];
+      el.className="cell"+(v>=0?" e":"");
+      el.style.background=v>=0?COLORS[v]:"#161a30";
+    }
+    if(mode==="play"&&current!=null&&!busy){
+      const row=landRow(cursor);
+      if(row>=0){const el=cells[idx(row,cursor)]; el.className="cell e ghost"; el.style.background=COLORS[current];}
+    }
+    nextsw.style.background=COLORS[next];
+    nextlab.textContent=LABELS[next];
+  }
+  function landRow(c){for(let r=ROWS-1;r>=0;r--) if(grid[r][c]<0) return r; return -1;}
+  function groups(){
+    const seen=Array.from({length:ROWS},()=>Array(COLS).fill(false)), out=[];
+    for(let r=0;r<ROWS;r++) for(let c=0;c<COLS;c++){
+      const col=grid[r][c]; if(col<0||seen[r][c]) continue;
+      const stack=[[r,c]]; seen[r][c]=true; const cellsG=[[r,c]];
+      while(stack.length){
+        const [rr,cc]=stack.pop();
+        for(const [dr,dc] of [[1,0],[-1,0],[0,1],[0,-1]]){
+          const nr=rr+dr,nc=cc+dc;
+          if(nr<0||nr>=ROWS||nc<0||nc>=COLS||seen[nr][nc]) continue;
+          if(grid[nr][nc]===col){seen[nr][nc]=true;stack.push([nr,nc]);cellsG.push([nr,nc]);}
+        }
+      }
+      if(cellsG.length>=3) out.push({cells:cellsG,kind:col});
+    }
+    return out;
+  }
+  function gravity(){
+    for(let c=0;c<COLS;c++){
+      const stack=[];
+      for(let r=ROWS-1;r>=0;r--) if(grid[r][c]>=0) stack.push(grid[r][c]);
+      for(let r=ROWS-1;r>=0;r--) grid[r][c]=stack.length?stack.shift():-1;
+    }
+  }
+  function sleep(ms){return new Promise(res=>setTimeout(res,ms));}
+  function saveBest(){
+    if(score>best){best=score;try{localStorage.setItem(KEY,String(best));}catch(e){}}
+    showMoney();
+  }
+  function winRun(){
+    if(mode!=="play") return;
+    mode="win"; saveBest(); bumpWin("remittance-stack"); fanfare(); shake();
+    overlay.className="overlay win";
+    overlay.innerHTML='<div class="card"><p class="eyebrow">Transfer complete</p><h1><span>The money reached home</span></h1>'+
+      '<p class="story">You sent <b style="color:#fff">'+money(score)+'</b> · Best <b style="color:#ffcf5c">'+money(best)+'</b>.</p>'+
+      '<p class="how">A message lands: they got it. The video call tonight will start with a smile, not a worry.</p>'+
+      manifested()+
+      '<button class="play" id="play" type="button">Send again</button></div>';
+    overlay.classList.remove("hidden");
+    document.getElementById("play").addEventListener("click",start);
+  }
+  function loseRun(){
+    if(mode!=="play"&&mode!=="busy") {}
+    if(mode==="win") return;
+    mode="dead"; saveBest(); beep(150,0.28,"sine",0.04);
+    overlay.className="overlay";
+    overlay.innerHTML='<div class="card"><p class="eyebrow">Window closed</p><h1><span>The queue filled up</span></h1>'+
+      '<p class="story">Sent <b style="color:#fff">'+money(score)+'</b> · Best <b style="color:#ffcf5c">'+money(best)+'</b>.</p>'+
+      '<p class="how">The desk opens again tomorrow. Bundle the same colours and the money will still go home.</p>'+
+      manifested()+
+      '<button class="play" id="play" type="button">Open the window</button></div>';
+    overlay.classList.remove("hidden");
+    document.getElementById("play").addEventListener("click",start);
+  }
+  async function resolve(){
+    busy=true;
+    let chain=0;
+    while(mode==="play"){
+      const gs=groups();
+      if(!gs.length) break;
+      chain+=1; combo=chain; comboEl.textContent=String(combo);
+      let n=0, kinds=new Set();
+      for(const g of gs){
+        n+=g.cells.length; kinds.add(g.kind);
+        for(const [r,c] of g.cells){ cells[idx(r,c)].classList.add("pop"); grid[r][c]=-1; }
+      }
+      const gained=n*UNIT*chain;
+      score+=gained; showMoney(); clears+=1;
+      statusEl.textContent=(chain>1?"Combo x"+chain+" · ":"")+"Sent "+money(gained);
+      beep(360+chain*80,0.1,"square",0.05);
+      if(chain>1) shake();
+      const names=[...kinds].map(k=>LABELS[k]).join(", ");
+      toast((chain>1?"Bundle x"+chain+": ":"Sent: ")+names);
+      if(clears%3===0) setTimeout(()=>toast(SAY[(clears/3|0)%SAY.length]),700);
+      await sleep(200); gravity(); paint(); await sleep(120);
+      if(score>=GOAL){busy=false; winRun(); return;}
+    }
+    if(chain===0) combo=0;
+    comboEl.textContent=String(combo);
+    busy=false; paint();
+  }
+  async function drop(c){
+    if(mode!=="play"||busy) return;
+    cursor=c;
+    const row=landRow(c);
+    if(row<0){loseRun(); return;}
+    grid[row][c]=current; current=next; next=randC(); paint();
+    beep(280,0.05,"sine",0.03);
+    await resolve();
+    if(mode==="play" && [0,1,2,3,4,5,6].every(x=>landRow(x)<0)) loseRun();
+  }
+  function start(){
+    sessionIntention=readIntention();
+    bumpPlay("remittance-stack");
+    grid=Array.from({length:ROWS},()=>Array(COLS).fill(-1));
+    score=0; combo=0; cursor=3; current=randC(); next=randC(); busy=false; clears=0; mode="play";
+    comboEl.textContent="0"; statusEl.textContent="Tap a column to send";
+    overlay.classList.add("hidden"); overlay.className="overlay hidden";
+    showMoney(); paint(); toast("The transfer window is open.");
+  }
+  buildUI();
+  grid=Array.from({length:ROWS},()=>Array(COLS).fill(-1));
+  current=0; next=1; cursor=3; mode="start";
+  paint(); showMoney();
+  wireChrome();
+  document.getElementById("play").addEventListener("click",start);
+  window.addEventListener("keydown",(e)=>{
+    if(mode!=="play") return;
+    if(e.code==="ArrowLeft"||e.code==="KeyA"){cursor=Math.max(0,cursor-1);paint();e.preventDefault();}
+    if(e.code==="ArrowRight"||e.code==="KeyD"){cursor=Math.min(COLS-1,cursor+1);paint();e.preventDefault();}
+    if(e.code==="Space"||e.code==="Enter"||e.code==="ArrowDown"){e.preventDefault();drop(cursor);}
+    const n=e.key?parseInt(e.key,10):NaN;
+    if(n>=1&&n<=7) drop(n-1);
+  });
+})();
+</script>
+</body>
+</html>
