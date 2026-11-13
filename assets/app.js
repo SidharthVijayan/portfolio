@@ -13,8 +13,9 @@ function card(e){
     ...(e.permissions||[]).map(p=>`<li class="perm">${esc(p)}</li>`),
     e.tests?`<li class="t">${e.tests} tests</li>`:''
   ].join('');
+  const shot=e.thumb||e.screenshot;
   return `<article class="card">
- ${e.screenshot?`<img src="${esc(e.screenshot)}" alt="${esc(e.name)} screenshot" loading="lazy">`:`<div class="ph">${esc((e.name||'').split(' ').map(w=>w[0]).join('').slice(0,3))}</div>`}
+ ${shot?`<img src="${esc(shot)}" alt="${esc(e.name)}" loading="lazy">`:`<div class="ph">${esc((e.name||'').split(' ').map(w=>w[0]).join('').slice(0,3))}</div>`}
  <div class="body">${e.status?`<span class="status ${esc(e.status).replace(' ','-')}">${label[e.status]||esc(e.status)}</span>`:''}<h3>${esc(e.name)}</h3><p>${esc(e.summary)}</p>
  <ul class="chips">${chips}</ul>
  <div class="links">${links.join('')}</div></div></article>`;

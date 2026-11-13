@@ -22,7 +22,8 @@
       "seo"
     ],
     "approved": true,
-    "demo": "demo/seo-content-structure-inspector/"
+    "demo": "demo/seo-content-structure-inspector/",
+    "thumb": "assets/thumbs/seo-content-structure-inspector.png"
   },
   {
     "slug": "llm-readiness-inspector",
@@ -47,7 +48,8 @@
       "ai"
     ],
     "approved": true,
-    "demo": "demo/llm-readiness-inspector/"
+    "demo": "demo/llm-readiness-inspector/",
+    "thumb": "assets/thumbs/llm-readiness-inspector.png"
   },
   {
     "slug": "jsonld-inspector",
@@ -72,7 +74,8 @@
       "pipeline"
     ],
     "approved": true,
-    "demo": "demo/jsonld-inspector/"
+    "demo": "demo/jsonld-inspector/",
+    "thumb": "assets/thumbs/jsonld-inspector.png"
   },
   {
     "slug": "hreflang-canonical-checker",
@@ -97,7 +100,8 @@
       "pipeline"
     ],
     "approved": true,
-    "demo": "demo/hreflang-canonical-checker/"
+    "demo": "demo/hreflang-canonical-checker/",
+    "thumb": "assets/thumbs/hreflang-canonical-checker.png"
   },
   {
     "slug": "social-card-previewer",
@@ -122,7 +126,8 @@
       "pipeline"
     ],
     "approved": true,
-    "demo": "demo/social-card-previewer/"
+    "demo": "demo/social-card-previewer/",
+    "thumb": "assets/thumbs/social-card-previewer.png"
   },
   {
     "slug": "image-alt-text-auditor",
@@ -147,7 +152,8 @@
       "pipeline"
     ],
     "approved": true,
-    "demo": "demo/image-alt-text-auditor/"
+    "demo": "demo/image-alt-text-auditor/",
+    "thumb": "assets/thumbs/image-alt-text-auditor.png"
   },
   {
     "slug": "contrast-checker",
@@ -172,7 +178,8 @@
       "pipeline"
     ],
     "approved": true,
-    "demo": "demo/contrast-checker/"
+    "demo": "demo/contrast-checker/",
+    "thumb": "assets/thumbs/contrast-checker.png"
   },
   {
     "slug": "form-label-aria-auditor",
@@ -197,7 +204,8 @@
       "pipeline"
     ],
     "approved": true,
-    "demo": "demo/form-label-aria-auditor/"
+    "demo": "demo/form-label-aria-auditor/",
+    "thumb": "assets/thumbs/form-label-aria-auditor.png"
   },
   {
     "slug": "reading-level-meter",
@@ -222,7 +230,8 @@
       "pipeline"
     ],
     "approved": true,
-    "demo": "demo/reading-level-meter/"
+    "demo": "demo/reading-level-meter/",
+    "thumb": "assets/thumbs/reading-level-meter.png"
   },
   {
     "slug": "dyslexia-friendly-reader",
@@ -247,7 +256,8 @@
       "pipeline"
     ],
     "approved": true,
-    "demo": "demo/dyslexia-friendly-reader/"
+    "demo": "demo/dyslexia-friendly-reader/",
+    "thumb": "assets/thumbs/dyslexia-friendly-reader.png"
   },
   {
     "slug": "tab-list-exporter",
@@ -271,7 +281,8 @@
       "pipeline"
     ],
     "approved": true,
-    "demo": "demo/tab-list-exporter/"
+    "demo": "demo/tab-list-exporter/",
+    "thumb": "assets/thumbs/tab-list-exporter.png"
   },
   {
     "slug": "citation-copier",
@@ -296,7 +307,8 @@
       "pipeline"
     ],
     "approved": true,
-    "demo": "demo/citation-copier/"
+    "demo": "demo/citation-copier/",
+    "thumb": "assets/thumbs/citation-copier.png"
   },
   {
     "slug": "link-exporter",
@@ -321,7 +333,8 @@
       "pipeline"
     ],
     "approved": true,
-    "demo": "demo/link-exporter/"
+    "demo": "demo/link-exporter/",
+    "thumb": "assets/thumbs/link-exporter.png"
   },
   {
     "slug": "third-party-script-spotter",
@@ -346,7 +359,8 @@
       "pipeline"
     ],
     "approved": true,
-    "demo": "demo/third-party-script-spotter/"
+    "demo": "demo/third-party-script-spotter/",
+    "thumb": "assets/thumbs/third-party-script-spotter.png"
   },
   {
     "slug": "mixed-content-insecure-form-finder",
@@ -371,7 +385,8 @@
       "pipeline"
     ],
     "approved": true,
-    "demo": "demo/mixed-content-insecure-form-finder/"
+    "demo": "demo/mixed-content-insecure-form-finder/",
+    "thumb": "assets/thumbs/mixed-content-insecure-form-finder.png"
   },
   {
     "slug": "font-finder",
@@ -396,7 +411,8 @@
       "pipeline"
     ],
     "approved": true,
-    "demo": "demo/font-finder/"
+    "demo": "demo/font-finder/",
+    "thumb": "assets/thumbs/font-finder.png"
   },
   {
     "slug": "colour-palette-extractor",
@@ -421,7 +437,8 @@
       "pipeline"
     ],
     "approved": true,
-    "demo": "demo/colour-palette-extractor/"
+    "demo": "demo/colour-palette-extractor/",
+    "thumb": "assets/thumbs/colour-palette-extractor.png"
   },
   {
     "slug": "mobile-friendly-lint",
@@ -446,7 +463,8 @@
       "pipeline"
     ],
     "approved": true,
-    "demo": "demo/mobile-friendly-lint/"
+    "demo": "demo/mobile-friendly-lint/",
+    "thumb": "assets/thumbs/mobile-friendly-lint.png"
   },
   {
     "slug": "image-weight-cls-auditor",
@@ -471,7 +489,8 @@
       "pipeline"
     ],
     "approved": true,
-    "demo": "demo/image-weight-cls-auditor/"
+    "demo": "demo/image-weight-cls-auditor/",
+    "thumb": "assets/thumbs/image-weight-cls-auditor.png"
   },
   {
     "slug": "table-to-csv",
@@ -496,7 +515,8 @@
       "pipeline"
     ],
     "approved": true,
-    "demo": "demo/table-to-csv/"
+    "demo": "demo/table-to-csv/",
+    "thumb": "assets/thumbs/table-to-csv.png"
   },
   {
     "slug": "publish-date-finder",
@@ -521,7 +541,8 @@
       "pipeline"
     ],
     "approved": true,
-    "demo": "demo/publish-date-finder/"
+    "demo": "demo/publish-date-finder/",
+    "thumb": "assets/thumbs/publish-date-finder.png"
   },
   {
     "slug": "toolbar-pomodoro",
@@ -547,6 +568,7 @@
       "pipeline"
     ],
     "approved": true,
-    "demo": "demo/toolbar-pomodoro/"
+    "demo": "demo/toolbar-pomodoro/",
+    "thumb": "assets/thumbs/toolbar-pomodoro.png"
   }
 ]
