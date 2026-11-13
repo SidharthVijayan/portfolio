@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JSON-LD Structured Data Inspector</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <img src="../icons/icon48.png" alt="" width="24" height="24">
+    <h1 id="appName">JSON-LD Inspector</h1>
+  </header>
+  <button id="runBtn" class="primary">Inspect this page</button>
+  <p id="status" class="muted" role="status">Checks JSON-LD on the current tab against common rich-result guidelines.</p>
+  <section id="summary" hidden></section>
+  <div id="toolbar" hidden>
+    <label><input type="checkbox" id="issuesOnly"> Only entities with issues</label>
+    <button id="copyBtn" type="button">Copy report</button>
+  </div>
+  <section id="results" hidden></section>
+  <footer class="muted">Runs locally. No data leaves your browser. Not an official Google validator.</footer>
+  <script src="../lib/core.js"></script>
+  <script src="../../_shared/chrome-shim.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

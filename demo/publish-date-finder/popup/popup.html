@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Publish Date Finder</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <img src="../icons/icon48.png" alt="" width="24" height="24">
+    <h1>Publish Date Finder</h1>
+  </header>
+  <p id="status" class="muted" role="status">Looking for dates on this page…</p>
+  <section id="cards" aria-label="Dates">
+    <div class="card" id="pubCard"><div class="label" id="pubLabel">Published</div><div class="value" id="pubValue">–</div><div class="sub" id="pubSub"></div></div>
+    <div class="card" id="modCard"><div class="label">Last updated</div><div class="value" id="modValue">–</div><div class="sub" id="modSub"></div></div>
+  </section>
+  <ul id="notes" aria-label="Notes"></ul>
+  <h2 id="evidenceTitle">Evidence</h2>
+  <ul id="evidence" aria-label="Evidence"></ul>
+  <div id="toolbar">
+    <button id="copyBtn" class="primary" type="button" disabled>Copy report</button>
+    <button id="copyDateBtn" type="button" disabled>Copy published date</button>
+  </div>
+  <footer class="muted">Runs only when you click. Nothing is sent or stored. By InnerShift Lab.</footer>
+  <script src="../lib/core.js"></script>
+  <script src="../../_shared/chrome-shim.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

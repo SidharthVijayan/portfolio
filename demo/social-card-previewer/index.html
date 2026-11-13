@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Try Social Card Previewer — InnerShift Lab</title>
+  <link rel="stylesheet" href="../_shared/shell.css">
+</head>
+<body data-mode="page">
+  <header class="demo-bar">
+    <a class="back" href="../../index.html#work">← Portfolio</a>
+    <div class="titles">
+      <h1>Social Card Previewer</h1>
+      <p class="notice">Demo version — install the extension for use on any site</p>
+    </div>
+  </header>
+  <div class="layout">
+    <section class="sample-pane">
+      <div class="toolbar">
+        <span class="pane-label">Sample page</span>
+        <button type="button" id="useSample">Reset sample</button>
+        <button type="button" id="usePaste">Paste your HTML</button>
+        <button type="button" id="runAgain">Run analysis</button>
+      </div>
+      
+      <iframe id="sampleFrame" title="Sample page" src="sample.html"></iframe>
+      <div id="pasteBox" hidden>
+        <label for="pasteHtml">Paste HTML to analyse</label>
+        <textarea id="pasteHtml" rows="10" placeholder="Paste a full HTML document or a fragment…"></textarea>
+        <button type="button" id="applyPaste">Analyse pasted HTML</button>
+      </div>
+    </section>
+    <section class="popup-pane">
+      <div class="pane-label">Extension popup</div>
+      <iframe id="popupFrame" title="Extension popup" src="about:blank"></iframe>
+    </section>
+  </div>
+  <div id="toast" hidden></div>
+  <script src="../_shared/shell.js"></script>
+</body>
+</html>

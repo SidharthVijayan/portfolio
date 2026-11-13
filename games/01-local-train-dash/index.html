@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0b0d17">
+<link rel="icon" href="data:,">
+<title>Local Train Dash — InnerShift Lab</title>
+<style>
+:root{--bg:#0b0d17;--bg2:#121528;--line:#1f2440;--text:#d9ddf0;--muted:#8a90ad;--accent:#7c8cff;--teal:#3ee6c1;--gold:#ffcf5c;--danger:#e07a6a;--chai:#e8a04e}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none}
+#app{height:100%;display:flex;flex-direction:column;max-width:520px;margin:0 auto;position:relative}
+header{flex:0 0 auto;display:flex;justify-content:space-between;align-items:center;padding:8px 14px 6px;z-index:3;gap:8px}
+.brand{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.hud{display:flex;gap:10px;font-size:12px;color:var(--muted);align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.hud b{color:#fff;font-variant-numeric:tabular-nums;margin-left:3px}
+.tools{display:flex;gap:6px}
+.iconbtn,.curbtn{appearance:none;border:1px solid var(--line);background:#1a1e36;color:var(--text);border-radius:8px;padding:4px 8px;font-size:11px;font-weight:700;cursor:pointer;touch-action:manipulation;line-height:1.2}
+.curbtn.on,.iconbtn.on{border-color:var(--gold);color:var(--gold)}
+.hint{flex:0 0 auto;text-align:center;font-size:12px;color:var(--muted);padding:6px 12px 12px}
+.overlay{position:fixed;inset:0;background:rgba(11,13,23,.86);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:20px;z-index:6}
+.overlay.hidden{display:none}
+.card{width:min(440px,100%);background:var(--bg2);border:1px solid var(--line);border-radius:18px;padding:24px 20px 20px;text-align:center;max-height:100%;overflow:auto}
+.eyebrow{color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:.1em;font-size:11px;margin-bottom:8px}
+h1{font-size:clamp(26px,7vw,38px);line-height:1.1;color:#fff;margin-bottom:10px}
+h1 span{background:linear-gradient(90deg,#7c8cff,#3ee6c1);-webkit-background-clip:text;background-clip:text;color:transparent}
+.story{color:var(--text);margin-bottom:8px;font-size:15px}
+.how{color:var(--muted);font-size:13px;margin-bottom:12px}
+.bestline{color:var(--gold);font-size:14px;margin-bottom:10px}
+label.int{display:block;text-align:left;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:8px 0 4px}
+#intention,input.int{width:100%;background:#0f1222;border:1px solid var(--line);border-radius:10px;color:#fff;padding:10px 12px;font-size:15px;margin-bottom:14px;touch-action:manipulation}
+.row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:12px}
+button.play{appearance:none;border:0;background:var(--accent);color:#0b0d17;font-weight:800;font-size:16px;padding:12px 28px;border-radius:12px;cursor:pointer;min-width:140px;touch-action:manipulation}
+button.play:hover{filter:brightness(1.08)}
+button.play:active{transform:scale(.98)}
+.manifest{margin-top:8px;color:var(--teal);font-weight:700;font-size:15px}
+.toast{position:absolute;left:50%;top:58px;transform:translateX(-50%);background:#1a1e36;border:1px solid var(--teal);color:var(--teal);padding:8px 14px;border-radius:999px;font-size:13px;font-weight:700;opacity:0;pointer-events:none;z-index:4;white-space:nowrap;max-width:92%;overflow:hidden;text-overflow:ellipsis;transition:opacity .25s}
+.toast.show{opacity:1}
+.win h1 span{background:linear-gradient(90deg,#ffcf5c,#3ee6c1);-webkit-background-clip:text;background-clip:text}
+.win .card{border-color:var(--gold);box-shadow:0 0 40px rgba(255,207,92,.18)}
+.shake{animation:shake .28s linear}
+@keyframes shake{0%,100%{transform:translate(0,0)}20%{transform:translate(-6px,3px)}40%{transform:translate(7px,-2px)}60%{transform:translate(-4px,2px)}80%{transform:translate(5px,0)}}
+
+
+canvas{flex:1 1 auto;display:block;width:100%;height:100%;min-height:0}
+
+.back{color:var(--accent);font-weight:700;font-size:12px;letter-spacing:.04em;text-transform:uppercase;text-decoration:none;margin-right:10px;white-space:nowrap}
+</style>
+</head>
+<body>
+  <div id="app">
+    <header>
+      <div class="brand"><a class="back" href="../index.html">All games</a> InnerShift Lab</div>
+      <div class="hud">
+        <span>Score <b id="score">0</b></span>
+        <span>Best <b id="best">0</b></span>
+        <span>Next <b id="nextst">Palava</b></span>
+        <div class="tools"><button class="iconbtn" id="mute" type="button">Sound</button></div>
+      </div>
+    </header>
+    <div id="toast" class="toast"></div>
+    <canvas id="c" width="800" height="1200"></canvas>
+    <div class="hint" id="hint">Hold to aim and charge · release to hop the local</div>
+    <div id="overlay" class="overlay">
+      <div class="card">
+        <p class="eyebrow">Day 1 · Arcade</p>
+        <h1><span>Local Train Dash</span></h1>
+        <p class="story">The fast is packing out of CSMT. Hop platform to platform, ride the line through Thane, and get down at Dombivli in time for Palava — the light will be on.</p>
+        <p class="how">Drag or use the arrow keys to aim. Hold to charge, release to hop. Land a clean streak for combos. Reach Palava to win the commute. Miss a footing and the slow is still coming.</p>
+        <p class="bestline">Best <b id="bestStart">0</b></p>
+        <label class="int" for="intention">Set your intention (optional)</label>
+        <input id="intention" class="int" maxlength="80" placeholder="e.g. Be home before dinner">
+        <button class="play" id="play" type="button">Play</button>
+      </div>
+    </div>
+  </div>
+<script>
+
+const CUR_KEY="isl-mch-currency", MUTE_KEY="isl-mch-mute", PROG_KEY="isl-mch-progress", INTENT_KEY="isl-mch-intention";
+function todayIST(){return new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Calcutta",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());}
+function getCur(){try{return localStorage.getItem(CUR_KEY)||"INR";}catch(e){return "INR";}}
+function setCur(c){try{localStorage.setItem(CUR_KEY,c);}catch(e){}}
+function money(inr){const n=Math.max(0,Math.round(inr||0)),c=getCur();if(c==="USD")return "$"+Math.round(n/80).toLocaleString("en-US");if(c==="GBP")return "£"+Math.round(n/100).toLocaleString("en-GB");return "₹"+n.toLocaleString("en-IN");}
+function isMuted(){try{return localStorage.getItem(MUTE_KEY)==="1";}catch(e){return false;}}
+function setMuted(m){try{localStorage.setItem(MUTE_KEY,m?"1":"0");}catch(e){} syncMute();}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));}
+function getSavedIntention(){try{return localStorage.getItem(INTENT_KEY)||"";}catch(e){return "";}}
+function saveIntention(v){try{if(v)localStorage.setItem(INTENT_KEY,v.slice(0,80));}catch(e){}}
+function readIntention(){const el=document.getElementById("intention");const v=(el?el.value:"").trim().slice(0,80);if(v)saveIntention(v);return v||getSavedIntention();}
+let sessionIntention="";
+let _ac=null;
+function ac(){if(!_ac)_ac=new(window.AudioContext||window.webkitAudioContext)();return _ac;}
+function beep(freq,dur,type,gain){if(isMuted())return;try{const ctx=ac();const o=ctx.createOscillator(),g=ctx.createGain();o.type=type||"square";o.frequency.setValueAtTime(freq,ctx.currentTime);g.gain.setValueAtTime(gain||0.07,ctx.currentTime);g.gain.exponentialRampToValueAtTime(0.0001,ctx.currentTime+dur);o.connect(g);g.connect(ctx.destination);o.start();o.stop(ctx.currentTime+dur+0.03);}catch(e){}}
+function fanfare(){[523,659,784,1046].forEach((f,i)=>setTimeout(()=>beep(f,0.18,"square",0.08),i*110));}
+function readProg(){try{return JSON.parse(localStorage.getItem(PROG_KEY)||"{}");}catch(e){return {};}}
+function writeProg(p){try{localStorage.setItem(PROG_KEY,JSON.stringify(p));}catch(e){}}
+function touchStreak(p){const t=todayIST();if(p.lastDay===t){p.streak=p.streak||1;return;}if(p.lastDay){const cur=new Date(t+"T12:00:00+05:30"),prev=new Date(p.lastDay+"T12:00:00+05:30");const diff=Math.round((cur-prev)/86400000);p.streak=(diff===1)?(p.streak||1)+1:1;}else p.streak=1;p.lastDay=t;}
+function bumpPlay(gameId){const p=readProg();touchStreak(p);p.played=p.played||{};p.played[todayIST()]=true;p.confidence=Math.min(100,(p.confidence||0)+4);p.lastGame=gameId;writeProg(p);}
+function bumpWin(gameId){const p=readProg();touchStreak(p);p.wins=p.wins||{};p.wins[gameId]=(p.wins[gameId]||0)+1;p.wonDay=p.wonDay||{};p.wonDay[todayIST()]=true;p.confidence=Math.min(100,(p.confidence||0)+12);writeProg(p);}
+function syncMute(){const b=document.getElementById("mute");if(!b)return;b.textContent=isMuted()?"Muted":"Sound";b.classList.toggle("on",!isMuted());}
+function syncCur(){document.querySelectorAll(".curbtn").forEach(b=>b.classList.toggle("on",b.dataset.cur===getCur()));if(window.refreshMoney)window.refreshMoney();}
+function wireChrome(){const m=document.getElementById("mute");if(m)m.addEventListener("click",()=>setMuted(!isMuted()));document.querySelectorAll(".curbtn").forEach(b=>b.addEventListener("click",()=>{setCur(b.dataset.cur);syncCur();}));const intent=document.getElementById("intention");if(intent)intent.value=getSavedIntention();syncMute();syncCur();}
+let toastT;function toast(msg){const el=document.getElementById("toast");if(!el)return;el.textContent=msg;el.classList.add("show");clearTimeout(toastT);toastT=setTimeout(()=>el.classList.remove("show"),2200);}
+function shake(){const a=document.getElementById("app");if(!a)return;a.classList.remove("shake");void a.offsetWidth;a.classList.add("shake");setTimeout(()=>a.classList.remove("shake"),300);}
+function manifested(){return sessionIntention?`<p class="manifest">Manifested: ${escapeHtml(sessionIntention)}</p>`:"";}
+
+(function(){
+  const KEY="isl-local-train-dash-high";
+  const LINE=["CSMT","Byculla","Parel","Dadar","Kurla","Ghatkopar","Thane","Diva","Dombivli","Palava"];
+  const SAY=[
+    "One more local. Then Palava.",
+    "The side hustle can wait till you're home.",
+    "Chai at Thane, maybe. Keep moving.",
+    "She left the light on.",
+    "You have done this commute a thousand times. You can do it once more.",
+    "Debt is a chapter, not the book. Get home first."
+  ];
+  const canvas=document.getElementById("c");
+  const ctx=canvas.getContext("2d");
+  const overlay=document.getElementById("overlay");
+  const scoreEl=document.getElementById("score");
+  const bestEl=document.getElementById("best");
+  const bestStart=document.getElementById("bestStart");
+  const nextEl=document.getElementById("nextst");
+  const hintEl=document.getElementById("hint");
+  let best=0;
+  try{best=Number(localStorage.getItem(KEY)||0)||0;}catch(e){best=0;}
+  bestEl.textContent=best; bestStart.textContent=best;
+
+  const state={mode:"start",score:0,combo:0,pads:[],stars:[],particles:[],player:null,camY:0,last:0,keys:{},pointer:{down:false},won:false};
+
+  function resize(){
+    const dpr=Math.min(window.devicePixelRatio||1,2);
+    const w=Math.max(1,canvas.clientWidth), h=Math.max(1,canvas.clientHeight);
+    canvas.width=Math.floor(w*dpr); canvas.height=Math.floor(h*dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  resize(); window.addEventListener("resize",resize);
+  function W(){return canvas.clientWidth;} function H(){return canvas.clientHeight;}
+  function worldToScreen(y){return y-state.camY;}
+
+  function makePad(x,y,r,name,goal){
+    return {x,y,r,name,goal:!!goal,landed:false};
+  }
+  function burst(x,y,color,n){
+    for(let i=0;i<n;i++){
+      const a=Math.random()*Math.PI*2, sp=0.7+Math.random()*3.4;
+      state.particles.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,life:1,color,r:1.6+Math.random()*2.4});
+    }
+  }
+  function spawnStars(){
+    state.stars=[];
+    const w=W(),h=H();
+    for(let i=0;i<70;i++) state.stars.push({x:Math.random()*w,y:Math.random()*h*6-h,s:0.5+Math.random()*1.5,a:0.2+Math.random()*0.55});
+  }
+
+  function layoutPads(){
+    const w=W(), h=H();
+    state.pads=[];
+    const start=makePad(w/2,h*0.74,50,LINE[0],false);
+    start.landed=true;
+    state.pads.push(start);
+    let y=start.y;
+    for(let i=1;i<LINE.length;i++){
+      const gap=100+i*8;
+      y-=gap;
+      const r=Math.max(26, 46-i*1.4);
+      const margin=r+18;
+      const side=(i%2===0)? 0.32:0.68;
+      const jitter=(Math.random()-0.5)*w*0.16;
+      const x=Math.max(margin, Math.min(w-margin, w*side+jitter));
+      state.pads.push(makePad(x,y,r,LINE[i], i===LINE.length-1));
+    }
+    return start;
+  }
+
+  function resetGame(){
+    sessionIntention=readIntention();
+    bumpPlay("local-train-dash");
+    state.score=0; state.combo=0; state.particles=[]; state.won=false;
+    const start=layoutPads();
+    state.player={x:start.x,y:start.y-start.r-10,vx:0,vy:0,r:10,onPad:start,angle:-Math.PI/2,power:0,charging:false};
+    state.camY=0; spawnStars();
+    state.mode="play";
+    scoreEl.textContent="0";
+    nextEl.textContent=LINE[1];
+    hintEl.textContent="Hold to aim and charge · release to hop the local";
+    overlay.classList.add("hidden");
+    toast("The fast is leaving CSMT.");
+  }
+
+  function aimAt(x,y){
+    const p=state.player; if(!p||!p.onPad) return;
+    let ang=Math.atan2(y-p.y,x-p.x);
+    const min=-Math.PI+0.18,max=-0.18;
+    if(ang>0) ang=ang>Math.PI/2?min:max;
+    p.angle=Math.max(min,Math.min(max,ang));
+  }
+  function startCharge(){
+    const p=state.player; if(!p||!p.onPad||state.mode!=="play") return;
+    p.charging=true; p.power=0.28;
+  }
+  function releaseJump(){
+    const p=state.player; if(!p||!p.onPad||state.mode!=="play") return;
+    if(!p.charging&&p.power<=0) p.power=0.45;
+    const pow=7.6+p.power*12;
+    p.vx=Math.cos(p.angle)*pow; p.vy=Math.sin(p.angle)*pow;
+    p.onPad=null; p.charging=false;
+    burst(p.x,p.y,"#ffcf5c",10);
+    beep(420+p.power*260,0.07,"square",0.05);
+  }
+
+  function saveBest(){
+    if(state.score>best){best=state.score; try{localStorage.setItem(KEY,String(best));}catch(e){} bestEl.textContent=best;}
+    bestStart.textContent=best;
+  }
+
+  function land(pad){
+    const p=state.player;
+    const dx=p.x-pad.x, dy=p.y-pad.y, d=Math.hypot(dx,dy)||1;
+    const nx=dx/d, ny=dy/d;
+    p.x=pad.x+nx*(pad.r+p.r); p.y=pad.y+ny*(pad.r+p.r);
+    p.vx=0; p.vy=0; p.onPad=pad; p.charging=false; p.power=0;
+    p.angle=Math.atan2(ny,nx); if(p.angle>0) p.angle=-Math.PI/2;
+    if(!pad.landed){
+      pad.landed=true;
+      state.combo+=1;
+      const gained=20+state.combo*8+(pad.goal?200:0);
+      state.score+=gained;
+      scoreEl.textContent=String(state.score);
+      const i=LINE.indexOf(pad.name);
+      nextEl.textContent=LINE[Math.min(LINE.length-1, i+1)]||"Palava";
+      burst(p.x,p.y, pad.goal?"#ffcf5c":"#3ee6c1", 16);
+      shake();
+      beep(520+state.combo*36,0.1,"square",0.06);
+      if(state.combo>1) toast("Combo x"+state.combo+" · "+pad.name);
+      else if(i>=0 && i%3===0) toast(SAY[i%SAY.length]);
+      if(pad.goal) winRun();
+    } else {
+      state.combo=0;
+      beep(240,0.06,"sine",0.03);
+    }
+  }
+
+  function winRun(){
+    if(state.mode!=="play") return;
+    state.mode="win"; state.won=true;
+    saveBest(); bumpWin("local-train-dash"); fanfare();
+    overlay.className="overlay win";
+    overlay.innerHTML='<div class="card"><p class="eyebrow">Palava gate</p><h1><span>You made it home</span></h1>'+
+      '<p class="story">The local emptied out at Dombivli and the walk to Palava felt light. Score <b style="color:#fff">'+state.score+'</b> · Best <b style="color:#ffcf5c">'+best+'</b>.</p>'+
+      '<p class="how">She is proud of this commute, and of the late nights that paid for the keys.</p>'+
+      manifested()+
+      '<button class="play" id="play" type="button">Ride again</button></div>';
+    overlay.classList.remove("hidden");
+    document.getElementById("play").addEventListener("click", resetGame);
+  }
+
+  function missRun(){
+    if(state.mode!=="play") return;
+    state.mode="dead";
+    saveBest();
+    beep(160,0.28,"sawtooth",0.04);
+    overlay.className="overlay";
+    overlay.innerHTML='<div class="card"><p class="eyebrow">Missed the fast</p><h1><span>The slow is still coming</span></h1>'+
+      '<p class="story">Score <b style="color:#fff">'+state.score+'</b> · Best <b style="color:#ffcf5c">'+best+'</b>.</p>'+
+      '<p class="how">Happens to everyone on this line. Catch the next one and still be home for chai.</p>'+
+      manifested()+
+      '<button class="play" id="play" type="button">Catch the next</button></div>';
+    overlay.classList.remove("hidden");
+    document.getElementById("play").addEventListener("click", resetGame);
+  }
+
+  function pointerToWorld(cx,cy){
+    const rect=canvas.getBoundingClientRect();
+    return {x:cx-rect.left,y:(cy-rect.top)+state.camY};
+  }
+
+  function update(dt){
+    if(state.mode!=="play") return;
+    const p=state.player, w=W(), h=H();
+    if(p.onPad){
+      if(state.keys.ArrowLeft||state.keys.KeyA) p.angle-=2.4*dt;
+      if(state.keys.ArrowRight||state.keys.KeyD) p.angle+=2.4*dt;
+      const min=-Math.PI+0.18,max=-0.18;
+      p.angle=Math.max(min,Math.min(max,p.angle));
+      if(p.charging||state.keys.Space){p.charging=true;p.power=Math.min(1,p.power+dt*0.85);}
+      const pad=p.onPad;
+      const ang=Math.atan2(p.y-pad.y,p.x-pad.x);
+      p.x=pad.x+Math.cos(ang)*(pad.r+p.r);
+      p.y=pad.y+Math.sin(ang)*(pad.r+p.r);
+    } else {
+      p.vy+=24*dt;
+      if(state.keys.ArrowLeft||state.keys.KeyA) p.vx-=10*dt;
+      if(state.keys.ArrowRight||state.keys.KeyD) p.vx+=10*dt;
+      p.x+=p.vx*60*dt; p.y+=p.vy*60*dt;
+      if(p.x<p.r){p.x=p.r;p.vx*=-0.4;}
+      if(p.x>w-p.r){p.x=w-p.r;p.vx*=-0.4;}
+      for(const m of state.pads){
+        const dx=p.x-m.x, dy=p.y-m.y, d=Math.hypot(dx,dy), minD=m.r+p.r;
+        if(d<minD && d>0){
+          const nx=dx/d, ny=dy/d, vn=p.vx*nx+p.vy*ny;
+          if(vn<0){
+            if(-vn<8.2) land(m);
+            else {
+              p.x=m.x+nx*minD; p.y=m.y+ny*minD;
+              p.vx=(p.vx-1.6*vn*nx)*0.72; p.vy=(p.vy-1.6*vn*ny)*0.72;
+              burst(p.x,p.y,"#e8a04e",6); shake();
+            }
+          }
+        }
+      }
+    }
+    const targetCam=p.y-h*0.55;
+    state.camY+=(targetCam-state.camY)*Math.min(1,dt*4);
+    if(p.y-state.camY>h+40) missRun();
+    for(let i=state.particles.length-1;i>=0;i--){
+      const q=state.particles[i];
+      q.x+=q.vx; q.y+=q.vy; q.vy+=0.06; q.life-=dt*1.8;
+      if(q.life<=0) state.particles.splice(i,1);
+    }
+  }
+
+  function drawTrajectory(){
+    const p=state.player; if(!p||!p.onPad) return;
+    const pow=7.6+(p.charging?p.power:0.45)*12;
+    let x=p.x,y=p.y,vx=Math.cos(p.angle)*pow,vy=Math.sin(p.angle)*pow;
+    ctx.beginPath(); ctx.moveTo(x,worldToScreen(y));
+    for(let i=0;i<28;i++){ vy+=24*(1/60); x+=vx; y+=vy; if(i%2===0) ctx.lineTo(x,worldToScreen(y)); else ctx.moveTo(x,worldToScreen(y)); }
+    ctx.strokeStyle=p.charging?"rgba(255,207,92,0.8)":"rgba(124,140,255,0.4)";
+    ctx.lineWidth=2; ctx.stroke();
+  }
+
+  function drawPad(m){
+    const sy=worldToScreen(m.y), h=H();
+    if(sy<-90||sy>h+90) return;
+    // train car / platform slab
+    const bw=m.r*2.6, bh=m.r*1.15;
+    ctx.fillStyle=m.goal?"#3a2e12":"#2a241c";
+    ctx.strokeStyle=m.goal?"#ffcf5c":"#e8a04e";
+    ctx.lineWidth=2;
+    roundRect(m.x-bw/2, sy+m.r*0.15, bw, bh, 8);
+    ctx.fill(); ctx.stroke();
+    // windows
+    ctx.fillStyle="rgba(124,140,255,0.35)";
+    for(let i=0;i<3;i++){
+      ctx.fillRect(m.x-bw/2+10+i*(bw/3), sy+m.r*0.35, bw/5, bh*0.35);
+    }
+    // landing disc
+    ctx.beginPath(); ctx.arc(m.x,sy,m.r+5,0,Math.PI*2);
+    ctx.fillStyle=m.landed?"rgba(62,230,193,0.16)":(m.goal?"rgba(255,207,92,0.2)":"rgba(232,160,78,0.12)");
+    ctx.fill();
+    ctx.beginPath(); ctx.arc(m.x,sy,m.r,0,Math.PI*2);
+    ctx.fillStyle=m.goal?"#ffcf5c":(m.landed?"#3ee6c1":"#d9c4a0");
+    ctx.fill();
+    ctx.fillStyle="#0b0d17";
+    ctx.font="700 10px system-ui,sans-serif";
+    ctx.textAlign="center"; ctx.textBaseline="middle";
+    ctx.fillText(m.name, m.x, sy);
+  }
+  function roundRect(x,y,w,h,r){
+    ctx.beginPath();
+    ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath();
+  }
+
+  function draw(){
+    const w=W(), h=H();
+    ctx.clearRect(0,0,w,h);
+    const g=ctx.createLinearGradient(0,0,0,h);
+    g.addColorStop(0,"#0a0d18"); g.addColorStop(1,"#1a1520");
+    ctx.fillStyle=g; ctx.fillRect(0,0,w,h);
+    // faint rail
+    ctx.strokeStyle="rgba(232,160,78,0.15)"; ctx.lineWidth=3;
+    ctx.beginPath(); ctx.moveTo(w*0.18,0); ctx.lineTo(w*0.18,h); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(w*0.82,0); ctx.lineTo(w*0.82,h); ctx.stroke();
+    for(const s of state.stars){
+      const sy=((s.y-state.camY*0.3)%(h*2)+h*2)%(h*2);
+      ctx.globalAlpha=s.a; ctx.fillStyle="#e8e0d0";
+      ctx.beginPath(); ctx.arc(((s.x%w)+w)%w,sy,s.s,0,Math.PI*2); ctx.fill();
+    }
+    ctx.globalAlpha=1;
+    for(const m of state.pads) drawPad(m);
+    for(const q of state.particles){
+      ctx.globalAlpha=Math.max(0,q.life); ctx.fillStyle=q.color;
+      ctx.beginPath(); ctx.arc(q.x,worldToScreen(q.y),q.r,0,Math.PI*2); ctx.fill();
+    }
+    ctx.globalAlpha=1;
+    if(state.mode==="play") drawTrajectory();
+    const p=state.player;
+    if(p){
+      const sy=worldToScreen(p.y);
+      const ang=p.onPad?p.angle:Math.atan2(p.vy,p.vx);
+      ctx.save(); ctx.translate(p.x,sy); ctx.rotate(ang+Math.PI/2);
+      if(!p.onPad||p.charging){
+        ctx.fillStyle=p.charging?"#ffcf5c":"#e8a04e";
+        ctx.globalAlpha=p.charging?0.5+p.power*0.5:0.85;
+        ctx.beginPath(); ctx.moveTo(0,12); ctx.lineTo(-5,18+(p.charging?p.power*10:6)); ctx.lineTo(5,18+(p.charging?p.power*10:6)); ctx.closePath(); ctx.fill();
+        ctx.globalAlpha=1;
+      }
+      // commuter
+      ctx.fillStyle="#f4f6ff";
+      ctx.beginPath(); ctx.arc(0,-6,5,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle="#7c8cff";
+      ctx.fillRect(-6,0,12,12);
+      ctx.restore();
+    }
+  }
+
+  function loop(ts){
+    const dt=Math.min(0.05,(ts-state.last)/1000||0.016);
+    state.last=ts; update(dt); draw(); requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+
+  function setupPreview(){
+    const w=W()||400,h=H()||600;
+    state.pads=[makePad(w*0.3,h*0.5,36,"Thane",false),makePad(w*0.7,h*0.3,32,"Dombivli",false),makePad(w*0.5,h*0.74,50,"CSMT",false)];
+    state.pads[2].landed=true;
+    state.player={x:w*0.5,y:h*0.74-60,vx:0,vy:0,r:10,onPad:state.pads[2],angle:-Math.PI/2,power:0.55,charging:true};
+    state.camY=0; spawnStars();
+  }
+  setupPreview();
+  wireChrome();
+  document.getElementById("play").addEventListener("click",resetGame);
+  canvas.addEventListener("pointerdown",(e)=>{
+    if(state.mode!=="play") return;
+    const wpt=pointerToWorld(e.clientX,e.clientY);
+    state.pointer.down=true;
+    if(state.player&&state.player.onPad){aimAt(wpt.x,wpt.y);startCharge();}
+    try{canvas.setPointerCapture(e.pointerId);}catch(err){}
+    e.preventDefault();
+  });
+  canvas.addEventListener("pointermove",(e)=>{
+    if(state.mode!=="play") return;
+    const wpt=pointerToWorld(e.clientX,e.clientY);
+    if(state.player&&state.player.onPad) aimAt(wpt.x,wpt.y);
+  });
+  canvas.addEventListener("pointerup",()=>{ if(state.pointer.down&&state.mode==="play") releaseJump(); state.pointer.down=false; });
+  canvas.addEventListener("pointercancel",()=>{state.pointer.down=false;});
+  window.addEventListener("keydown",(e)=>{
+    state.keys[e.code]=true;
+    if(e.code==="Space"){e.preventDefault(); if(state.mode==="play"&&state.player&&state.player.onPad&&!state.player.charging) startCharge();}
+  });
+  window.addEventListener("keyup",(e)=>{
+    state.keys[e.code]=false;
+    if(e.code==="Space"&&state.mode==="play"){e.preventDefault(); releaseJump();}
+  });
+})();
+</script>
+</body>
+</html>

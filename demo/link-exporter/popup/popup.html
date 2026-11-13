@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Link Exporter</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <img src="../icons/icon48.png" alt="" width="24" height="24">
+    <h1>Link Exporter</h1>
+  </header>
+  <p id="status" class="muted" role="status">Reading the links on this page…</p>
+  <ul id="counts" aria-label="Link counts"></ul>
+  <section id="settings" aria-label="Export settings">
+    <div class="field"><label for="filter">Links</label><select id="filter"></select></div>
+    <div class="field"><label for="format">Format</label><select id="format"></select></div>
+    <label class="check"><input type="checkbox" id="dedupe"> Combine duplicate addresses (adds a count)</label>
+    <label class="check"><input type="checkbox" id="skipHidden"> Leave out links that aren't shown on the page</label>
+  </section>
+  <label for="preview" class="muted">Preview</label>
+  <textarea id="preview" readonly spellcheck="false" rows="9"></textarea>
+  <div id="toolbar">
+    <button id="copyBtn" class="primary" type="button" disabled>Copy</button>
+    <button id="downloadBtn" type="button" disabled>Download file</button>
+  </div>
+  <ul id="notes"></ul>
+  <footer class="muted">Runs locally. The page is read only when you click; nothing is sent anywhere or saved.</footer>
+  <script src="../lib/core.js"></script>
+  <script src="../../_shared/chrome-shim.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

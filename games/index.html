@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b0d17">
+<link rel="icon" href="data:,">
+<title>Middle-Class Hero: 30 Days of Small Wins — InnerShift Lab</title>
+<style>
+  :root{--bg:#0b0d17;--bg2:#121528;--line:#1f2440;--text:#d9ddf0;--muted:#8a90ad;--accent:#7c8cff;--teal:#3ee6c1;--gold:#ffcf5c}
+  *{box-sizing:border-box} body{margin:0;font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text)}
+  a{color:var(--accent);text-decoration:none} a:hover{color:var(--teal)}
+  header,main,footer{max-width:1080px;margin:auto;padding:0 20px}
+  header{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;gap:12px;flex-wrap:wrap}
+  .back{font-weight:700}
+  .brand{font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:#fff}
+  .tools{display:flex;gap:6px;align-items:center}
+  .curbtn{appearance:none;border:1px solid var(--line);background:#1a1e36;color:var(--text);border-radius:8px;padding:5px 9px;font-size:12px;font-weight:700;cursor:pointer}
+  .curbtn.on{border-color:var(--gold);color:var(--gold)}
+  .hero{padding:18px 0 8px}
+  .eyebrow{color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:.1em;font-size:12px}
+  h1{font-size:clamp(28px,6.4vw,50px);line-height:1.12;color:#fff;margin:8px 0 12px}
+  h1 span{background:linear-gradient(90deg,#7c8cff,#3ee6c1);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .lead{max-width:680px;color:var(--text);font-size:17px}
+  .note{color:var(--muted);font-size:14px;margin-top:8px}
+  .meterwrap{margin:22px 0 8px;background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:16px 18px;display:flex;flex-wrap:wrap;gap:16px 28px;align-items:center}
+  .meterlabel{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:6px}
+  .meter{width:min(420px,100%);height:12px;background:#1a1e36;border-radius:99px;overflow:hidden}
+  .meter>i{display:block;height:100%;width:0;background:linear-gradient(90deg,#7c8cff,#3ee6c1);border-radius:99px;transition:width .4s}
+  .meternum{font-weight:800;color:#fff;font-size:22px}
+  .streak{color:var(--gold);font-weight:700}
+  .grid{display:grid;gap:16px;padding:28px 0 48px}
+  @media(min-width:720px){.grid{grid-template-columns:repeat(2,1fr)}}
+  .card{background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:20px;display:flex;flex-direction:column;min-height:230px;position:relative}
+  .card.today{border-color:var(--teal);box-shadow:0 0 0 1px rgba(62,230,193,.35)}
+  .meta{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}
+  .day{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+  .genre{font-size:11px;font-weight:700;color:var(--gold);border:1px solid #5a4a1a;border-radius:99px;padding:2px 8px}
+  h2{color:#fff;font-size:22px;margin:0 0 8px}
+  .story{color:var(--muted);font-size:14px;margin:0 0 16px;flex:1}
+  .btn{align-self:flex-start;background:var(--accent);color:#0b0d17;font-weight:800;padding:8px 16px;border-radius:10px}
+  .btn:hover{color:#0b0d17;filter:brightness(1.08)}
+  .badge{position:absolute;top:16px;right:16px;font-size:11px;font-weight:800;color:#0b0d17;background:var(--teal);border-radius:99px;padding:2px 8px}
+  .won{color:var(--teal);font-size:12px;font-weight:700;margin-bottom:8px}
+  footer{padding:24px 20px 40px;color:#6b7190;font-size:13px;border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><a class="back" href="../index.html#games">← Portfolio</a> · InnerShift Lab</div>
+  <div class="tools" aria-label="Currency">
+    <button class="curbtn" data-cur="INR" type="button">₹</button>
+    <button class="curbtn" data-cur="USD" type="button">$</button>
+    <button class="curbtn" data-cur="GBP" type="button">£</button>
+  </div>
+</header>
+<main>
+  <section class="hero">
+    <p class="eyebrow">A small win a day</p>
+    <h1><span>Middle-Class Hero: 30 Days of Small Wins</span></h1>
+    <p class="lead">Feel-good arcade for the commute, the EMI, the late-night side hustle, and the flight back home. One game is scheduled each day from 14 November 2026. The first five are ready now — including two made for anyone sending money or waiting for a gate. Later days will be added here.</p>
+    <p class="note" id="todayline"></p>
+    <div class="meterwrap">
+      <div style="flex:1;min-width:220px">
+        <div class="meterlabel">Confidence meter</div>
+        <div class="meter"><i id="meterfil"></i></div>
+      </div>
+      <div>
+        <div class="meternum"><span id="confn">0</span>%</div>
+        <div class="streak" id="streakline">No streak yet — today’s commute still counts.</div>
+      </div>
+    </div>
+  </section>
+  <section class="grid" id="grid"></section>
+</main>
+<footer>
+  <p>© <span id="y"></span> Sidharth Vijayan · InnerShift Lab. Offline, no trackers, no accounts. Set an intention, play, and keep the streak in this browser only.</p>
+</footer>
+<script>
+const CUR_KEY="isl-mch-currency", PROG_KEY="isl-mch-progress";
+const GAMES = [
+  {day:1, date:"2026-11-14", slug:"01-local-train-dash", id:"local-train-dash", name:"Local Train Dash", genre:"Arcade", story:"The fast is packing out of CSMT. Hop platform to platform through Thane and Dombivli, and get home to Palava while the light is still on."},
+  {day:2, date:"2026-11-15", slug:"02-salary-day-words", id:"salary-day-words", name:"Salary Day Words", genre:"Word", story:"It’s credit-day in the account. Spell the life you’re building — bonus, home, chai, freedom — and watch the salary stack before the month runs out."},
+  {day:3, date:"2026-11-16", slug:"03-emi-crusher", id:"emi-crusher", name:"EMI Crusher", genre:"Reflex", story:"Every perfect tap knocks a chunk off the loan. Crush the EMI until the number is zero and the Palava keys are just keys."},
+  {day:4, date:"2026-11-17", slug:"04-remittance-stack", id:"remittance-stack", name:"Remittance Stack", genre:"Puzzle", story:"You’re a time zone away. Bundle rent, school fees and celebration money so the transfer lands, and Sunday’s video call starts with a smile."},
+  {day:5, date:"2026-11-18", slug:"05-homecoming-memory", id:"homecoming-memory", name:"Homecoming Memory", genre:"Memory", story:"After visa waits and video calls, remember the way home: the local, vada pav, chai, the Kerala courtyard, and her key in Palava."}
+];
+function getCur(){try{return localStorage.getItem(CUR_KEY)||"INR";}catch(e){return "INR";}}
+function setCur(c){try{localStorage.setItem(CUR_KEY,c);}catch(e){}}
+function syncCur(){document.querySelectorAll(".curbtn").forEach(b=>b.classList.toggle("on", b.dataset.cur===getCur()));}
+document.querySelectorAll(".curbtn").forEach(b=>b.addEventListener("click",()=>{setCur(b.dataset.cur);syncCur();}));
+syncCur();
+function todayIST(){return new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Calcutta",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());}
+function readProg(){try{return JSON.parse(localStorage.getItem(PROG_KEY)||"{}");}catch(e){return {};}}
+const fmt=new Intl.DateTimeFormat("en-IN",{weekday:"short",day:"numeric",month:"short",year:"numeric",timeZone:"Asia/Calcutta"});
+const today=todayIST();
+document.getElementById("y").textContent=new Date().getFullYear();
+const scheduled=GAMES.find(g=>g.date===today);
+document.getElementById("todayline").textContent = scheduled
+  ? ("Today in Asia/Calcutta is Day "+scheduled.day+" — "+scheduled.name+".")
+  : (today < "2026-11-14"
+      ? "The first day is 14 November 2026. Every game below is playable now. Set an intention, play, and start a streak."
+      : "Days 1–5 have been scheduled. Later days will be added here.");
+const p=readProg();
+const conf=Math.max(0,Math.min(100,p.confidence||0));
+document.getElementById("confn").textContent=String(conf);
+document.getElementById("meterfil").style.width=conf+"%";
+const streak=p.streak||0;
+const fresh=p.lastDay===today;
+document.getElementById("streakline").textContent = streak>1
+  ? (streak+"-day streak"+(fresh?" — you’re still in it.":" — play today to keep it."))
+  : (fresh?"Streak started today. Come back tomorrow.":"No streak yet — today’s commute still counts.");
+const grid=document.getElementById("grid");
+const wins=p.wins||{};
+for(const g of GAMES){
+  const card=document.createElement("article");
+  card.className="card"+(g.date===today?" today":"");
+  const dateLabel=fmt.format(new Date(g.date+"T12:00:00+05:30"));
+  const won=wins[g.id]?'<div class="won">Won in this browser</div>':'';
+  card.innerHTML='<div class="meta"><span class="day">Day '+g.day+' · '+dateLabel+'</span><span class="genre">'+g.genre+'</span></div>'+
+    (g.date===today?'<span class="badge">Today</span>':'')+
+    '<h2>'+g.name+'</h2>'+won+'<p class="story">'+g.story+'</p>'+
+    '<a class="btn" href="'+g.slug+'/index.html">Play</a>';
+  grid.appendChild(card);
+}
+</script>
+</body>
+</html>

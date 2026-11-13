@@ -1,0 +1,36 @@
+:root {
+  --bg: #0f172a; --card: #1e293b; --text: #e2e8f0; --muted: #94a3b8;
+  --accent: #047857; --good: #22c55e; --warn: #f59e0b; --bad: #ef4444;
+}
+* { box-sizing: border-box; }
+body { margin: 0; width: 400px; padding: 12px; font: 13px/1.4 system-ui, -apple-system, "Segoe UI", Arial, sans-serif; background: var(--bg); color: var(--text); }
+header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+h1 { font-size: 15px; margin: 0; }
+button, select { font: inherit; border: 0; border-radius: 6px; cursor: pointer; padding: 6px 10px; background: var(--card); color: var(--text); }
+button.primary { background: var(--accent); color: #fff; font-weight: 600; }
+button:hover:not(:disabled) { filter: brightness(1.1); }
+button:disabled, select:disabled { opacity: .5; cursor: default; }
+button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.muted { color: var(--muted); font-size: 12px; }
+.good { color: var(--good); } .warn { color: var(--warn); } .bad { color: var(--bad); }
+footer { margin-top: 10px; }
+#status { min-height: 18px; margin: 4px 0 8px; }
+#picker, #settings { background: var(--card); border-radius: 8px; padding: 8px 10px; display: grid; gap: 7px; }
+#settings { margin-top: 8px; }
+.field { display: flex; align-items: center; gap: 8px; }
+.field label { flex: 0 0 52px; color: var(--muted); font-size: 12px; }
+.field select { flex: 1 1 0; width: 0; min-width: 0; padding: 5px 8px; border: 1px solid #334155; background: var(--bg); }
+.check { display: flex; align-items: center; gap: 6px; font-size: 12px; cursor: pointer; }
+#shape { margin: 8px 0 4px; }
+#shape:empty { display: none; }
+#preview { max-height: 190px; overflow: auto; border-radius: 6px; background: #fff; }
+#preview:empty { display: none; }
+#preview table { border-collapse: collapse; font-size: 11.5px; color: #111827; min-width: 100%; }
+#preview th, #preview td { border: 1px solid #e5e7eb; padding: 3px 6px; text-align: left; white-space: nowrap; max-width: 160px; overflow: hidden; text-overflow: ellipsis; }
+#preview th { background: #d1fae5; font-weight: 600; }
+#preview .more { color: #6b7280; font-style: italic; }
+#toolbar { display: flex; gap: 6px; margin: 8px 0 0; }
+#toolbar button { flex: 1; padding: 8px; }
+#notes { margin: 8px 0 0; padding-left: 16px; font-size: 12px; }
+#notes:empty { display: none; }
+#notes li { margin: 2px 0; }

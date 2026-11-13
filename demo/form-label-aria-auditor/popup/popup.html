@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Form Label &amp; ARIA Auditor</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <img src="../icons/icon48.png" alt="" width="24" height="24">
+    <h1 id="appName">Form Label &amp; ARIA Auditor</h1>
+  </header>
+  <button id="runBtn" class="primary">Audit forms on this page</button>
+  <p id="status" class="muted" role="status">Checks every form field and button on the current tab for an accessible name, and every ARIA ID reference.</p>
+  <section id="summary" hidden></section>
+  <div id="tabs" role="tablist" hidden>
+    <button type="button" role="tab" data-kind="errors" aria-selected="true">Errors</button>
+    <button type="button" role="tab" data-kind="warnings" aria-selected="false">Warnings</button>
+    <button type="button" role="tab" data-kind="all" aria-selected="false">All</button>
+  </div>
+  <section id="results" hidden></section>
+  <div id="toolbar" hidden>
+    <button id="copyBtn" type="button">Copy report</button>
+  </div>
+  <footer class="muted">Runs locally. Nothing is sent to us or any server. "Show on page" scrolls to the control and outlines it briefly.</footer>
+  <script src="../lib/core.js"></script>
+  <script src="../../_shared/chrome-shim.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

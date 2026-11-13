@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dyslexia-Friendly Reader</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <img src="../icons/icon48.png" alt="" width="24" height="24">
+    <h1 id="appName">Dyslexia-Friendly Reader</h1>
+  </header>
+  <button id="runBtn" class="primary">Open reader view</button>
+  <p id="status" class="muted" role="status">Re-flows this page's article (or the text you've selected) with a clear font, wider spacing and a comfortable line length.</p>
+  <section id="settings" aria-label="Reader settings">
+    <div class="field"><label for="font">Font</label><select id="font"></select></div>
+    <div class="field"><label for="size">Text size</label><select id="size"></select></div>
+    <div class="field"><label for="spacing">Letter spacing</label><select id="spacing"></select></div>
+    <div class="field"><label for="lineHeight">Line spacing</label><select id="lineHeight"></select></div>
+    <div class="field"><label for="width">Line length</label><select id="width"></select></div>
+    <div class="field"><label for="theme">Colours</label><select id="theme"></select></div>
+  </section>
+  <div id="toolbar">
+    <button id="resetBtn" type="button">Reset to defaults</button>
+    <button id="closeBtn" type="button" disabled>Close reader</button>
+  </div>
+  <footer class="muted">Runs locally. Nothing is sent anywhere or saved. Changes apply instantly while the reader is open; press Esc on the page to close it.</footer>
+  <script src="../lib/core.js"></script>
+  <script src="../../_shared/chrome-shim.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+[
+  { "windowId": 1, "index": 0, "title": "Sourdough starter guide", "url": "http://bakery.example.com/journal/starter/", "highlighted": true },
+  { "windowId": 1, "index": 1, "title": "Rye [part 2] *notes*", "url": "http://bakery.example.com/journal/rye_(part 2)/", "highlighted": true },
+  { "windowId": 1, "index": 2, "title": "Prices, hours & \"opening\" times", "url": "http://bakery.example.com/hours?a=1&b=2" },
+  { "windowId": 1, "index": 3, "title": "Settings", "url": "chrome://settings/" },
+  { "windowId": 1, "index": 4, "title": "=HYPERLINK(\"x\") order form", "url": "http://bakery.example.com/order/" },
+  { "windowId": 1, "index": 5, "title": "Sourdough starter guide", "url": "http://bakery.example.com/journal/starter/" },
+  { "windowId": 1, "index": 6, "title": "", "url": "about:blank" },
+  { "windowId": 1, "index": 7, "title": "", "url": "http://bakery.example.com/menu.pdf" },
+  { "windowId": 2, "index": 1, "title": "Oven temperatures", "url": "http://bakery.example.com/journal/oven/" },
+  { "windowId": 2, "index": 0, "title": "Flour suppliers", "url": "http://bakery.example.com/suppliers/" },
+  { "windowId": 3, "index": 0, "title": "Secret gift ideas", "url": "http://bakery.example.com/gifts/", "incognito": true }
+]

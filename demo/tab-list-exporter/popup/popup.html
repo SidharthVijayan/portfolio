@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tab List Exporter</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <img src="../icons/icon48.png" alt="" width="24" height="24">
+    <h1 id="appName">Tab List Exporter</h1>
+  </header>
+  <section id="settings" aria-label="Export settings">
+    <div class="field"><label for="scope">Which tabs</label><select id="scope"></select></div>
+    <div class="field"><label for="format">Format</label><select id="format"></select></div>
+    <label class="check"><input type="checkbox" id="dedupe" checked> Leave out duplicate addresses</label>
+    <label class="check"><input type="checkbox" id="skipInternal" checked> Leave out browser pages (settings, new tab, extensions)</label>
+  </section>
+  <p id="status" class="muted" role="status">Reading your tabs…</p>
+  <label for="preview" class="muted">Preview</label>
+  <textarea id="preview" readonly spellcheck="false" rows="9"></textarea>
+  <div id="toolbar">
+    <button id="copyBtn" class="primary" type="button" disabled>Copy</button>
+    <button id="downloadBtn" type="button" disabled>Download file</button>
+  </div>
+  <footer class="muted">Runs locally. Your tab list is only read when you open this popup; nothing is sent anywhere or saved.</footer>
+  <script src="../lib/core.js"></script>
+  <script src="../../_shared/chrome-shim.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
