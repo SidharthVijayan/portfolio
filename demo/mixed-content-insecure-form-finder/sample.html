@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval'; style-src 'unsafe-inline' 'self'; img-src 'self' data:; font-src 'self' data:; connect-src 'none'; frame-src 'none'; object-src 'none'; media-src 'self' data:; base-uri 'none';">
+  <meta name="demo-page-url" content="https://bakery.example.com/order/">
+  <meta charset="UTF-8">
+  <title>Order online | Demo Bakery</title>
+  <link rel="stylesheet" data-demo-href="http://static.oven-widgets.test/css/menu.css?v=3">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/site.css">
+  <style type="text/plain">
+    @import url("http://static.oven-widgets.test/css/print.css");
+    @font-face { font-family: Crust; src: url(http://static.oven-widgets.test/fonts/crust.woff2) format("woff2"); }
+    /* url(http://commented.out.test/old.png) is ignored */
+    body { font: 17px/1.6 Georgia, serif; margin: 0; background: #fffbf5 url('http://img.bakery.example.com/flour.png') repeat-x; color: #3b2a1a; }
+    header { background: #7c2d12; color: #fff; padding: 18px 40px; font-size: 22px; }
+    main { max-width: 820px; margin: 24px 40px; }
+    .card { background: #fff; border: 1px solid #f1dcc3; border-radius: 10px; padding: 12px 16px; margin: 10px 0; display: flex; gap: 14px; align-items: center; }
+    .card img { width: 72px; height: 72px; border-radius: 8px; background: #e7d5c0; }
+    form { background: #fff; border: 1px solid #f1dcc3; border-radius: 10px; padding: 12px 16px; margin: 12px 0; }
+    label { display: block; margin: 4px 0; }
+    .map { width: 360px; height: 120px; border: 0; background: #e7d5c0; }
+  </style>
+  <script src="http://cdn.oven-widgets.test/cart.js" type="text/plain"></script>
+  <script src="https://cdn.oven-widgets.test/secure-ok.js" type="text/plain"></script>
+  <script src="//cdn.oven-widgets.test/protocol-relative.js" type="text/plain"></script>
+  <script src="http://localhost:3000/dev-reload.js" type="text/plain"></script>
+  <script>window.bakery = { open: true };</script>
+</head>
+<body>
+  <header>Demo Bakery</header>
+  <main>
+    <h1>Order online</h1>
+    <div class="card"><img id="sourdough" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" alt="Country sourdough" data-demo-src="http://img.bakery.example.com/loaf.jpg"><div><b>Country sourdough</b><br>Hot oven, crackly crust. $9</div></div>
+    <div class="card"><img class="thumb" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" alt="Seeded rye" data-demo-src="http://img.bakery.example.com/loaf.jpg" data-demo-srcset="http://img.bakery.example.com/rye-1x.jpg 1x, https://img.bakery.example.com/rye-2x.jpg 2x"><div><b>Seeded rye</b><br>Dense and nutty. $8</div></div>
+    <div class="card"><picture><source type="image/webp" data-demo-srcset="http://img.bakery.example.com/bun.webp"><img src="/img/bun.jpg" alt="Cinnamon bun"></picture><div><b>Cinnamon bun</b><br>Sticky and warm. $4</div></div>
+    <div class="card" data-demo-style="background-image: url(http://img.bakery.example.com/stripe.png)"><video width="72" height="72" data-demo-poster="http://media.bakery.example.com/oven-poster.jpg"><source type="video/mp4" data-demo-src="http://media.bakery.example.com/oven.mp4"></video><div><b>Watch the oven</b><br>Our morning bake.</div></div>
+    <audio data-demo-src="http://media.bakery.example.com/jingle.mp3"></audio>
+    <iframe class="map" title="Find us" src="http://maps.oven-widgets.test/embed?place=bakery" srcdoc="<!-- not loaded in this demo -->"></iframe>
+    
+
+    <form id="signin" class="account" action="http://accounts.bakery.example.com/login" method="post">
+      <label>Email <input type="email" name="email"></label>
+      <label>Password <input type="password" name="password"></label>
+      <input type="hidden" name="next" value="/order/">
+      <button type="submit">Sign in</button>
+    </form>
+    <form id="newsletter" action="https://bakery.example.com/subscribe" method="post">
+      <label>Email for weekly specials <input type="email" name="email"></label>
+      <button type="submit">Subscribe</button>
+      <button type="submit" formaction="http://lists.oven-widgets.test/join">Join the old list</button>
+    </form>
+    <form id="search" action="/search"><label>Search the menu <input type="search" name="q"></label></form>
+    <p><a href="http://old.bakery.example.com/">Our old site</a> (a plain link: not mixed content)</p>
+  </main>
+</body>
+</html>

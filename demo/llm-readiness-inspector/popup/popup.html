@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>LLM Readiness Pro</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="app">
+
+  <div class="hero">
+    <div class="title">LLM Readiness</div>
+    <div class="ring" id="ring"><span id="score">--</span></div>
+    <div class="status" id="status"></div>
+  </div>
+
+  <div class="metrics">
+    <div class="metric"><span>Markdown</span><b id="markdown"></b></div>
+    <div class="metric"><span>Extractability</span><b id="extract"></b></div>
+    <div class="metric"><span>Token</span><b id="token"></b></div>
+    <div class="metric"><span>Conversion</span><b id="conversion"></b></div>
+  </div>
+
+  <div class="stats">
+    <div>Words: <span id="words"></span></div>
+    <div>Sentence Avg: <span id="sent"></span></div>
+    <div>Redundancy: <span id="red"></span></div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-title">Issues</div>
+    <ul id="issues"></ul>
+  </div>
+
+  <div class="panel">
+    <div class="panel-title">Fixes</div>
+    <ul id="fixes"></ul>
+  </div>
+
+  <button id="export">Export Report</button>
+
+</div>
+
+<script src="../../_shared/chrome-shim.js"></script>
+<script src="popup.js"></script>
+</body>
+</html>

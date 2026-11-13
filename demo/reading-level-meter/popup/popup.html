@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Reading Level Meter</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <img src="../icons/icon48.png" alt="" width="24" height="24">
+    <h1 id="appName">Reading Level Meter</h1>
+  </header>
+  <button id="runBtn" class="primary">Measure reading level</button>
+  <p id="status" class="muted" role="status">Scores the main text of this page, or the text you've selected, with Flesch-Kincaid and other grade-level formulas.</p>
+  <section id="summary" hidden></section>
+  <div id="targetRow" hidden>
+    <label for="target">Write for</label>
+    <select id="target"></select>
+  </div>
+  <div id="verdict" class="card" hidden></div>
+  <div id="tabs" role="tablist" hidden>
+    <button type="button" role="tab" data-kind="long" aria-selected="true">Long sentences</button>
+    <button type="button" role="tab" data-kind="words" aria-selected="false">Hard words</button>
+    <button type="button" role="tab" data-kind="scores" aria-selected="false">Scores</button>
+  </div>
+  <section id="results" hidden></section>
+  <div id="toolbar" hidden>
+    <button id="copyBtn" type="button">Copy report</button>
+  </div>
+  <footer class="muted">Runs locally. Nothing is sent to us or any server. "Show on page" scrolls to the paragraph and outlines it briefly.</footer>
+  <script src="../lib/core.js"></script>
+  <script src="../../_shared/chrome-shim.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

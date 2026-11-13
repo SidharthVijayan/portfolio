@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Table to CSV</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <img src="../icons/icon48.png" alt="" width="24" height="24">
+    <h1>Table to CSV</h1>
+  </header>
+  <p id="status" class="muted" role="status">Looking for tables on this page…</p>
+  <section id="picker" aria-label="Table">
+    <div class="field"><label for="table">Table</label><select id="table" disabled></select></div>
+  </section>
+  <p id="shape" class="muted"></p>
+  <div id="preview" aria-label="Preview"></div>
+  <section id="settings" aria-label="Options">
+    <div class="field"><label for="format">Format</label><select id="format"></select></div>
+    <label class="check"><input type="checkbox" id="repeatMerged"> Repeat merged cell values</label>
+    <label class="check"><input type="checkbox" id="combineHeaders"> Combine header rows into one</label>
+    <label class="check"><input type="checkbox" id="includeHidden"> Include hidden rows</label>
+    <label class="check"><input type="checkbox" id="bom"> Excel-friendly download (UTF-8 BOM, CSV only)</label>
+  </section>
+  <div id="toolbar">
+    <button id="copyBtn" class="primary" type="button" disabled>Copy</button>
+    <button id="downloadBtn" type="button" disabled>Download file</button>
+  </div>
+  <ul id="notes" aria-label="Notes"></ul>
+  <footer class="muted">Runs only when you click. Nothing is sent or stored. By InnerShift Lab.</footer>
+  <script src="../lib/core.js"></script>
+  <script src="../../_shared/chrome-shim.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+:root {
+  --bg: #0f172a; --card: #1e293b; --text: #e2e8f0; --muted: #94a3b8;
+  --accent: #b45309; --good: #22c55e; --warn: #f59e0b; --bad: #ef4444;
+}
+* { box-sizing: border-box; }
+body { margin: 0; width: 340px; padding: 12px; font: 13px/1.4 system-ui, -apple-system, "Segoe UI", Arial, sans-serif; background: var(--bg); color: var(--text); }
+header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+h1 { font-size: 15px; margin: 0; }
+button, select { font: inherit; border: 0; border-radius: 6px; cursor: pointer; padding: 6px 10px; background: var(--card); color: var(--text); }
+button.primary { width: 100%; padding: 9px; background: var(--accent); color: #fff; font-weight: 600; }
+button:hover:not(:disabled) { filter: brightness(1.1); }
+button:disabled { opacity: .5; cursor: default; }
+button:focus-visible, select:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.muted { color: var(--muted); font-size: 12px; }
+.good { color: var(--good); } .warn { color: var(--warn); } .bad { color: var(--bad); }
+footer { margin-top: 10px; }
+
+/* Dyslexia-Friendly Reader */
+#status { min-height: 32px; }
+#settings { background: var(--card); border-radius: 8px; padding: 8px 10px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 7px; }
+.field { display: flex; align-items: center; gap: 8px; }
+.field label { flex: 0 0 96px; color: var(--muted); font-size: 12px; }
+.field select { flex: 1 1 0; width: 0; min-width: 0; padding: 5px 8px; border: 1px solid #334155; background: var(--bg); }
+#toolbar { display: flex; gap: 6px; margin: 8px 0 0; }
+#toolbar button { flex: 1; }

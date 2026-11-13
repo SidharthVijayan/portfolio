@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Citation Copier</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <img src="../icons/icon48.png" alt="" width="24" height="24">
+    <h1 id="appName">Citation Copier</h1>
+  </header>
+  <div class="field"><label for="style">Style</label><select id="style"></select></div>
+  <div id="citation" class="citation" role="region" aria-label="Citation" aria-live="polite" tabindex="0"></div>
+  <div id="toolbar">
+    <button id="copyBtn" class="primary" type="button" disabled>Copy citation</button>
+  </div>
+  <label class="check"><input type="checkbox" id="accessDate"> Always add the date I accessed it</label>
+  <p id="status" class="muted" role="status">Reading this page's details…</p>
+  <ul id="notes"></ul>
+  <details id="editor">
+    <summary>Edit details</summary>
+    <div class="edit">
+      <label for="fAuthors">Authors <span class="muted">(one per line; start with = to keep an organisation's name as written)</span></label>
+      <textarea id="fAuthors" rows="3" spellcheck="false"></textarea>
+      <label for="fTitle">Title</label><input id="fTitle" type="text">
+      <label for="fSite" id="fSiteLabel">Website</label><input id="fSite" type="text">
+      <label for="fDate">Published <span class="muted">(2026-10-20, 2026-10 or 2026; blank if none)</span></label><input id="fDate" type="text">
+      <label for="fUrl">Address or DOI</label><input id="fUrl" type="text" spellcheck="false">
+      <button id="resetBtn" type="button">Undo my edits</button>
+    </div>
+  </details>
+  <p id="sources" class="muted small"></p>
+  <footer class="muted">Runs locally. Nothing is sent anywhere or saved. Always check a citation against your style guide.</footer>
+  <script src="../lib/core.js"></script>
+  <script src="../../_shared/chrome-shim.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

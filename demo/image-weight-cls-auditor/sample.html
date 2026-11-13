@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval'; style-src 'unsafe-inline' 'self'; img-src 'self' data:; font-src 'self' data:; connect-src 'none'; frame-src 'none'; object-src 'none'; media-src 'self' data:; base-uri 'none';">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gallery | Demo Bakery</title>
+  <style>
+    body { margin: 0; font-family: Arial, sans-serif; color: #3f2a1d; background-color: #fffbf5; }
+    img { display: block; max-width: 100%; height: auto; }
+    .top { display: block; height: 64px; background-color: #7c2d12; color: #ffffff; position: relative; }
+    .logo { display: block; }
+    .hero-box { display: block; position: relative; }
+    .badge { width: 64px; }
+    h1 { display: block; height: 40px; margin: 0; font-size: 26px; }
+    .story { display: block; height: 760px; font-size: 16px; }
+    .bakes { display: block; }
+    .thumb { width: 120px; height: 120px; object-fit: cover; }
+    .wide { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+    .pin { display: inline-block; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <div class="top"><img class="logo" src="/img/logo.png" width="48" height="48" alt="Demo Bakery"></div>
+  <h1>Our bakery gallery</h1>
+  <div class="hero-box">
+    <img class="hero" src="/img/hero.jpg" alt="Fresh loaves on the counter" loading="lazy">
+    <img class="badge" src="/img/new-badge.png" alt="New" style="position: absolute; top: 8px; right: 8px">
+  </div>
+  <div class="story">Every loaf is shaped by hand before sunrise. Our sourdough starter is twelve years old, our butter comes from a farm down the road, and nothing leaves the oven before it is ready.</div>
+  <div class="bakes">
+    <h2>Today's bakes</h2>
+    <img class="photo" src="/img/croissant.jpg" width="800" height="600" alt="Butter croissants">
+    <img class="photo" src="/img/sourdough.jpg" width="400" height="300" alt="Sourdough loaf" loading="lazy">
+    <img class="photo" src="/img/rye.jpg" width="1600" height="1200" alt="Dark rye bread">
+    <img class="thumb" src="/img/baguette.jpg" alt="Baguettes" loading="lazy">
+    <img class="wide" src="/img/focaccia.jpg" alt="Rosemary focaccia" loading="lazy">
+    <img class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="/img/brioche.jpg" alt="Brioche buns">
+    <p>Find us <img class="pin" src="/img/pin.svg" width="24" height="24" alt=""> on Baker Street.</p>
+  </div>
+  <div class="hidden"><img src="/img/old-offer.jpg" alt="Old offer"></div>
+  <img src="/px.gif" width="1" height="1" alt="">
+</body>
+</html>

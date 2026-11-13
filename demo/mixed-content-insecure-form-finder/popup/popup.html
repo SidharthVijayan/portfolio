@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mixed Content &amp; Insecure Form Finder</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <img src="../icons/icon48.png" alt="" width="24" height="24">
+    <h1>Mixed Content &amp; Insecure Form Finder</h1>
+  </header>
+  <p id="status" class="muted" role="status">Checking this page…</p>
+  <ul id="counts" aria-label="Counts"></ul>
+  <div id="groups"></div>
+  <ul id="notes" aria-label="Notes"></ul>
+  <section id="settings" aria-label="Options">
+    <div class="field"><label for="format">Export as</label><select id="format"></select></div>
+  </section>
+  <div id="toolbar">
+    <button id="copyBtn" class="primary" type="button" disabled>Copy</button>
+    <button id="downloadBtn" type="button" disabled>Download file</button>
+  </div>
+  <footer class="muted">Runs only when you click. Nothing is sent or stored. By InnerShift Lab.</footer>
+  <script src="../lib/core.js"></script>
+  <script src="../../_shared/chrome-shim.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

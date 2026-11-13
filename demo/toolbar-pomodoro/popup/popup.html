@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Toolbar Pomodoro</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <img src="../icons/icon48.png" alt="" width="24" height="24">
+    <h1>Toolbar Pomodoro</h1>
+  </header>
+  <section id="timer" class="focus" aria-label="Timer">
+    <div id="phaseLabel" class="phase">Focus</div>
+    <div id="clock" class="clock" role="timer" aria-live="off">25:00</div>
+    <div id="stateLine" class="state">Ready</div>
+    <div id="dots" class="dots" aria-hidden="true"></div>
+    <div id="sessionLine" class="session"></div>
+  </section>
+  <div id="controls">
+    <button id="primaryBtn" class="primary" type="button" disabled>Start focus</button>
+    <button id="skipBtn" type="button" disabled>Skip</button>
+    <button id="resetBtn" type="button" disabled>Reset</button>
+  </div>
+  <p id="today" class="today">Today: 0 focus sessions (0 min)</p>
+  <p id="status" class="muted" role="status"></p>
+  <details id="settingsBox">
+    <summary>Settings</summary>
+    <div class="grid">
+      <label for="focusMin">Focus (minutes)</label><input id="focusMin" type="number" min="1" max="180" step="1">
+      <label for="breakMin">Short break (minutes)</label><input id="breakMin" type="number" min="1" max="60" step="1">
+      <label for="longMin">Long break (minutes)</label><input id="longMin" type="number" min="1" max="90" step="1">
+      <label for="longEvery">Long break after (focus sessions)</label><input id="longEvery" type="number" min="2" max="12" step="1">
+    </div>
+    <label class="check"><input id="longBreaks" type="checkbox"> Take long breaks</label>
+    <label class="check"><input id="autoStart" type="checkbox"> Start the next session automatically</label>
+    <label class="check"><input id="notify" type="checkbox"> Show a notification when a session ends</label>
+    <p class="muted small">New lengths apply from the next session.</p>
+  </details>
+  <footer class="muted">Runs on its own; never reads web pages. Nothing is sent anywhere. By InnerShift Lab.</footer>
+  <script src="../lib/core.js"></script>
+  <script src="../../_shared/chrome-shim.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

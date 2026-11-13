@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Social Card Previewer</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <img src="../icons/icon48.png" alt="" width="24" height="24">
+    <h1 id="appName">Social Card Previewer</h1>
+  </header>
+  <button id="runBtn" class="primary">Preview this page</button>
+  <p id="status" class="muted" role="status">Shows how the current tab may look when shared, and checks its Open Graph and X card tags.</p>
+  <section id="summary" hidden></section>
+  <div id="toolbar" hidden>
+    <button id="copyBtn" type="button">Copy report</button>
+  </div>
+  <section id="results" hidden></section>
+  <footer class="muted">Runs locally. Nothing is sent to us or any server; the preview image is loaded from the page's own image URL. Previews are approximate.</footer>
+  <script src="../lib/core.js"></script>
+  <script src="../../_shared/chrome-shim.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

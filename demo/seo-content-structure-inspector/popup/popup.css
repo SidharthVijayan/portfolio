@@ -1,0 +1,42 @@
+body {
+  font-family: Arial, sans-serif;
+  width: 320px;
+  padding: 10px;
+  background: #111;
+  color: #eee;
+}
+
+h2 {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+button {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  background: #00c853;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+button:hover {
+  background: #00e676;
+}
+
+.section {
+  margin-bottom: 10px;
+  padding: 8px;
+  background: #1e1e1e;
+  border-radius: 4px;
+}
+
+.good { color: #00e676; }
+.warn { color: #ffca28; }
+.bad { color: #ff5252; }
+
+small {
+  color: #aaa;
+}

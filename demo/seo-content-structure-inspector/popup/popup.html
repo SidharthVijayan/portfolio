@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SEO Inspector</title>
+  <link rel="stylesheet" href="popup.css">
+  <style>
+    body{margin:0;padding:12px;background:#111;color:#fff;font:12px/1.45 system-ui,sans-serif}
+    h2{margin:0 0 8px;font-size:15px}
+    button{background:#7c8cff;color:#0b0d17;border:0;border-radius:6px;padding:8px 12px;font-weight:700;cursor:pointer}
+    #results{margin-top:10px}
+    .row{margin:0 0 6px}
+  </style>
+</head>
+<body>
+  <h2>SEO Structure Report</h2>
+  <button id="analyzeBtn" type="button">Analyze Page</button>
+  <div id="results"><small>Click “Analyze Page” to run the audit on the sample (or your pasted HTML).</small></div>
+  <script src="../../_shared/chrome-shim.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

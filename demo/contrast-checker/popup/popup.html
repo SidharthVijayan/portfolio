@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Contrast Checker</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <img src="../icons/icon48.png" alt="" width="24" height="24">
+    <h1 id="appName">Contrast Checker</h1>
+  </header>
+  <button id="runBtn" class="primary">Check contrast on this page</button>
+  <p id="status" class="muted" role="status">Checks the visible text on the current tab against WCAG AA and AAA contrast.</p>
+  <section id="summary" hidden></section>
+  <div id="tabs" role="tablist" hidden>
+    <button type="button" role="tab" data-kind="fails" aria-selected="true">Fails AA</button>
+    <button type="button" role="tab" data-kind="aaa" aria-selected="false">AAA only</button>
+    <button type="button" role="tab" data-kind="unsure" aria-selected="false">Check</button>
+    <button type="button" role="tab" data-kind="all" aria-selected="false">All</button>
+  </div>
+  <section id="results" hidden></section>
+  <div id="toolbar" hidden>
+    <button id="copyBtn" type="button">Copy report</button>
+  </div>
+  <footer class="muted">Runs locally. Nothing is sent to us or any server. "Show on page" scrolls to the text and outlines it briefly.</footer>
+  <script src="../lib/core.js"></script>
+  <script src="../../_shared/chrome-shim.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

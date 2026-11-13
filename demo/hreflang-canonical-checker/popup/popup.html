@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hreflang &amp; Canonical Checker</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <img src="../icons/icon48.png" alt="" width="24" height="24">
+    <h1 id="appName">Hreflang &amp; Canonical Checker</h1>
+  </header>
+  <button id="runBtn" class="primary">Check this page</button>
+  <p id="status" class="muted" role="status">Checks the canonical link and hreflang alternates on the current tab.</p>
+  <section id="summary" hidden></section>
+  <div id="toolbar" hidden>
+    <button id="copyBtn" type="button">Copy report</button>
+    <button id="csvBtn" type="button">Download CSV</button>
+  </div>
+  <section id="results" hidden></section>
+  <footer class="muted">Runs locally. No data leaves your browser. On-page check only: return links on other language versions are not fetched.</footer>
+  <script src="../lib/core.js"></script>
+  <script src="../../_shared/chrome-shim.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
