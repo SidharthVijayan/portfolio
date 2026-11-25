@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Selection Word Counter</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <img src="../icons/icon48.png" alt="" width="24" height="24">
+    <h1>Selection Word Counter</h1>
+  </header>
+  <p id="source" class="muted small">Select text on a page, right-click it and choose "Count words in selection". Or paste text below.</p>
+  <section id="result" aria-label="Counts" aria-live="polite">
+    <div class="big"><span id="words" class="num">0</span> <span id="wordsLabel" class="unit">words</span></div>
+    <dl class="stats">
+      <div><dt>Characters</dt><dd id="chars">0</dd></div>
+      <div><dt>Characters, no spaces</dt><dd id="charsNoSpaces">0</dd></div>
+      <div><dt>Sentences</dt><dd id="sentences">0</dd></div>
+      <div><dt>Paragraphs</dt><dd id="paragraphs">0</dd></div>
+      <div><dt>Reading time</dt><dd id="readTime">0 sec</dd></div>
+      <div><dt>Speaking time</dt><dd id="speakTime">0 sec</dd></div>
+    </dl>
+  </section>
+  <p id="note" class="muted small"></p>
+  <label for="text" class="lbl">Text being counted <span class="muted">(you can edit or paste)</span></label>
+  <textarea id="text" rows="3" spellcheck="false" placeholder="Paste or type text to count it"></textarea>
+  <div id="controls">
+    <button id="copyBtn" class="primary" type="button">Copy counts</button>
+    <button id="clearBtn" type="button">Clear</button>
+  </div>
+  <p id="status" class="muted small" role="status"></p>
+  <details id="settingsBox">
+    <summary>Reading and speaking speed</summary>
+    <div class="grid">
+      <label for="readWpm">Reading</label><input id="readWpm" type="number" min="50" max="1000" step="1">
+      <label for="speakWpm">Speaking</label><input id="speakWpm" type="number" min="50" max="400" step="1">
+    </div>
+    <p class="muted small">Words per minute. Defaults: 238 reading, 130 speaking.</p>
+  </details>
+  <footer class="muted">Nothing is sent anywhere. By InnerShift Lab.</footer>
+  <script src="../lib/core.js"></script>
+  <script src="../../_shared/chrome-shim.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

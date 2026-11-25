@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Print Cleaner</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <img src="../icons/icon48.png" alt="" width="24" height="24">
+    <h1>Print Cleaner</h1>
+  </header>
+  <p id="status" class="muted" role="status">Reading this page…</p>
+  <fieldset id="groups">
+    <legend>Remove before printing</legend>
+    <div id="list"></div>
+  </fieldset>
+  <label class="opt"><input type="checkbox" id="links"> Write link addresses after links on paper</label>
+  <div id="toolbar">
+    <button id="cleanBtn" type="button" disabled>Clean page</button>
+    <button id="printBtn" class="primary" type="button" disabled>Print…</button>
+    <button id="restoreBtn" type="button" disabled>Restore page</button>
+  </div>
+  <footer class="muted">Parts are hidden, not deleted, and only in this tab: Restore page or a reload brings them back. On the page, "Remove more" lets you click away anything else. Nothing is sent or stored. By InnerShift Lab.</footer>
+  <script src="../lib/core.js"></script>
+  <script src="../../_shared/chrome-shim.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

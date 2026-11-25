@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Reading Ruler</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <img src="../icons/icon48.png" alt="" width="24" height="24">
+    <h1>Reading Ruler</h1>
+  </header>
+  <p id="status" class="muted" role="status">Reading this page…</p>
+  <fieldset id="tintSet">
+    <legend>Ruler colour</legend>
+    <div id="tints" class="swatches"></div>
+  </fieldset>
+  <fieldset id="dimSet">
+    <legend>Dim the rest of the page</legend>
+    <div id="dims" class="seg"></div>
+  </fieldset>
+  <fieldset id="lineSet">
+    <legend>Height (text lines)</legend>
+    <div id="lines" class="seg"></div>
+  </fieldset>
+  <label class="opt"><input type="checkbox" id="mouse"> Follow the mouse</label>
+  <label class="opt"><input type="checkbox" id="keys"> ↑ ↓ keys move the ruler (the page scrolls at the edges)</label>
+  <div id="toolbar">
+    <button id="toggleBtn" class="primary" type="button" disabled>Turn on ruler</button>
+  </div>
+  <footer class="muted">Clicks still reach the page, keys you type into boxes are left alone, and the ruler never prints. Esc on the page turns it off. Choices are not saved, and nothing is sent anywhere. By InnerShift Lab.</footer>
+  <script src="../lib/core.js"></script>
+  <script src="../../_shared/chrome-shim.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0d17">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'none'; img-src 'self' data:; font-src 'self'; form-action 'none'; base-uri 'none';">
+  <title>LinkedIn Network Insights — InnerShift Lab</title>
+  <meta name="description" content="See who left your LinkedIn network, who your real friends are, and who has gone quiet. Runs entirely in your browser from your official data export. Nothing is uploaded.">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand"><a class="back-link" href="../../index.html#tools">← Portfolio</a><span>InnerShift Lab</span></div>
+    <p class="privacy-chip" title="This page makes no network requests. Your export never leaves this device.">Nothing leaves your browser</p>
+  </header>
+
+  <main>
+    <section class="hero">
+      <p class="eyebrow">A private look at your own LinkedIn export</p>
+      <h1>LinkedIn Network Insights</h1>
+      <p class="lead">See who left your connections, who your real friends are, who is ignoring your messages, and who actually writes back. This page never opens LinkedIn for you, never scrapes anything, and never uploads your file. You drop in the official data archive LinkedIn already lets you download.</p>
+    </section>
+
+    <section class="export-panel" id="export-panel" aria-labelledby="export-title">
+      <h2 id="export-title">Get your official export first</h2>
+      <p class="export-lead">The fastest path is LinkedIn’s own download page. This button opens it in a new tab. This tool does not log in, does not talk to LinkedIn, and does not read your account.</p>
+      <p class="cta-row">
+        <a class="btn btn-primary" href="https://www.linkedin.com/mypreferences/d/download-my-data" target="_blank" rel="noopener noreferrer">Get my LinkedIn data</a>
+      </p>
+
+      <ol class="steps" aria-label="Three steps to get your export">
+        <li class="step">
+          <div class="step-art" aria-hidden="true">
+            <svg viewBox="0 0 64 64" width="56" height="56">
+              <rect x="8" y="14" width="48" height="36" rx="6" fill="#1a1e36" stroke="#7c8cff" stroke-width="2"/>
+              <path d="M20 32h24M32 20v24" stroke="#3ee6c1" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="step-num">1</div>
+          <h3>Request the larger archive</h3>
+          <p>Choose <strong>Download larger data archive</strong>, or tick at least <strong>Connections</strong> and <strong>Messages</strong>. Then tap Request archive. Invitations, Reactions and Comments are useful extras if they are offered.</p>
+        </li>
+        <li class="step">
+          <div class="step-art" aria-hidden="true">
+            <svg viewBox="0 0 64 64" width="56" height="56">
+              <rect x="8" y="16" width="48" height="32" rx="5" fill="#1a1e36" stroke="#ffcf5c" stroke-width="2"/>
+              <path d="M10 20l22 14L54 20" fill="none" stroke="#ffcf5c" stroke-width="2" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="step-num">2</div>
+          <h3>Wait for the email</h3>
+          <p>A first zip often arrives in about <strong>10 minutes</strong> (Connections, Invitations and Messages are usually in it). The full archive can take <strong>up to 24 hours</strong>. The download link stays live for 72 hours.</p>
+        </li>
+        <li class="step">
+          <div class="step-art" aria-hidden="true">
+            <svg viewBox="0 0 64 64" width="56" height="56">
+              <path d="M12 28l20-12 20 12v18a6 6 0 0 1-6 6H18a6 6 0 0 1-6-6V28z" fill="#1a1e36" stroke="#3ee6c1" stroke-width="2"/>
+              <path d="M32 30v14M25 37l7 7 7-7" fill="none" stroke="#3ee6c1" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="step-num">3</div>
+          <h3>Drop the zip here</h3>
+          <p>Come back when the email arrives, download the zip, and drop it on the area below — or tap it and pick the file. Individual CSV files work too.</p>
+        </li>
+      </ol>
+      <p class="come-back">You can close this tab while you wait. Come back when the email arrives — your file is read only on this device, then forgotten when you leave.</p>
+    </section>
+
+    <section class="upload-panel" aria-labelledby="upload-title">
+      <h2 id="upload-title" class="visually-hidden">Upload your export</h2>
+      <div id="drop-current" class="dropzone" tabindex="0" role="button" aria-controls="file-current" aria-label="Drop your LinkedIn export zip, or tap to choose a file">
+        <input id="file-current" type="file" accept=".zip,.csv,application/zip,text/csv" multiple>
+        <div class="drop-art" aria-hidden="true">
+          <svg viewBox="0 0 88 72" width="88" height="72">
+            <rect x="4" y="16" width="80" height="52" rx="12" fill="#121528" stroke="#7c8cff" stroke-width="2"/>
+            <path d="M28 8h14l6 8h24a8 8 0 0 1 8 8" fill="none" stroke="#7c8cff" stroke-width="2"/>
+            <path d="M44 30v22M34 40l10-10 10 10" fill="none" stroke="#3ee6c1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <p class="drop-title">Drop your LinkedIn zip here</p>
+        <p class="drop-sub">Or <span class="tap-hint">tap to upload</span> from your phone or computer. Zips and CSV files are both fine. Nothing is sent anywhere.</p>
+        <p class="drop-status" id="status-current"></p>
+      </div>
+
+      <details class="older-wrap">
+        <summary>Optional: add an older export to see who left</summary>
+        <p class="older-help">“Who left” compares two official Connections lists. Drop an earlier zip or Connections.csv here after you have loaded your latest one.</p>
+        <div id="drop-previous" class="dropzone dropzone-secondary" tabindex="0" role="button" aria-controls="file-previous" aria-label="Drop an older LinkedIn export to compare connections">
+          <input id="file-previous" type="file" accept=".zip,.csv,application/zip,text/csv" multiple>
+          <p class="drop-title">Drop an older export</p>
+          <p class="drop-sub">Tap to choose a previous zip or Connections.csv</p>
+          <p class="drop-status" id="status-previous"></p>
+        </div>
+      </details>
+
+      <p class="demo-row">
+        <button type="button" class="btn btn-ghost" id="btn-demo">Try with example data</button>
+        <span class="demo-note">Fictional names and messages, clearly labelled, so you can see the tool without an export.</span>
+      </p>
+      <p class="error" id="error" hidden></p>
+    </section>
+
+    <div id="sample-banner" class="sample-banner" hidden>
+      You are viewing <strong>example data</strong>. Everyone here is fictional. Drop your own export to replace it.
+    </div>
+
+    <section id="results" class="results" hidden></section>
+  </main>
+
+  <footer>
+    <p>© <span id="year"></span> Sidharth Vijayan · InnerShift Lab. This tool does not scrape LinkedIn, does not install anything, and does not keep a copy of your archive.</p>
+  </footer>
+
+  <script src="vendor/jszip.min.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

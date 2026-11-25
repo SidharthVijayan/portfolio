@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval'; style-src 'unsafe-inline' 'self'; img-src 'self' data:; font-src 'self' data:; connect-src 'none'; frame-src 'none'; object-src 'none'; media-src 'self' data:; base-uri 'none';">
+  <meta name="demo-page-url" content="https://checkout.demo.example/cart"><meta charset="utf-8"><title>Checkout | Demo Pottery Shop</title>
+<style>
+body{margin:0;font:16px/1.5 system-ui,Arial,sans-serif;background:#f8fafc;color:#0f172a}
+header{background:#1e3a8a;color:#fff;padding:18px 40px;font-size:22px;font-weight:700}
+main{display:flex;gap:40px;padding:32px 40px}
+.card{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:24px}
+.form{flex:1.3}.summary{flex:1;position:relative;min-height:330px}
+label{display:block;font-size:13px;color:#475569;margin-top:14px}
+.field{border:1px solid #cbd5e1;border-radius:6px;padding:9px 12px;margin-top:4px;background:#fff}
+h2{margin:0 0 6px;font-size:20px}
+.row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f1f5f9}
+.total{font-size:22px;font-weight:700;border:0;padding-top:14px}
+.order{position:absolute;right:30px;bottom:205px;background:#16a34a;color:#fff;border:0;border-radius:8px;padding:14px 26px;font-size:18px;font-weight:700}
+.note{color:#64748b;font-size:13px;margin-top:20px}
+</style></head>
+<body>
+<header>Demo Pottery Shop · Checkout</header>
+<main>
+  <section class="card form">
+    <h2>Shipping details</h2>
+    <label>Full name</label><div class="field">Asha Menon</div>
+    <label>Email</label><div class="field" id="email">asha.menon@mail.test</div>
+    <label>Phone</label><div class="field" id="phone">+91 98470 12345</div>
+    <label>Address</label><div class="field">12 Temple Road, Thrissur, Kerala 680001</div>
+    <p class="note">Demo page from the extension's test suite. Not a real shop or person.</p>
+  </section>
+  <section class="card summary">
+    <h2>Order summary</h2>
+    <div class="row"><span>Sunrise Mug × 2</span><span>₹1,200</span></div>
+    <div class="row"><span>Clay Teapot</span><span>₹2,450</span></div>
+    <div class="row"><span>Shipping</span><span>₹150</span></div>
+    <div class="row total" id="total"><span>Total</span><span>₹3,800</span></div>
+    <button class="order" id="order">Place order</button>
+  </section>
+</main>
+</body></html>

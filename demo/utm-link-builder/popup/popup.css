@@ -1,0 +1,40 @@
+:root {
+  --bg: #0f172a; --card: #1e293b; --text: #e2e8f0; --muted: #94a3b8; --line: #334155;
+  --accent: #c2410c; --good: #22c55e; --warn: #f59e0b; --bad: #ef4444;
+}
+* { box-sizing: border-box; }
+body { margin: 0; width: 420px; padding: 10px 12px; font: 13px/1.4 system-ui, -apple-system, "Segoe UI", Arial, sans-serif; background: var(--bg); color: var(--text); }
+header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+h1 { font-size: 15px; margin: 0; }
+button, select, input[type=text] { font: inherit; border-radius: 6px; }
+button { border: 0; cursor: pointer; padding: 6px 10px; background: var(--card); color: var(--text); }
+button.primary { background: var(--accent); color: #fff; font-weight: 600; }
+button:hover:not(:disabled) { filter: brightness(1.15); }
+button:disabled { opacity: .5; cursor: default; }
+select, input[type=text] { background: #020617; color: var(--text); border: 1px solid var(--line); padding: 4px 7px; }
+button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, summary:focus-visible { outline: 2px solid #fdba74; outline-offset: 2px; }
+.muted { color: var(--muted); font-size: 12px; }
+.good { color: var(--good); } .warn { color: var(--warn); } .bad { color: var(--bad); }
+#page { margin: 0 0 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#presetRow, #saveRow { display: flex; gap: 6px; margin-bottom: 7px; }
+#presetRow select, #saveRow input { flex: 1; min-width: 0; }
+#fields { display: grid; grid-template-columns: 1fr 1fr; gap: 5px 8px; margin-bottom: 8px; }
+#fields label { display: flex; flex-direction: column; gap: 2px; font-size: 11px; color: var(--muted); }
+#fields b { color: #fdba74; font-weight: 600; }
+#options { display: flex; flex-wrap: wrap; gap: 6px 12px; margin-bottom: 8px; font-size: 12px; color: var(--muted); }
+#options label { display: flex; align-items: center; gap: 5px; cursor: pointer; }
+#options input { accent-color: var(--accent); margin: 0; }
+#options select { padding: 2px 4px; font-size: 12px; }
+textarea { width: 100%; height: 64px; resize: vertical; background: #020617; color: #fed7aa; border: 1px solid var(--line); border-radius: 8px; padding: 7px 9px; font: 12px/1.45 ui-monospace, Menlo, Consolas, monospace; word-break: break-all; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+#status { min-height: 18px; margin: 5px 0 6px; }
+#toolbar { display: flex; gap: 6px; margin: 0 0 7px; }
+#toolbar button { flex: 1; padding: 8px; }
+details { border-top: 1px solid var(--line); padding-top: 5px; }
+#recentBox[open] summary { margin-bottom: 0; }
+summary { cursor: pointer; color: var(--muted); font-size: 12px; }
+#recentList { list-style: none; margin: 5px 0 4px; padding: 0; max-height: 56px; overflow: auto; }
+#recentList li { margin-bottom: 3px; }
+#clearRecentBtn { padding: 2px 8px; font-size: 11px; }
+#recentList button { width: 100%; padding: 3px 6px; text-align: left; font: 11px/1.4 ui-monospace, Menlo, Consolas, monospace; padding: 4px 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+footer { margin-top: 8px; }

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval'; style-src 'unsafe-inline' 'self'; img-src 'self' data:; font-src 'self' data:; connect-src 'none'; frame-src 'none'; object-src 'none'; media-src 'self' data:; base-uri 'none';">
+<meta charset="utf-8">
+<title>How tide pools survive the low tide | Shoreline Notes (demo)</title>
+<style>
+body { margin: 0; font-family: Georgia, "Times New Roman", serif; color: #1f2937; background: #fffdf8; }
+.site-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 40px; border-bottom: 1px solid #e5e7eb; font-family: Arial, sans-serif; }
+.logo { font-weight: 700; font-size: 22px; color: #0f766e; text-decoration: none; }
+.site-header nav a { font-size: 14px; color: #374151; margin-left: 18px; text-decoration: none; }
+article { max-width: 680px; margin: 0 auto; padding: 24px 20px 60px; }
+h1 { font-size: 34px; line-height: 1.2; margin: 10px 0 6px; }
+.byline { font: 14px/20px Arial, sans-serif; color: #6b7280; margin: 0 0 18px; }
+article p, article li { font-size: 18px; line-height: 28px; }
+h2 { font-size: 24px; line-height: 32px; margin: 30px 0 6px; }
+.note { font: 14px/20px Arial, sans-serif; color: #6b7280; }
+.comment { font-family: Arial, sans-serif; border-top: 1px solid #e5e7eb; margin-top: 30px; padding-top: 12px; }
+.comment textarea { width: 100%; height: 110px; font: 16px/24px Arial, sans-serif; }
+.comment button { font: 14px Arial, sans-serif; padding: 6px 12px; margin-top: 6px; }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <a class="logo" href="/">Shoreline Notes</a>
+  <nav aria-label="Sections"><a href="/coasts/">Coasts</a><a href="/wildlife/">Wildlife</a><a href="/about/">About</a></nav>
+</header>
+<article id="story">
+  <h1>How tide pools survive the low tide</h1>
+  <p class="byline">By the Shoreline Notes team · 9 minute read · demo article written for the Reading Ruler tests</p>
+  <p id="p1">Twice a day the sea pulls back from the rocky shore and leaves behind hundreds of small basins of water. To a passer-by they look calm, even sleepy, but for the animals inside them the next six hours are a test of patience. The water warms in the sun, loses oxygen as the afternoon goes on, and turns saltier as it slowly evaporates.</p>
+  <p id="p2">Anemones close up into soft, jelly-like buttons to keep their tentacles wet. Periwinkles pull back into their shells and seal the door with a hard plate called an operculum. Small crabs squeeze under stones where the shade keeps the water a few degrees cooler, and sea stars cling to the walls of the pool, waiting for the tide to bring fresh food back in.</p>
+  <h2>A pool is a different world every hour</h2>
+  <p id="p3">The pools higher up the shore are cut off from the sea for longest. They see the widest swings in temperature, and only the toughest species live there. Lower pools are flooded again sooner, so they hold a richer mix of seaweeds, shrimps and tiny fish. Walk down the shore at low tide and you are walking through several different neighbourhoods, each with its own residents and its own rules.</p>
+  <p id="p4">Rain is a hidden danger. A heavy shower can float a layer of fresh water on top of a shallow pool, and many sea creatures cannot cope with the sudden drop in salt. Some snails simply close up and wait; others move to the bottom, where the heavier salt water sinks and stays.</p>
+  <h2>How to visit without harming anyone</h2>
+  <ul>
+    <li>Step on bare rock where you can, not on seaweed or barnacles.</li>
+    <li>If you lift a stone to look underneath, put it back the same way up.</li>
+    <li>Look with your eyes first; many animals are better left untouched.</li>
+    <li>Check the tide times before you go, and keep an eye on the water.</li>
+  </ul>
+  <p id="p5">The best time to explore is the hour either side of the lowest tide. Bring a small mirror to look under ledges without moving anything, and take a notebook: counting the same pool on several visits is a simple way to see how it changes with the seasons.</p>
+  <p id="p6">When the sea finally returns, the first waves break over the pools and stir everything up. Anemones open, crabs come out to feed, and the pool joins the ocean again until the next low tide, a few hours later, when the whole cycle starts once more.</p>
+  <p id="p7">People who study the shore often say that a single pool can teach you more about the sea than a whole day on a boat. Everything is close, slow and in plain view, as long as you give it a few quiet minutes and look carefully.</p>
+  <p class="note">This page is a demo used to test the Reading Ruler extension. It is not a real publication.</p>
+  <section class="comment">
+    <label for="comment">Leave a comment</label>
+    <textarea id="comment">Line one of my comment
+Line two of my comment
+Line three of my comment</textarea>
+    <button id="send" type="button">Post comment</button> <span id="sent"></span>
+  </section>
+</article>
+<script>
+  document.getElementById('send').addEventListener('click', () => { document.getElementById('sent').textContent = 'Thanks, posted (demo).'; });
+</script>
+</body>
+</html>

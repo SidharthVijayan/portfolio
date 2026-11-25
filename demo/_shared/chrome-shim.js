@@ -1,4 +1,3 @@
-
 'use strict';
 // Demo chrome.* shim: runs the real popup/extract code against the sample iframe. No network, no tabs access.
 (function () {
@@ -15,19 +14,34 @@
     return f.contentWindow;
   }
 
+  function demoPageUrl() {
+    try {
+      const meta = sampleWin().document.querySelector('meta[name="demo-page-url"]');
+      if (meta) return meta.getAttribute('content') || '';
+    } catch (e) {}
+    return '';
+  }
+
+  function sampleTab() {
+    const win = sampleWin();
+    return {
+      id: TAB_ID,
+      url: demoPageUrl() || win.location.href,
+      title: win.document.title || 'Sample',
+      active: true,
+      windowId: 1,
+      incognito: false,
+      highlighted: true,
+      index: 0
+    };
+  }
+
   function filterTabs(query) {
     const q = query || {};
+    // Only the active-tab query should map to the sample iframe.
+    // Tab List Exporter asks for currentWindow (no active) and uses the built-in sample set.
     if (q.active) {
-      const win = sampleWin();
-      return [{
-        id: TAB_ID,
-        url: win.location.href,
-        title: win.document.title || 'Sample',
-        active: true,
-        windowId: 1,
-        incognito: false,
-        highlighted: true
-      }];
+      return [sampleTab()];
     }
     const all = parentWin.__demoTabs || [];
     return all.filter(t => {
@@ -97,43 +111,45 @@
     };
   }
 
-  function extractContext(win) {
-    const live = win.document;
-    const needsClone = !!live.querySelector('[data-demo-src],[data-demo-href],[data-demo-srcset],[data-demo-style],[data-demo-poster],[data-demo-data],meta[name="demo-page-url"]');
-    if (!needsClone) return { document: live, location: win.location };
-    const parsed = new win.DOMParser().parseFromString(live.documentElement.outerHTML, 'text/html');
-    restoreDemoAttrs(parsed);
-    let href = win.location.href;
-    const meta = parsed.querySelector('meta[name="demo-page-url"]');
-    if (meta && meta.getAttribute('content')) href = meta.getAttribute('content');
-    return { document: parsed, location: fakeLocation(href) };
-  }
-
-  function runExtractSource(win, src) {
-    const ctx = extractContext(win);
-    const runner = new win.Function('document', 'location', 'src', 'return eval(src);');
-    return applyDemoUrl(runner(ctx.document, ctx.location, src));
+  function pageLocation(win) {
+    const href = demoPageUrl();
+    return href ? fakeLocation(href) : win.location;
   }
 
   async function runFiles(files) {
     const win = sampleWin();
     const root = new URL('../', location.href); // demo/<slug>/
-    const results = [];
+    const sources = [];
     for (const file of files) {
       const url = new URL(file, root);
       const src = await fetch(url).then(r => {
         if (!r.ok) throw new Error('Could not load ' + file);
         return r.text();
       });
-      results.push({ result: runExtractSource(win, src) });
+      sources.push(src);
     }
-    return results;
+    const code = sources.join('\n;\n');
+    const undo = restoreDemoAttrs(win.document);
+    try {
+      // One isolated-world-like scope per injection, sharing live document + window
+      // so later injections can see self.__* references. Chrome returns one result
+      // per frame (the last file's last expression), not one per file.
+      const runner = new win.Function(
+        'document', 'location', 'self', 'window', 'globalThis', 'src',
+        'return eval(src);'
+      );
+      const last = runner(win.document, pageLocation(win), win, win, win, code);
+      return [{ result: applyDemoUrl(last) }];
+    } finally {
+      undo();
+    }
   }
 
   function runFunc(func, args) {
     const win = sampleWin();
     const code = '(' + func.toString() + ').apply(null, ' + JSON.stringify(args || []) + ')';
-    return [{ result: win.eval(code) }];
+    const value = win.eval(code);
+    return Promise.resolve(value).then(result => [{ result }]);
   }
 
   function analyzeLlm(doc) {
@@ -166,21 +182,51 @@
     };
   }
 
-  // --- minimal storage / pomodoro backend ---
-  const memory = { state: null, settings: null };
-  function storageGet(keys) {
+  // --- storage ---
+  const localStore = { state: null, settings: null };
+  const sessionStore = {};
+  try {
+    if (parentWin.__demoSessionLast) sessionStore.last = parentWin.__demoSessionLast;
+  } catch (e) {}
+
+  function areaGet(store, keys) {
+    let list;
+    if (keys == null) list = Object.keys(store);
+    else if (Array.isArray(keys)) list = keys;
+    else if (typeof keys === 'object') list = Object.keys(keys);
+    else list = [keys];
     const out = {};
-    const list = Array.isArray(keys) ? keys : (keys && typeof keys === 'object' ? Object.keys(keys) : [keys]);
-    for (const k of list) if (k) out[k] = memory[k];
+    for (const k of list) {
+      if (k && Object.prototype.hasOwnProperty.call(store, k)) out[k] = store[k];
+    }
     return Promise.resolve(out);
   }
-  function storageSet(obj) {
-    Object.assign(memory, obj);
+  function areaSet(store, area, obj) {
     const changes = {};
-    for (const k of Object.keys(obj || {})) changes[k] = { newValue: obj[k] };
-    listeners.storage.forEach(fn => fn(changes, 'local'));
+    for (const k of Object.keys(obj || {})) {
+      changes[k] = { oldValue: store[k], newValue: obj[k] };
+      store[k] = obj[k];
+    }
+    listeners.storage.forEach(fn => fn(changes, area));
     return Promise.resolve();
   }
+  function areaRemove(store, area, keys) {
+    const list = Array.isArray(keys) ? keys : [keys];
+    const changes = {};
+    for (const k of list) {
+      if (k && Object.prototype.hasOwnProperty.call(store, k)) {
+        changes[k] = { oldValue: store[k] };
+        delete store[k];
+      }
+    }
+    listeners.storage.forEach(fn => fn(changes, area));
+    return Promise.resolve();
+  }
+
+  // Keep the old name used by the pomodoro backend
+  const memory = localStore;
+  function storageGet(keys) { return areaGet(localStore, keys); }
+  function storageSet(obj) { return areaSet(localStore, 'local', obj); }
 
   let alarmTimers = { end: null, tick: null };
   function clearAlarms() {
@@ -247,13 +293,32 @@
   let pomodoroQueue = Promise.resolve();
   const serial = fn => (pomodoroQueue = pomodoroQueue.then(fn, fn));
 
+  function runtimeGetURL(path) {
+    const root = new URL('../', location.href);
+    return new URL(path, root).href;
+  }
+
   window.chrome = {
     runtime: {
       id: 'innershift-demo',
-      sendMessage: function (msg) {
-        return serial(() => pomodoroHandle(msg));
+      getURL: runtimeGetURL,
+      sendMessage: function (msg, cb) {
+        let p;
+        if (msg && typeof msg.cmd === 'string') p = serial(() => pomodoroHandle(msg));
+        else if (msg && msg.type === 'getCapture') {
+          let entry = null;
+          try { entry = parentWin.__demoCaptureEntry || null; } catch (e) {}
+          p = Promise.resolve(entry);
+        } else {
+          p = Promise.resolve(undefined);
+        }
+        if (typeof cb === 'function') p.then(v => cb(v), () => cb(undefined));
+        return p;
       },
-      lastError: null
+      lastError: null,
+      onInstalled: { addListener: function () {} },
+      onStartup: { addListener: function () {} },
+      onMessage: { addListener: function () {} }
     },
     tabs: {
       query: function (q, cb) {
@@ -273,6 +338,17 @@
         }
         if (typeof cb === 'function') setTimeout(() => cb(result), 0);
         return Promise.resolve(result);
+      },
+      create: async function (opts) {
+        const url = (opts && opts.url) || '';
+        try { if (parentWin.__demoOpenUrl) parentWin.__demoOpenUrl(url); } catch (e) {}
+        return { id: 2, url: url };
+      },
+      captureVisibleTab: async function () {
+        try {
+          if (parentWin.__demoCapture) return await parentWin.__demoCapture();
+        } catch (e) {}
+        throw new Error('Capture is not available in this demo');
       }
     },
     scripting: {
@@ -283,12 +359,23 @@
       }
     },
     windows: {
-      getCurrent: async function () { return { id: 1, incognito: false }; }
+      getCurrent: async function () { return { id: 1, incognito: false }; },
+      create: async function (opts) {
+        const url = (opts && opts.url) || '';
+        try { if (parentWin.__demoOpenUrl) parentWin.__demoOpenUrl(url); } catch (e) {}
+        return { id: 2, url: url };
+      }
     },
     storage: {
       local: {
-        get: storageGet,
-        set: storageSet
+        get: keys => areaGet(localStore, keys),
+        set: obj => areaSet(localStore, 'local', obj),
+        remove: keys => areaRemove(localStore, 'local', keys)
+      },
+      session: {
+        get: keys => areaGet(sessionStore, keys),
+        set: obj => areaSet(sessionStore, 'session', obj),
+        remove: keys => areaRemove(sessionStore, 'session', keys)
       },
       onChanged: {
         addListener: function (fn) { listeners.storage.push(fn); }
@@ -312,14 +399,26 @@
       clear: function () { return Promise.resolve(); }
     },
     action: {
-      setBadgeText: async function () {},
-      setBadgeBackgroundColor: async function () {},
+      setBadgeText: async function (opts) {
+        const text = opts && opts.text;
+        if (parentWin.__demoSetBadge) parentWin.__demoSetBadge(text == null ? '' : String(text));
+      },
+      setBadgeBackgroundColor: async function (opts) {
+        const color = opts && (opts.color || opts);
+        if (color && parentWin.__demoSetBadge) parentWin.__demoSetBadge(undefined, typeof color === 'string' ? color : undefined);
+      },
       setBadgeTextColor: async function () {},
-      setTitle: async function () {}
+      setTitle: async function () {},
+      openPopup: async function () {}
     },
     alarms: {
       clear: async function () { return true; },
       create: async function () {}
+    },
+    contextMenus: {
+      create: function () {},
+      removeAll: function (cb) { if (typeof cb === 'function') cb(); },
+      onClicked: { addListener: function () {} }
     }
   };
 })();

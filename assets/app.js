@@ -1,6 +1,6 @@
 document.getElementById('y').textContent=new Date().getFullYear();
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const label={live:'Live',ready:'Ready',review:'In review','in review':'In review'};
+const label={live:'Live in Chrome Web Store',ready:'Coming to Chrome Web Store',coming:'Coming to Chrome Web Store',review:'In review','in review':'In review',tool:'In-browser tool'};
 function card(e){
   const links=[];
   if(e.demo) links.push(`<a class="try" href="${esc(e.demo)}">Try it</a>`);
@@ -47,5 +47,17 @@ Promise.all([
     gsec.hidden=false;
     if(gnav) gnav.hidden=false;
     ggrid.innerHTML=approvedGames.map(gameCard).join('');
+  }
+}).then(async ()=>{
+  let tools=[];
+  try{ const r=await fetch('data/tools.json'); if(r.ok) tools=await r.json(); }catch(e){ tools=[]; }
+  const list=(tools||[]).filter(t=>t.approved!==false);
+  const tsec=document.getElementById('tools');
+  const tnav=document.getElementById('tools-nav');
+  const tgrid=document.getElementById('tools-grid');
+  if(list.length && tsec && tgrid){
+    tsec.hidden=false;
+    if(tnav) tnav.hidden=false;
+    tgrid.innerHTML=list.map(card).join('');
   }
 });

@@ -570,5 +570,315 @@
     "approved": true,
     "demo": "demo/toolbar-pomodoro/",
     "thumb": "assets/thumbs/toolbar-pomodoro.png"
+  },
+  {
+    "slug": "selection-word-counter",
+    "name": "Selection Word Counter",
+    "summary": "Count the words, characters, sentences and paragraphs in text you select or paste, with reading and speaking time.",
+    "stack": [
+      "Manifest V3",
+      "JavaScript",
+      "HTML/CSS"
+    ],
+    "permissions": [
+      "contextMenus",
+      "storage"
+    ],
+    "tests": 15,
+    "privacy": "https://sidharthvijayan.github.io/codeforge-privacy/selection-word-counter/",
+    "store": null,
+    "repo": null,
+    "screenshot": "assets/shots/selection-word-counter.png",
+    "status": "coming",
+    "tags": [
+      "pipeline"
+    ],
+    "approved": true,
+    "demo": "demo/selection-word-counter/",
+    "thumb": "assets/thumbs/selection-word-counter.png"
+  },
+  {
+    "slug": "copy-as-markdown",
+    "name": "Copy as Markdown",
+    "summary": "Copy the part of a web page you selected as clean Markdown, keeping headings, links, lists, tables, code and images.",
+    "stack": [
+      "Manifest V3",
+      "JavaScript",
+      "HTML/CSS"
+    ],
+    "permissions": [
+      "activeTab",
+      "scripting"
+    ],
+    "tests": 22,
+    "privacy": "https://sidharthvijayan.github.io/codeforge-privacy/copy-as-markdown/",
+    "store": null,
+    "repo": null,
+    "screenshot": "assets/shots/copy-as-markdown.png",
+    "status": "coming",
+    "tags": [
+      "pipeline"
+    ],
+    "approved": true,
+    "demo": "demo/copy-as-markdown/",
+    "thumb": "assets/thumbs/copy-as-markdown.png"
+  },
+  {
+    "slug": "utm-link-builder",
+    "name": "UTM Link Builder",
+    "summary": "Add UTM tags to the page you are on from your saved presets, keeping its other parameters, and copy the tagged link.",
+    "stack": [
+      "Manifest V3",
+      "JavaScript",
+      "HTML/CSS"
+    ],
+    "permissions": [
+      "activeTab",
+      "storage"
+    ],
+    "tests": 15,
+    "privacy": "https://sidharthvijayan.github.io/codeforge-privacy/utm-link-builder/",
+    "store": null,
+    "repo": null,
+    "screenshot": "assets/shots/utm-link-builder.png",
+    "status": "coming",
+    "tags": [
+      "pipeline"
+    ],
+    "approved": true,
+    "demo": "demo/utm-link-builder/",
+    "thumb": "assets/thumbs/utm-link-builder.png"
+  },
+  {
+    "slug": "hidden-text-detector",
+    "name": "Hidden Text Detector",
+    "summary": "Find text a visitor can't see but a crawler can read: display:none, tiny fonts, off-screen or same-colour text.",
+    "stack": [
+      "Manifest V3",
+      "JavaScript",
+      "HTML/CSS"
+    ],
+    "permissions": [
+      "activeTab",
+      "scripting"
+    ],
+    "tests": 19,
+    "privacy": "https://sidharthvijayan.github.io/codeforge-privacy/hidden-text-detector/",
+    "store": null,
+    "repo": null,
+    "screenshot": "assets/shots/hidden-text-detector.png",
+    "status": "coming",
+    "tags": [
+      "pipeline"
+    ],
+    "approved": true,
+    "demo": "demo/hidden-text-detector/",
+    "thumb": "assets/thumbs/hidden-text-detector.png"
+  },
+  {
+    "slug": "broken-anchor-checker",
+    "name": "Broken Anchor Checker",
+    "summary": "Find #links that jump nowhere: in-page links whose id doesn't exist, with a likely fix. Also flags duplicate and hidden targets.",
+    "stack": [
+      "Manifest V3",
+      "JavaScript",
+      "HTML/CSS"
+    ],
+    "permissions": [
+      "activeTab",
+      "scripting"
+    ],
+    "tests": 18,
+    "privacy": "https://sidharthvijayan.github.io/codeforge-privacy/broken-anchor-checker/",
+    "store": null,
+    "repo": null,
+    "screenshot": "assets/shots/broken-anchor-checker.png",
+    "status": "coming",
+    "tags": [
+      "pipeline"
+    ],
+    "approved": true,
+    "demo": "demo/broken-anchor-checker/",
+    "thumb": "assets/thumbs/broken-anchor-checker.png"
+  },
+  {
+    "slug": "clean-url-copier",
+    "name": "Clean URL Copier",
+    "summary": "Copy the page you are on without tracking tags: removes utm_, fbclid, gclid and similar, keeping the parts the link needs.",
+    "stack": [
+      "Manifest V3",
+      "JavaScript",
+      "HTML/CSS"
+    ],
+    "permissions": [
+      "activeTab"
+    ],
+    "tests": 13,
+    "privacy": "https://sidharthvijayan.github.io/codeforge-privacy/clean-url-copier/",
+    "store": null,
+    "repo": null,
+    "screenshot": "assets/shots/clean-url-copier.png",
+    "status": "coming",
+    "tags": [
+      "pipeline"
+    ],
+    "approved": true,
+    "demo": "demo/clean-url-copier/",
+    "thumb": "assets/thumbs/clean-url-copier.png"
+  },
+  {
+    "slug": "visible-area-screenshot-annotator",
+    "name": "Visible Area Screenshot Annotator",
+    "summary": "Capture the visible part of the page, then draw boxes, arrows, highlights, text or black-out areas and save or copy a PNG.",
+    "stack": [
+      "Manifest V3",
+      "JavaScript",
+      "HTML/CSS"
+    ],
+    "permissions": [
+      "activeTab"
+    ],
+    "tests": 16,
+    "privacy": "https://sidharthvijayan.github.io/codeforge-privacy/visible-area-screenshot-annotator/",
+    "store": null,
+    "repo": null,
+    "screenshot": "assets/shots/visible-area-screenshot-annotator.png",
+    "status": "coming",
+    "tags": [
+      "pipeline"
+    ],
+    "approved": true,
+    "demo": "demo/visible-area-screenshot-annotator/",
+    "thumb": "assets/thumbs/visible-area-screenshot-annotator.png"
+  },
+  {
+    "slug": "keyboard-focus-order-visualizer",
+    "name": "Keyboard Focus Order Visualizer",
+    "summary": "Numbers every Tab stop on the page in the order the keyboard visits them, and flags jumps, hidden stops and controls Tab skips.",
+    "stack": [
+      "Manifest V3",
+      "JavaScript",
+      "HTML/CSS"
+    ],
+    "permissions": [
+      "activeTab",
+      "scripting"
+    ],
+    "tests": 23,
+    "privacy": "https://sidharthvijayan.github.io/codeforge-privacy/keyboard-focus-order-visualizer/",
+    "store": null,
+    "repo": null,
+    "screenshot": "assets/shots/keyboard-focus-order-visualizer.png",
+    "status": "coming",
+    "tags": [
+      "pipeline"
+    ],
+    "approved": true,
+    "demo": "demo/keyboard-focus-order-visualizer/",
+    "thumb": "assets/thumbs/keyboard-focus-order-visualizer.png"
+  },
+  {
+    "slug": "print-cleaner",
+    "name": "Print Cleaner",
+    "summary": "Removes menus, ads, pop-ups, sidebars and other clutter from a page before you print it or save it as a PDF.",
+    "stack": [
+      "Manifest V3",
+      "JavaScript",
+      "HTML/CSS"
+    ],
+    "permissions": [
+      "activeTab",
+      "scripting"
+    ],
+    "tests": 20,
+    "privacy": "https://sidharthvijayan.github.io/codeforge-privacy/print-cleaner/",
+    "store": null,
+    "repo": null,
+    "screenshot": "assets/shots/print-cleaner.png",
+    "status": "coming",
+    "tags": [
+      "pipeline"
+    ],
+    "approved": true,
+    "demo": "demo/print-cleaner/",
+    "thumb": "assets/thumbs/print-cleaner.png"
+  },
+  {
+    "slug": "invisible-character-finder",
+    "name": "Invisible Character Finder",
+    "summary": "Finds zero-width, hidden and look-alike characters in selected text or a form field, shows them, and cleans them out.",
+    "stack": [
+      "Manifest V3",
+      "JavaScript",
+      "HTML/CSS"
+    ],
+    "permissions": [
+      "activeTab",
+      "scripting"
+    ],
+    "tests": 18,
+    "privacy": "https://sidharthvijayan.github.io/codeforge-privacy/invisible-character-finder/",
+    "store": null,
+    "repo": null,
+    "screenshot": "assets/shots/invisible-character-finder.png",
+    "status": "coming",
+    "tags": [
+      "pipeline"
+    ],
+    "approved": true,
+    "demo": "demo/invisible-character-finder/",
+    "thumb": "assets/thumbs/invisible-character-finder.png"
+  },
+  {
+    "slug": "reading-ruler",
+    "name": "Reading Ruler",
+    "summary": "A tinted reading bar that follows your mouse or arrow keys and dims the rest of the page, so you keep your place.",
+    "stack": [
+      "Manifest V3",
+      "JavaScript",
+      "HTML/CSS"
+    ],
+    "permissions": [
+      "activeTab",
+      "scripting"
+    ],
+    "tests": 16,
+    "privacy": "https://sidharthvijayan.github.io/codeforge-privacy/reading-ruler/",
+    "store": null,
+    "repo": null,
+    "screenshot": "assets/shots/reading-ruler.png",
+    "status": "coming",
+    "tags": [
+      "pipeline"
+    ],
+    "approved": true,
+    "demo": "demo/reading-ruler/",
+    "thumb": "assets/thumbs/reading-ruler.png"
+  },
+  {
+    "slug": "keyword-density-checker",
+    "name": "Keyword Density Checker",
+    "summary": "See the most-used words and 2- and 3-word phrases on a page, with density, and check how often a keyword appears.",
+    "stack": [
+      "Manifest V3",
+      "JavaScript",
+      "HTML/CSS"
+    ],
+    "permissions": [
+      "activeTab",
+      "scripting"
+    ],
+    "tests": 14,
+    "privacy": "https://sidharthvijayan.github.io/codeforge-privacy/keyword-density-checker/",
+    "store": null,
+    "repo": null,
+    "screenshot": "assets/shots/keyword-density-checker.png",
+    "status": "coming",
+    "tags": [
+      "pipeline"
+    ],
+    "approved": true,
+    "demo": "demo/keyword-density-checker/",
+    "thumb": "assets/thumbs/keyword-density-checker.png"
   }
 ]

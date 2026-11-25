@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hidden Text Detector</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <img src="../icons/icon48.png" alt="" width="24" height="24">
+    <h1>Hidden Text Detector</h1>
+  </header>
+  <p id="status" class="muted" role="status">Looking for hidden text…</p>
+  <div id="filters" role="group" aria-label="Show">
+    <button type="button" class="chip" data-group="all" aria-pressed="true">All <span id="nAll">0</span></button>
+    <button type="button" class="chip cloak" data-group="cloak" aria-pressed="false">Cloaking-style <span id="nCloak">0</span></button>
+    <button type="button" class="chip css" data-group="css" aria-pressed="false">Hidden by CSS <span id="nCss">0</span></button>
+    <button type="button" class="chip fine" data-group="fine" aria-pressed="false">Usually fine <span id="nFine">0</span></button>
+  </div>
+  <p id="groupNote" class="muted"></p>
+  <ol id="list" aria-label="Hidden text on this page"></ol>
+  <div id="toolbar">
+    <button id="copyBtn" class="primary" type="button" disabled>Copy report</button>
+    <button id="csvBtn" type="button" disabled>Download CSV</button>
+  </div>
+  <footer class="muted">Runs only when you click. Read-only: the page is not changed. Nothing is sent or stored. By InnerShift Lab.</footer>
+  <script src="../lib/core.js"></script>
+  <script src="../../_shared/chrome-shim.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

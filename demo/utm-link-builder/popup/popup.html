@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>UTM Link Builder</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <img src="../icons/icon48.png" alt="" width="24" height="24">
+    <h1>UTM Link Builder</h1>
+  </header>
+  <p id="page" class="muted" title="">Reading this tab's address…</p>
+  <div id="presetRow">
+    <label for="presetSelect" class="visually-hidden">Preset</label>
+    <select id="presetSelect"><option value="">Choose a saved preset…</option></select>
+    <button id="deletePresetBtn" type="button" disabled>Delete</button>
+  </div>
+  <div id="fields">
+    <label><span>Source <b>*</b></span><input id="f-source" type="text" placeholder="newsletter" autocomplete="off" spellcheck="false"></label>
+    <label><span>Medium</span><input id="f-medium" type="text" placeholder="email" autocomplete="off" spellcheck="false"></label>
+    <label><span>Campaign</span><input id="f-campaign" type="text" placeholder="spring sale" autocomplete="off" spellcheck="false"></label>
+    <label><span>Term</span><input id="f-term" type="text" placeholder="running shoes" autocomplete="off" spellcheck="false"></label>
+    <label><span>Content</span><input id="f-content" type="text" placeholder="header link" autocomplete="off" spellcheck="false"></label>
+    <label><span>Campaign ID</span><input id="f-id" type="text" placeholder="abc123" autocomplete="off" spellcheck="false"></label>
+  </div>
+  <div id="options">
+    <label><input type="checkbox" id="optLower" checked> Lowercase</label>
+    <label>Spaces
+      <select id="optSpaces"><option value="-">become -</option><option value="_">become _</option><option value="keep">stay (%20)</option></select>
+    </label>
+    <label>Old UTM tags
+      <select id="optExisting"><option value="replace">replace</option><option value="keep">keep</option></select>
+    </label>
+  </div>
+  <label for="output" class="visually-hidden">Tagged link</label>
+  <textarea id="output" readonly spellcheck="false" placeholder="Your tagged link appears here."></textarea>
+  <p id="status" class="muted" role="status"></p>
+  <div id="toolbar">
+    <button id="copyBtn" class="primary" type="button" disabled>Copy link</button>
+  </div>
+  <div id="saveRow">
+    <label for="presetName" class="visually-hidden">Preset name</label>
+    <input id="presetName" type="text" maxlength="40" placeholder="Name this preset, e.g. Newsletter" autocomplete="off">
+    <button id="savePresetBtn" type="button">Save preset</button>
+  </div>
+  <details id="recentBox">
+    <summary>Recent links (<span id="recentCount">0</span>)</summary>
+    <ul id="recentList"></ul>
+    <button id="clearRecentBtn" type="button">Clear recent links</button>
+  </details>
+  <footer class="muted">Saved only in this browser. Nothing is sent. By InnerShift Lab.</footer>
+  <script src="../lib/core.js"></script>
+  <script src="../../_shared/chrome-shim.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

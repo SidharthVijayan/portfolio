@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Copy as Markdown</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <img src="../icons/icon48.png" alt="" width="24" height="24">
+    <h1>Copy as Markdown</h1>
+  </header>
+  <p id="status" class="muted" role="status">Reading your selection…</p>
+  <div id="options">
+    <label><input type="checkbox" id="optSource" checked> Add source link at the top</label>
+    <label><input type="checkbox" id="optImages" checked> Keep images</label>
+  </div>
+  <label for="output" class="visually-hidden">Markdown</label>
+  <textarea id="output" spellcheck="false" placeholder="Select part of a page, then click the extension button." readonly></textarea>
+  <div id="toolbar">
+    <button id="copyBtn" class="primary" type="button" disabled>Copy Markdown</button>
+    <button id="downloadBtn" type="button" disabled>Download .md</button>
+  </div>
+  <footer class="muted">Runs only when you click. Nothing is sent or stored. By InnerShift Lab.</footer>
+  <script src="../lib/core.js"></script>
+  <script src="../../_shared/chrome-shim.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

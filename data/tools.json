@@ -1,0 +1,24 @@
+[
+  {
+    "slug": "linkedin-network-insights",
+    "name": "LinkedIn Network Insights",
+    "summary": "See who has left your connections, who you write to most, and who has gone quiet \u2014 from your official LinkedIn export, only in your browser.",
+    "stack": [
+      "JavaScript",
+      "HTML/CSS"
+    ],
+    "permissions": [],
+    "tests": 22,
+    "privacy": null,
+    "store": null,
+    "repo": "https://github.com/SidharthVijayan/codeforge/tree/main/tools-web/linkedin-network-insights",
+    "screenshot": null,
+    "status": "tool",
+    "tags": [
+      "tool"
+    ],
+    "approved": true,
+    "demo": "tools/linkedin-network-insights/",
+    "thumb": "assets/thumbs/linkedin-network-insights.png"
+  }
+]

@@ -30,3 +30,6 @@ footer{padding:30px 20px;color:#6b7190;font-size:14px}
 
 .links a.play-btn{display:inline-block;background:#7c8cff;color:#0b0d17;padding:6px 14px;border-radius:10px;font-weight:800}
 .links a.play-btn:hover{filter:brightness(1.08)}
+
+#tools[hidden],#tools-nav[hidden]{display:none}
+.status.coming,.status.ready{white-space:normal;line-height:1.3;display:inline-block}

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval'; style-src 'unsafe-inline' 'self'; img-src 'self' data:; font-src 'self' data:; connect-src 'none'; frame-src 'none'; object-src 'none'; media-src 'self' data:; base-uri 'none';">
+<meta charset="utf-8">
+<title>Watering Schedules | Demo Garden Docs</title>
+<style>
+body{font-family:system-ui,Arial,sans-serif;margin:0;background:#f8fafc;color:#1e293b}
+.top{background:#14532d;color:#fff;padding:14px 32px;font-weight:700}
+.wrap{display:flex;gap:32px;padding:24px 32px}
+nav.side{width:180px;font-size:14px}
+article{flex:1;max-width:760px;background:#fff;padding:24px 32px;border-radius:10px}
+pre{background:#0f172a;color:#e2e8f0;padding:12px;border-radius:8px}
+table{border-collapse:collapse}td,th{border:1px solid #cbd5e1;padding:4px 10px}
+.sr-hidden{display:none}
+.promo{visibility:hidden}
+blockquote{border-left:4px solid #16a34a;margin:0;padding-left:12px;color:#475569}
+</style>
+</head>
+<body>
+<div class="top">Demo Garden Docs</div>
+<div class="wrap">
+<nav class="side"><ul><li><a href="/docs/">Home</a></li><li><a href="/docs/soil/">Soil</a></li><li><a href="/docs/watering/">Watering</a></li></ul></nav>
+<article>
+<h1>Watering Schedules</h1>
+<p>Plants need <strong>less water</strong> than most people think. Read the <a href="/docs/soil/">soil guide</a> first, then set a schedule with <code>garden.schedule()</code>.<span class="sr-hidden"> Hidden promo text.</span></p>
+<h2>How often to water</h2>
+<p>Water <em>deeply</em> but rarely. A quick test:<br>push a finger 2 cm into the soil.</p>
+<ol start="3">
+<li>Check the soil in the morning.</li>
+<li>Water at the base, not the leaves.
+<ul><li>Tomatoes: every 2 days</li><li>Succulents: every 2 weeks</li></ul>
+</li>
+<li>Skip a day after rain.</li>
+</ol>
+<h2>Set it up in code</h2>
+<pre><code class="language-js">const plan = garden.schedule({
+  plant: "tomato",
+  everyDays: 2,
+});</code></pre>
+<blockquote><p>Overwatering kills more houseplants than underwatering.</p></blockquote>
+<h3>Quick reference</h3>
+<table>
+<thead><tr><th>Plant</th><th>Water every</th><th>Amount</th></tr></thead>
+<tbody>
+<tr><td>Tomato</td><td>2 days</td><td>1–2 litres</td></tr>
+<tr><td>Basil</td><td>1 day</td><td>250 ml</td></tr>
+<tr><td>Cactus | Succulent</td><td>2 weeks</td><td>A splash</td></tr>
+</tbody>
+</table>
+<p><img src="/img/watering-can.png" alt="A green watering can"></p>
+<p>Questions? <a href="https://garden.example.com/forum">Ask in the forum</a>. <span aria-hidden="true">🌱</span><span class="promo">Buy seeds!</span></p>
+<script>window.tracker = "not content";</script>
+<form><label>Your email <input type="email"></label><button>Subscribe</button></form>
+</article>
+</div>
+<footer>© Demo Garden Docs</footer>
+</body>
+</html>

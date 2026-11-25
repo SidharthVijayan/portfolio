@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Clean URL Copier</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <img src="../icons/icon48.png" alt="" width="24" height="24">
+    <h1>Clean URL Copier</h1>
+  </header>
+  <p id="page" class="muted" title="">Reading this tab's address…</p>
+  <label for="output" class="visually-hidden">Clean link</label>
+  <textarea id="output" readonly spellcheck="false" placeholder="The clean link appears here."></textarea>
+  <p id="status" class="muted" role="status"></p>
+  <div id="toolbar">
+    <button id="copyBtn" class="primary" type="button" disabled>Copy clean link</button>
+    <button id="mdBtn" type="button" disabled>Copy as Markdown</button>
+  </div>
+  <section id="paramsBox">
+    <div id="paramsHead">
+      <h2>Parameters (<span id="paramCount">0</span>) <span class="muted">ticked = removed</span></h2>
+      <button id="removeAllBtn" type="button" disabled>Remove all</button>
+      <button id="resetBtn" type="button" disabled>Reset</button>
+    </div>
+    <ul id="paramList"></ul>
+    <label id="hashRow" class="muted"><input type="checkbox" id="optHash" disabled> Remove #part <code id="hashText"></code></label>
+  </section>
+  <footer class="muted">Reads only this tab's address and title when you click. Nothing is saved or sent. By InnerShift Lab.</footer>
+  <script src="../lib/core.js"></script>
+  <script src="../../_shared/chrome-shim.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

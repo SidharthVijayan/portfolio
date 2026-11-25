@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Invisible Character Finder</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <img src="../icons/icon48.png" alt="" width="24" height="24">
+    <h1>Invisible Character Finder</h1>
+  </header>
+  <p id="status" class="muted" role="status">Reading the selection…</p>
+  <p id="source" class="muted"></p>
+  <div id="messages"></div>
+  <div id="view" aria-label="Text with hidden characters shown" hidden></div>
+  <div id="found"></div>
+  <fieldset id="opts" hidden>
+    <legend>When cleaning</legend>
+    <div id="optList"></div>
+  </fieldset>
+  <div id="toolbar">
+    <button id="copyBtn" class="primary" type="button" disabled>Copy cleaned text</button>
+    <button id="cleanBtn" type="button" hidden>Clean this field</button>
+    <button id="undoBtn" type="button" hidden>Undo</button>
+    <button id="showBtn" type="button" hidden>Show on page</button>
+  </div>
+  <details id="pasteBox">
+    <summary>Check other text</summary>
+    <textarea id="paste" rows="3" placeholder="Paste or type text here to check it"></textarea>
+  </details>
+  <footer class="muted">Select text on a page, or click into a text box, then click the button. Characters that are usually fine (emoji joiners, Malayalam or Persian joiners, no-break spaces) are kept when cleaning. Nothing is sent or stored. By InnerShift Lab.</footer>
+  <script src="../lib/core.js"></script>
+  <script src="../../_shared/chrome-shim.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

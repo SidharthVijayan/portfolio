@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Keyword Density Checker</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <img src="../icons/icon48.png" alt="" width="24" height="24">
+    <h1>Keyword Density Checker</h1>
+  </header>
+  <p id="status" class="muted" role="status">Reading this page…</p>
+  <div id="stats" class="stats" hidden>
+    <div><b id="nWords">0</b><span>words</span></div>
+    <div><b id="nUnique">0</b><span>different</span></div>
+    <div><b id="nStop">0%</b><span>common words</span></div>
+  </div>
+  <form id="focusForm" autocomplete="off">
+    <label for="focus" class="lbl">Check a keyword or phrase</label>
+    <div class="row"><input id="focus" type="text" placeholder="e.g. tide pools" maxlength="100" disabled><button id="focusBtn" type="submit" disabled>Check</button></div>
+  </form>
+  <div id="focusOut" class="card" hidden></div>
+  <div id="tabs" class="seg" role="tablist">
+    <button type="button" role="tab" data-n="1" class="on">Words <span id="c1"></span></button>
+    <button type="button" role="tab" data-n="2">2-word <span id="c2"></span></button>
+    <button type="button" role="tab" data-n="3">3-word <span id="c3"></span></button>
+  </div>
+  <table id="table">
+    <thead><tr><th>Word or phrase</th><th class="num">Count</th><th class="num">Density</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table>
+  <p id="empty" class="muted" hidden></p>
+  <button id="moreBtn" type="button" class="link" hidden>Show more</button>
+  <div class="opts">
+    <label class="opt"><input type="checkbox" id="stop" checked> Hide common words (the, and, of, to…)</label>
+    <label class="opt"><input type="checkbox" id="plurals" checked> Count singular and plural together (pool / pools)</label>
+  </div>
+  <div id="toolbar">
+    <button id="copyBtn" type="button" disabled>Copy table</button>
+    <button id="csvBtn" type="button" class="primary" disabled>Download CSV</button>
+  </div>
+  <p id="notes" class="muted"></p>
+  <footer class="muted">Density = times used ÷ total words × 100. Select 20+ words first to check just that text. <span class="t">T</span> in the title, <span class="h">H1</span> in a main heading. Nothing is sent anywhere or saved. By InnerShift Lab.</footer>
+  <script src="../lib/core.js"></script>
+  <script src="../../_shared/chrome-shim.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

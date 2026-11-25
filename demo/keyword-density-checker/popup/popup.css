@@ -1,0 +1,53 @@
+:root {
+  --bg: #0f172a; --card: #1e293b; --text: #e2e8f0; --muted: #94a3b8;
+  --accent: #0f766e; --accent2: #2dd4bf; --good: #22c55e; --warn: #f59e0b; --bad: #ef4444;
+}
+* { box-sizing: border-box; }
+body { margin: 0; width: 380px; padding: 12px; font: 13px/1.4 system-ui, -apple-system, "Segoe UI", Arial, sans-serif; background: var(--bg); color: var(--text); }
+header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+h1 { font-size: 15px; margin: 0; }
+button { font: inherit; border: 0; border-radius: 6px; cursor: pointer; padding: 6px 10px; background: var(--card); color: var(--text); }
+button.primary { background: var(--accent); color: #fff; font-weight: 600; }
+button:hover:not(:disabled) { filter: brightness(1.15); }
+button:disabled { opacity: .5; cursor: default; }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--accent2); outline-offset: 2px; }
+button.link { background: none; color: var(--accent2); padding: 2px 0; text-decoration: underline; }
+.muted { color: var(--muted); font-size: 12px; }
+.good { color: var(--good); } .warn { color: var(--warn); } .bad { color: var(--bad); }
+#status { min-height: 18px; margin: 2px 0 8px; }
+.stats { display: flex; gap: 6px; margin-bottom: 10px; }
+.stats div { flex: 1; background: var(--card); border-radius: 7px; padding: 6px 8px; text-align: center; }
+.stats b { display: block; font-size: 17px; }
+.stats span { color: var(--muted); font-size: 11px; }
+.lbl { display: block; font-weight: 600; font-size: 12px; color: #cbd5e1; margin-bottom: 4px; }
+.row { display: flex; gap: 6px; }
+.row input { flex: 1; min-width: 0; font: inherit; padding: 6px 8px; border-radius: 6px; border: 1px solid #334155; background: #0b1222; color: var(--text); }
+#focusBtn { background: var(--accent); color: #fff; font-weight: 600; }
+.card { background: var(--card); border-radius: 8px; padding: 8px 10px; margin: 8px 0 0; border-left: 4px solid var(--muted); }
+.card.good { border-left-color: var(--good); } .card.warn { border-left-color: var(--warn); } .card.bad { border-left-color: var(--bad); }
+.card .big { font-size: 14px; font-weight: 700; color: var(--text); }
+.card p { margin: 3px 0 0; color: var(--text); }
+.card ul { margin: 5px 0 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 4px 10px; color: var(--text); font-size: 12px; }
+.card li.y::before { content: "✓ "; color: var(--good); font-weight: 700; }
+.card li.n::before { content: "✗ "; color: var(--bad); font-weight: 700; }
+.seg { display: flex; background: var(--card); border-radius: 7px; padding: 2px; margin: 12px 0 6px; }
+.seg button { flex: 1; background: none; padding: 5px 0; color: #cbd5e1; }
+.seg button.on { background: var(--accent); color: #fff; font-weight: 600; }
+.seg span { opacity: .75; font-weight: 400; font-size: 11px; }
+table { width: 100%; border-collapse: collapse; }
+th { text-align: left; font-size: 11px; color: var(--muted); font-weight: 600; padding: 3px 4px; border-bottom: 1px solid #334155; }
+td { padding: 4px; border-bottom: 1px solid #1e293b; vertical-align: middle; }
+.num { text-align: right; white-space: nowrap; }
+td.term { word-break: break-word; }
+.bar { display: inline-block; height: 6px; border-radius: 3px; background: var(--accent2); margin-right: 6px; vertical-align: middle; opacity: .8; }
+.tag { display: inline-block; font-size: 9px; font-weight: 700; padding: 0 4px; border-radius: 3px; margin-left: 4px; vertical-align: 1px; }
+.t, .tag.t { background: #fde68a; color: #0f172a; } .h, .tag.h { background: #c7d2fe; color: #0f172a; }
+footer .t, footer .h { font-size: 9px; font-weight: 700; padding: 0 3px; border-radius: 3px; }
+.opts { margin: 10px 0 0; }
+.opt { display: flex; gap: 8px; align-items: flex-start; margin: 4px 0 0; font-size: 12px; cursor: pointer; }
+.opt input { margin: 1px 0 0; accent-color: var(--accent); }
+#toolbar { display: flex; gap: 6px; margin: 10px 0 0; }
+#toolbar button { flex: 1; padding: 8px; }
+#notes { margin: 8px 0 0; }
+#notes:empty { display: none; }
+footer { margin-top: 8px; }

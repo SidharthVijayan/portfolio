@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Broken Anchor Checker</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <img src="../icons/icon48.png" alt="" width="24" height="24">
+    <h1>Broken Anchor Checker</h1>
+  </header>
+  <p id="status" class="muted" role="status">Checking the #links on this page…</p>
+  <div id="filters" role="group" aria-label="Show">
+    <button type="button" class="chip" data-group="all" aria-pressed="true">All <span id="nAll">0</span></button>
+    <button type="button" class="chip broken" data-group="broken" aria-pressed="false">Broken <span id="nBroken">0</span></button>
+    <button type="button" class="chip check" data-group="check" aria-pressed="false">Check <span id="nCheck">0</span></button>
+    <button type="button" class="chip ok" data-group="ok" aria-pressed="false">Works <span id="nOk">0</span></button>
+    <button type="button" class="chip skip" data-group="skip" aria-pressed="false">Not checked <span id="nSkip">0</span></button>
+  </div>
+  <p id="groupNote" class="muted"></p>
+  <ol id="list" aria-label="Same-page links and their targets"></ol>
+  <div id="toolbar">
+    <button id="copyBtn" class="primary" type="button" disabled>Copy report</button>
+    <button id="csvBtn" type="button" disabled>Download CSV</button>
+  </div>
+  <footer class="muted">Runs only when you click. Read-only: the page is not changed. Nothing is sent or stored. By InnerShift Lab.</footer>
+  <script src="../lib/core.js"></script>
+  <script src="../../_shared/chrome-shim.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

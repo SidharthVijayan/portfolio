@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval'; style-src 'unsafe-inline' 'self'; img-src 'self' data:; font-src 'self' data:; connect-src 'none'; frame-src 'none'; object-src 'none'; media-src 'self' data:; base-uri 'none';">
+<meta charset="utf-8">
+<title>Checkout | Juniper Outfitters (demo)</title>
+<style>
+body { margin: 0; font: 16px/1.5 system-ui, Arial, sans-serif; color: #1f2937; background: #f8fafc; }
+.skip { position: absolute; left: -9999px; top: 0px; width: 220px; background: #fff; padding: 6px; }
+.skip:focus { left: 8px; }
+header { background: #14532d; color: #fff; padding: 12px 24px; height: 64px; display: flex; align-items: center; gap: 22px; }
+header a { color: #fff; }
+.logo { font-weight: 700; font-size: 20px; text-decoration: none; }
+.search { margin-left: 30px; padding: 6px 10px; border-radius: 6px; border: 0; width: 220px; }
+.signin { position: absolute; right: 24px; top: 18px; width: 90px; padding: 6px 10px; border-radius: 6px; border: 0; background: #facc15; font-weight: 600; }
+main { max-width: 760px; margin: 0 auto; padding: 8px 24px 24px; }
+h1 { font-size: 28px; margin: 12px 0; }
+fieldset { border: 1px solid #cbd5e1; border-radius: 8px; margin: 0 0 12px; padding: 8px 14px 12px; background: #fff; }
+legend { font-weight: 600; padding: 0 4px; }
+label { display: block; margin: 4px 0; }
+input[type=email], input[type=tel], select, textarea { display: block; width: 320px; padding: 5px 8px; border: 1px solid #94a3b8; border-radius: 5px; font: inherit; }
+.inline label { display: inline-block; margin-right: 16px; }
+.terms { height: 72px; overflow: auto; border: 1px solid #cbd5e1; border-radius: 6px; padding: 6px 10px; background: #fff; font-size: 13px; margin: 0 0 12px; }
+.row { display: flex; gap: 12px; align-items: center; margin: 10px 0; }
+.place { padding: 10px 22px; border: 0; border-radius: 8px; background: #15803d; color: #fff; font-weight: 700; font-size: 16px; }
+.fake-btn { padding: 8px 14px; border: 1px dashed #64748b; border-radius: 8px; background: #fff; cursor: pointer; }
+.ghost { opacity: 0; }
+.hide { display: none; }
+.card { border: 1px solid #cbd5e1; border-radius: 8px; padding: 10px 14px; background: #fff; }
+footer { max-width: 760px; margin: 0 auto; padding: 12px 24px 40px; font-size: 14px; color: #475569; display: flex; gap: 18px; }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to checkout</a>
+<header>
+  <a class="logo" href="/">Juniper Outfitters</a>
+  <a href="/shop/">Shop</a>
+  <a href="/stories/">Stories</a>
+  <a href="/help/" tabindex="-1">Help</a>
+  <input class="search" type="search" placeholder="Search gear" aria-label="Search gear" tabindex="1">
+</header>
+<main id="main">
+  <h1>Checkout</h1>
+  <form action="/checkout/done" method="post">
+    <fieldset>
+      <legend>Contact</legend>
+      <label for="email">Email</label>
+      <input id="email" type="email" name="email" value="sam@demo.invalid">
+      <label for="phone">Phone</label>
+      <input id="phone" type="tel" name="phone">
+    </fieldset>
+    <fieldset class="inline">
+      <legend>Delivery</legend>
+      <label><input type="radio" name="ship" value="standard" checked> Standard</label>
+      <label><input type="radio" name="ship" value="express"> Express</label>
+      <label><input type="radio" name="ship" value="pickup"> Pick up in store</label>
+    </fieldset>
+    <fieldset class="inline">
+      <legend>Gift wrap</legend>
+      <label><input type="radio" name="wrap" value="none"> No wrap</label>
+      <label><input type="radio" name="wrap" value="paper"> Recycled paper</label>
+    </fieldset>
+    <label><input type="checkbox" name="save"> Save my details for next time</label>
+    <fieldset disabled>
+      <legend>Saved cards <a href="/account/cards">Manage cards</a></legend>
+      <label for="card">Card number</label>
+      <input id="card" type="tel" name="card">
+    </fieldset>
+    <label for="country">Country</label>
+    <select id="country" name="country"><option>India</option><option>United Kingdom</option></select>
+    <label for="notes">Delivery notes</label>
+    <textarea id="notes" name="notes" rows="2"></textarea>
+    <details>
+      <summary>Promo code</summary>
+      <input type="text" name="promo" aria-label="Promo code">
+    </details>
+    <div class="terms" data-test-scroll-height="240">
+      <p>Terms of sale. Orders ship within two working days. Returns are free for 30 days from delivery.</p>
+      <p>Gift cards cannot be exchanged for cash. Prices include tax.</p>
+      <p>We only use your details to deliver this order.</p>
+    </div>
+    <div class="row">
+      <button class="place" type="submit">Place order</button>
+      <button type="button" disabled>Pay with wallet</button>
+      <div class="fake-btn" role="button">Add a gift message</div>
+      <button type="button" style="visibility: hidden">Undo</button>
+    </div>
+  </form>
+  <a class="ghost" href="/chat/">Live chat</a>
+  <a href="/returns/" aria-hidden="true">Returns policy</a>
+  <a class="hide" href="/old-checkout/">Old checkout</a>
+  <div class="card" tabindex="0">Order summary: 2 items, ₹4,180</div>
+</main>
+<footer>
+  <a href="/privacy/">Privacy</a>
+  <a href="/contact/">Contact</a>
+</footer>
+<button class="signin" type="button">Sign in</button>
+</body>
+</html>
